@@ -202,7 +202,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <div id="tab0" class="tc on">
   <div id="adminHint" style="display:none;padding:12px 16px;background:#EFF6FF;border:1px solid #BFDBFE;border-radius:var(--r);margin-bottom:14px;box-shadow:var(--shadow)">
     <div style="font-size:10px;font-weight:800;color:#1565C0;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💡 Kurzanleitung</div>
-    <p style="font-size:12px;color:#1e40af;line-height:1.8"><strong>Variante 1 – Direkt eintragen:</strong><br>Von- und Bis-Datum auswählen → "Buchung eintragen" öffnen → Name eintragen → Speichern.<br><br><strong>Variante 2 – Anfrage annehmen:</strong><br> "Anfragen" öffnen ✅ Annehmen tippen → Zeitraum &amp; Name werden automatisch übernommen → nur noch Speichern.</p>
+    <p style="font-size:12px;color:#1e40af;line-height:1.8"><strong>Variante 1 – Direkt eintragen:</strong><br>Von- und Bis-Datum auswählen → „Buchung eintragen“ öffnen → Name eintragen → Speichern.<br><br><strong>Variante 2 – Anfrage annehmen:</strong><br>„Anfragen“ öffnen → ✅ Annehmen tippen → Zeitraum &amp; Name werden automatisch übernommen → nur noch Speichern.</p>
   </div>
   <div class="card" style="padding:14px 18px">
     <div class="year-nav">
@@ -294,7 +294,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <!-- Firebase SDK (modular - kein eval benoetigt) -->
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import{getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,collection,query,orderBy,limit,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import{getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,deleteDoc,collection,query,orderBy,limit,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const ADMIN_KEY = "FiegePils";
 const db = getFirestore(initializeApp({
@@ -476,9 +476,14 @@ async function loadInquiries(){
 }
 
 async function updInq(id,status){
-  await updateDoc(doc(db,'inquiries',id),{status});
+  if(status==='declined'){
+    await deleteDoc(doc(db,'inquiries',id));
+    toast('Abgelehnt & gelöscht');
+  } else {
+    await updateDoc(doc(db,'inquiries',id),{status});
+    toast('Als gesehen markiert');
+  }
   document.getElementById('inq-'+id)?.remove();
-  toast(status==='declined'?'Abgelehnt':'Als gesehen markiert');
 }
 
 function acceptInq(id,from,to,name){
