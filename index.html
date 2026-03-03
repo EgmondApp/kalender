@@ -12,7 +12,7 @@
   --accent:#2E7D32; --accent-dark:#1B5E20; --accent2:#1565C0;
   --shadow-sm:0 1px 4px rgba(0,0,0,.06); --shadow:0 4px 16px rgba(0,0,0,.08); --shadow-lg:0 8px 32px rgba(0,0,0,.12);
   --r:16px; --r-sm:10px;
-  --free:#C8E6C9; --free-t:#1B5E20; --free-d:#388E3C;
+  --free:#F1F5F9; --free-t:#455A64; --free-d:#607D8B;
   --booked:#FFCDD2; --booked-t:#B71C1C; --booked-d:#D32F2F;
   --holiday:#FFE0B2; --holiday-t:#E65100;
   --bridge:#FFE082; --bridge-t:#BF8000;
@@ -206,12 +206,13 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
     </div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
+    <div id="pubHint" style="display:none;text-align:center;font-size:13px;color:var(--muted);padding:10px 0 4px;font-style:italic">👆 Tippe auf Von-Datum, dann Bis-Datum um eine Anfrage zu stellen</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
   <div class="card" style="padding:12px 14px">
     <div class="card-title" style="margin-bottom:10px">Legende</div>
     <div class="lg">
-      <div class="lg-item" style="background:var(--free);color:var(--free-t)">✅ Frei</div>
+      <div class="lg-item" style="background:var(--free);color:var(--free-t)">⬜ Verfügbar</div>
       <div class="lg-item" style="background:var(--booked);color:var(--booked-t)">🔴 Belegt</div>
       <div class="lg-item" style="background:var(--holiday);color:var(--holiday-t)">🎉 Feiertag NRW</div>
       <div class="lg-item" style="background:var(--bridge);color:var(--bridge-t)">🌉 Brückentag</div>
@@ -225,7 +226,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <div id="tab1" class="tc">
   <div class="card">
     <div class="card-title">📩 Verfügbarkeit anfragen</div>
-    <p class="req-intro">Wähle deinen Wunschzeitraum und schick uns eine Anfrage. Wir melden uns schnell zurück!</p>
+    <p class="req-intro">👆 <strong>Schritt 1:</strong> Im Kalender-Tab Von- und Bis-Datum antippen – der Zeitraum wird automatisch hier eingetragen.<br><br>✏️ <strong>Schritt 2:</strong> Name und E-Mail ausfüllen und Anfrage absenden. Wir melden uns schnell zurück!</p>
     <div id="reqResult" class="result"></div>
     <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
     <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
@@ -255,8 +256,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <div class="card">
     <div class="card-title">🏷️ Status</div>
     <div class="st-row">
-      <button class="st-btn af" id="stF" onclick="setSt('Frei')">✅ Frei</button>
-      <button class="st-btn"    id="stB" onclick="setSt('Belegt')">🔴 Belegt</button>
+      <button class="st-btn ab" id="stB" onclick="setSt('Belegt')">🔴 Belegt</button>
+      <button class="st-btn"   id="stF" onclick="setSt('Frei')">✖️ Nicht belegt</button>
     </div>
   </div>
   <div class="card" id="cardName">
@@ -497,7 +498,7 @@ function renderMatrix(year){
       else if(sp2?.type==='school')cls+=' mx-school';
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
-      if(IS_ADMIN)cls+=' click';
+      cls+=' click';
       cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span></div>`;
     }
     html+=`<div class="mx-mo"><div class="mx-ttl"><span>${MNS[m]}</span><span class="mx-stat"><span style="color:var(--free-t)">${fc}✓</span><span style="color:var(--booked-t)"> ${bc}✗</span></span></div><div class="mx-grid">${cells}</div></div>`;
@@ -505,20 +506,24 @@ function renderMatrix(year){
   wrap.innerHTML=html;
   document.getElementById('calLoading').style.display='none';
   document.getElementById('matrixWrap').style.display='block';
+  if(!IS_ADMIN && document.getElementById('pubHint')) document.getElementById('pubHint').style.display='block';
 }
 
 function dayClick(year,month,day){
-  if(!IS_ADMIN)return;
   const d=new Date(year,month,day);
   if(picking==='from'){selF=d;selT=null;picking='to';}
   else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
-  // Sync booking calendar to clicked month
   bookYear=year;bookMonth=month;
-  updateChips();renderMatrix(curYear);renderBookCal();
-  if(selF&&selT){
-    let hasB=false;
-    for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
-    document.getElementById('delBtn').style.display=hasB?'block':'none';
+  updateChips();renderMatrix(curYear);
+  if(IS_ADMIN){
+    renderBookCal();
+    if(selF&&selT){
+      let hasB=false;
+      for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
+      document.getElementById('delBtn').style.display=hasB?'block':'none';
+    }
+  } else {
+    if(selF&&selT) sw(1);
   }
 }
 
@@ -626,7 +631,7 @@ window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInq
 window.dayClick=dayClick;window.bookDayClick=bookDayClick;
 window.updInq=updInq;window.acceptInq=acceptInq;
 
-setSt('Frei');
+setSt('Belegt');
 loadYear(curYear);
 renderBookCal();
 </script>
