@@ -55,7 +55,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-stat{font-size:9px;font-weight:700}
 .mx-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .mx-h{text-align:center;font-size:7px;color:#B0BEC5;font-weight:700;padding:1px 0}
-.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default}
+.is-admin .mx-outer{grid-template-columns:repeat(2,1fr)}
+.is-admin .mx-d{font-size:11px;min-height:32px}
+.is-admin .mx-name{font-size:7px}
+@media(max-width:480px){.is-admin .mx-outer{grid-template-columns:1fr}}
+.mx-d{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default;position:relative;overflow:hidden}
+.mx-name{font-size:6px;font-weight:600;opacity:.85;line-height:1.1;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 1px}
 .mx-d.click{cursor:pointer;transition:transform .1s}.mx-d.click:active{transform:scale(.78)}
 .mx-em{aspect-ratio:1}
 .mx-free{background:var(--free);color:var(--free-t)}
@@ -68,6 +73,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-sf{background:#C8960C!important;color:#fff!important;border-radius:4px}
 .mx-st{background:#C8960C!important;color:#fff!important;border-radius:4px}
 .mx-sr{background:#FFF8DC!important;color:#7A6000!important}
+.IS_ADMIN .mx-outer{grid-template-columns:repeat(2,1fr)}
 @media(max-width:600px){.mx-outer{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.mx-outer{grid-template-columns:1fr}}
 
@@ -536,7 +542,7 @@ function renderMatrix(year){
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
       cls+=' click';
-      cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span></div>`;
+      const nameShort=isB&&IS_ADMIN&&info.name?info.name.split(' ')[0]:'';cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span>${nameShort?`<span class="mx-name">${nameShort}</span>`:''}</div>`;
     }
     html+=`<div class="mx-mo"><div class="mx-ttl"><span>${MNS[m]}</span></div><div class="mx-grid">${cells}</div></div>`;
   }
@@ -657,6 +663,7 @@ function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').re
 // ── Start ─────────────────────────────────────
 if(IS_ADMIN){
   document.getElementById('adminBadge').style.display='block';
+  document.body.classList.add('is-admin');
   document.getElementById('t2').style.display='';
   document.getElementById('t3').style.display='';
   document.getElementById('t1').style.display='none';
