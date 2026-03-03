@@ -14,8 +14,8 @@
   --r:16px; --r-sm:10px;
   --free:#F1F5F9; --free-t:#455A64; --free-d:#607D8B;
   --booked:#FFCDD2; --booked-t:#B71C1C; --booked-d:#D32F2F;
-  --holiday:#FFE0B2; --holiday-t:#E65100;
-  --bridge:#FFE082; --bridge-t:#BF8000;
+  --holiday:#FFF3E0; --holiday-t:#BF6000;
+  --bridge:#FFF8DC; --bridge-t:#9A7000;
   --school:#FFF9C4; --school-t:#F57F17;
   --weekend:#EEF0FB; --weekend-t:#3949AB;
 }
@@ -55,13 +55,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-stat{font-size:9px;font-weight:700}
 .mx-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .mx-h{text-align:center;font-size:7px;color:#B0BEC5;font-weight:700;padding:1px 0}
-.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default}
+.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default;position:relative}.mx-dot{position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--school-t);opacity:.7}
 .mx-d.click{cursor:pointer;transition:transform .1s}.mx-d.click:active{transform:scale(.78)}
 .mx-em{aspect-ratio:1}
 .mx-free{background:var(--free);color:var(--free-t)}
 .mx-booked{background:var(--booked);color:var(--booked-t)}
-.mx-holiday{background:var(--holiday);color:var(--holiday-t);outline:1px solid #FB8C00;outline-offset:-1px}
-.mx-bridge{background:var(--bridge);color:var(--bridge-t);outline:1px solid #F9A825;outline-offset:-1px}
+.mx-holiday{background:var(--holiday);color:var(--holiday-t)}
+.mx-bridge{background:var(--bridge);color:var(--bridge-t)}
 .mx-school{background:var(--school);color:var(--school-t)}
 .mx-weekend{opacity:1}
 .mx-today{outline:2px solid var(--accent2)!important;outline-offset:-1px;font-weight:900}
@@ -86,7 +86,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .bk-em{aspect-ratio:1}
 .bk-free{background:var(--free);color:var(--free-t)}
 .bk-booked{background:var(--booked);color:var(--booked-t);cursor:default}
-.bk-holiday{background:var(--holiday);color:var(--holiday-t);outline:1px solid #FB8C00;outline-offset:-1px}
+.bk-holiday{background:var(--holiday);color:var(--holiday-t)}
 .bk-bridge{background:var(--bridge);color:var(--bridge-t)}
 .bk-school{background:var(--school);color:var(--school-t)}
 .bk-we{opacity:1}
@@ -207,6 +207,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     </div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="pubHint" style="display:none;text-align:center;font-size:13px;color:var(--muted);padding:10px 0 4px;font-style:italic">👆 Tippe auf Von-Datum, dann Bis-Datum um eine Anfrage zu stellen</div>
+    <div id="pubInfo" style="display:none;margin-top:10px;padding:10px 14px;background:#FFF5F5;border-radius:10px;font-size:12px;color:#B71C1C;text-align:center;border:1px solid #FFCDD2">🔴 Rot markierte Tage sind bereits belegt und nicht verfügbar.</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
   <div class="card" style="padding:12px 14px">
@@ -511,7 +512,7 @@ function renderMatrix(year){
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
       cls+=' click';
-      cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span></div>`;
+      cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span>${isB&&sp2?.type==='school'?'<div class="mx-dot"></div>':''}</div>`;
     }
     html+=`<div class="mx-mo"><div class="mx-ttl"><span>${MNS[m]}</span><span class="mx-stat"><span style="color:var(--free-t)">${fc}✓</span><span style="color:var(--booked-t)"> ${bc}✗</span></span></div><div class="mx-grid">${cells}</div></div>`;
   }
@@ -519,6 +520,7 @@ function renderMatrix(year){
   document.getElementById('calLoading').style.display='none';
   document.getElementById('matrixWrap').style.display='block';
   if(!IS_ADMIN && document.getElementById('pubHint')) document.getElementById('pubHint').style.display='block';
+  if(!IS_ADMIN && document.getElementById('pubInfo')) document.getElementById('pubInfo').style.display='block';
 }
 
 function dayClick(year,month,day){
