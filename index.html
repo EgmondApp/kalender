@@ -423,6 +423,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
 
+</div><!-- /tab0 -->
 
 <!-- TAB 4: BUCHEN (Public Picker) -->
 <div id="tab4" class="tc">
@@ -1003,11 +1004,9 @@ if(IS_ADMIN){
 
 } else {
   // Public: nur Buchen + Info Tabs zeigen
-  document.getElementById('t0').style.display='none';
-  document.getElementById('t4').style.display='';
   document.getElementById('t5').style.display='';
-  document.getElementById('tab0').classList.remove('on');
-  document.getElementById('tab4').classList.add('on');
+  sw(4);
+  document.getElementById('t0').style.display='none';
   document.getElementById('pubHint').style.display='block';
 }
 
