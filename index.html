@@ -412,7 +412,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <h2 id="yearTitle">2026</h2>
       <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
     </div>
-    <div id="printBtn" style="display:none;text-align:right;margin-bottom:12px"><button onclick="printCal()" style="background:#fff;border:1.5px solid var(--egmond-red);color:var(--egmond-red);border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s">🖨️ Drucken</button></div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
@@ -976,7 +975,7 @@ if(IS_ADMIN){
   document.getElementById('t1').style.display='none';
   document.getElementById('adminHint').style.display='block';
   document.getElementById('legendBar').style.display='flex';
-  document.getElementById('printBtn').style.display='block';
+
 } else {
   // Public: nur Buchen + Info Tabs zeigen
   document.getElementById('t0').style.display='none';
