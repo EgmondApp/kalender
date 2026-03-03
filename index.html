@@ -55,7 +55,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-stat{font-size:9px;font-weight:700}
 .mx-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .mx-h{text-align:center;font-size:7px;color:#B0BEC5;font-weight:700;padding:1px 0}
-.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default;position:relative}.mx-dot{position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:3px;height:3px;border-radius:50%;background:var(--school-t);opacity:.7}
+.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default}
 .mx-d.click{cursor:pointer;transition:transform .1s}.mx-d.click:active{transform:scale(.78)}
 .mx-em{aspect-ratio:1}
 .mx-free{background:var(--free);color:var(--free-t)}
@@ -208,6 +208,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="pubHint" style="display:none;text-align:center;font-size:13px;color:var(--muted);padding:10px 0 4px;font-style:italic">👆 Tippe auf Von-Datum, dann Bis-Datum um eine Anfrage zu stellen</div>
     <div id="pubInfo" style="display:none;margin-top:10px;padding:10px 14px;background:#FFF5F5;border-radius:10px;font-size:12px;color:#B71C1C;text-align:center;border:1px solid #FFCDD2">🔴 Rot markierte Tage sind bereits belegt und nicht verfügbar.</div>
+    <div id="pubConfirm" style="display:none;margin-top:12px">
+      <button onclick="confirmSel()" style="width:100%;padding:14px;background:linear-gradient(135deg,#2E7D32,#1B5E20);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer">✅ Zeitraum bestätigen & Anfrage stellen</button>
+      <button onclick="clrPublicSel()" style="width:100%;padding:10px;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;margin-top:4px">Auswahl zurücksetzen</button>
+    </div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
   <div class="card" style="padding:12px 14px">
@@ -287,7 +291,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,collection,query,orderBy,limit,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const ADMIN_KEY = "FiegePils";
+const ADMIN_KEY = "egmond2026";
 const db = getFirestore(initializeApp({
   apiKey:            "AIzaSyCDvWD8YZxhJlWYeZHQ1VgvTSg879AoL9A",
   authDomain:        "egmond-kalender-649b2.firebaseapp.com",
@@ -512,7 +516,7 @@ function renderMatrix(year){
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
       cls+=' click';
-      cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span>${isB&&sp2?.type==='school'?'<div class="mx-dot"></div>':''}</div>`;
+      cells+=`<div class="${cls}" onclick="dayClick(${year},${m},${day})" title="${isB&&!IS_ADMIN?'Belegt':(isB?info.name||'Belegt':(sp2?sp2.name:'Frei'))}"><span>${day}</span></div>`;
     }
     html+=`<div class="mx-mo"><div class="mx-ttl"><span>${MNS[m]}</span><span class="mx-stat"><span style="color:var(--free-t)">${fc}✓</span><span style="color:var(--booked-t)"> ${bc}✗</span></span></div><div class="mx-grid">${cells}</div></div>`;
   }
@@ -525,6 +529,7 @@ function renderMatrix(year){
 
 function dayClick(year,month,day){
   const d=new Date(year,month,day);
+  if(!IS_ADMIN&&bk[dk(d)]?.status==='Belegt')return;
   if(picking==='from'){selF=d;selT=null;picking='to';}
   else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
   bookYear=year;bookMonth=month;
@@ -537,9 +542,13 @@ function dayClick(year,month,day){
       document.getElementById('delBtn').style.display=hasB?'block':'none';
     }
   } else {
-    if(selF&&selT) sw(1);
+    const cb=document.getElementById('pubConfirm');
+    if(cb) cb.style.display=selF&&selT?'block':'none';
   }
 }
+
+function confirmSel(){if(selF&&selT)sw(1);}
+function clrPublicSel(){selF=null;selT=null;picking='from';updateChips();renderMatrix(curYear);const c=document.getElementById('pubConfirm');if(c)c.style.display='none';}
 
 function clearSel(){selF=null;selT=null;picking='from';updateChips();renderMatrix(curYear);document.getElementById('delBtn').style.display='none';}
 
@@ -642,7 +651,7 @@ if(IS_ADMIN){
 window.sw=sw;window.changeYear=changeYear;window.changeBookMonth=changeBookMonth;
 window.clearSel=clearSel;window.setSt=setSt;window.saveBooking=saveBooking;
 window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInquiries=loadInquiries;
-window.dayClick=dayClick;window.bookDayClick=bookDayClick;
+window.dayClick=dayClick;window.bookDayClick=bookDayClick;window.confirmSel=confirmSel;window.clrPublicSel=clrPublicSel;
 window.updInq=updInq;window.acceptInq=acceptInq;
 
 setSt('Belegt');
