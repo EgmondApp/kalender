@@ -364,41 +364,50 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 <!-- TAB 4: BUCHEN (Public Picker) -->
 <div id="tab4" class="tc">
-  <div id="pkHint" style="padding:12px 16px;background:#0D1E30;border:1px solid #2A5A8A;border-radius:var(--r);margin-bottom:14px;box-shadow:var(--shadow)">
-    <div style="font-size:10px;font-weight:800;color:#4A90D9;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">📅 Zeitraum wählen</div>
-    <p style="font-size:12px;color:#8AAFCC;line-height:1.7">Anreise antippen, dann Abreise – dann Anfrage absenden.</p>
-  </div>
-  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;font-size:11px;font-weight:700">
-    <span style="padding:4px 10px;border-radius:6px;background:var(--booked);color:var(--booked-t)">🔴 Belegt</span>
-    <span style="padding:4px 10px;border-radius:6px;background:var(--holiday);color:var(--holiday-t)">🎉 Feiertag NRW</span>
-    <span style="padding:4px 10px;border-radius:6px;background:var(--bridge);color:var(--bridge-t)">🌉 Brückentag</span>
-    <span style="padding:4px 10px;border-radius:6px;background:var(--school);color:var(--school-t)">🏖️ Schulferien</span>
-  </div>
-  <div class="pk-wrap">
-    <div class="pk-months">
-      <div class="pk-month" id="pkM0">
-        <div class="pk-nav">
-          <button class="pk-nav-btn" id="pkPrev" onclick="pkNav(-1)">&#8249;</button>
-          <span class="pk-month-title" id="pkT0"></span>
-          <button class="pk-nav-btn" style="visibility:hidden">&#8250;</button>
-        </div>
-        <div class="pk-grid" id="pkG0"></div>
+  <!-- Compact date selector -->
+  <div style="background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;border:2px solid #C8960C">
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)">
+      <div id="pkTriggerF" onclick="pkOpen('from')" style="padding:14px 16px;cursor:pointer;border-right:1px solid var(--border)">
+        <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Anreise</div>
+        <div id="pkDispF" style="font-size:16px;font-weight:800;color:#C8960C">Datum wählen</div>
       </div>
-      <div class="pk-month" id="pkM1">
-        <div class="pk-nav">
-          <button class="pk-nav-btn" style="visibility:hidden">&#8249;</button>
-          <span class="pk-month-title" id="pkT1"></span>
-          <button class="pk-nav-btn" id="pkNext" onclick="pkNav(1)">&#8250;</button>
-        </div>
-        <div class="pk-grid" id="pkG1"></div>
+      <div id="pkTriggerT" onclick="pkOpen('to')" style="padding:14px 16px;cursor:pointer">
+        <div style="font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Abreise</div>
+        <div id="pkDispT" style="font-size:16px;font-weight:800;color:var(--muted)">Datum wählen</div>
       </div>
     </div>
-    <div class="pk-chips">
-      <div class="pk-chip" id="pkChipF"><div class="pk-chip-lbl">Anreise</div><div class="pk-chip-val" id="pkChipFv">—</div></div>
-      <div class="pk-chip" id="pkChipT"><div class="pk-chip-lbl">Abreise</div><div class="pk-chip-val" id="pkChipTv">—</div></div>
+    <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled style="margin:12px;width:calc(100% - 24px);border-radius:10px">Anfrage stellen →</button>
+  </div>
+
+  <!-- Calendar (hidden until triggered) -->
+  <div id="pkCalWrap" style="display:none">
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;font-size:11px;font-weight:700">
+      <span style="padding:4px 10px;border-radius:6px;background:var(--booked);color:var(--booked-t)">🔴 Belegt</span>
+      <span style="padding:4px 10px;border-radius:6px;background:var(--holiday);color:var(--holiday-t)">🎉 Feiertag NRW</span>
+      <span style="padding:4px 10px;border-radius:6px;background:var(--bridge);color:var(--bridge-t)">🌉 Brückentag</span>
+      <span style="padding:4px 10px;border-radius:6px;background:var(--school);color:var(--school-t)">🏖️ Schulferien</span>
     </div>
-    <div class="pk-hint" id="pkHintText">Anreisedatum antippen</div>
-    <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Anfrage senden →</button>
+    <div class="pk-wrap">
+      <div class="pk-months">
+        <div class="pk-month" id="pkM0">
+          <div class="pk-nav">
+            <button class="pk-nav-btn" id="pkPrev" onclick="pkNav(-1)">&#8249;</button>
+            <span class="pk-month-title" id="pkT0"></span>
+            <button class="pk-nav-btn" style="visibility:hidden">&#8250;</button>
+          </div>
+          <div class="pk-grid" id="pkG0"></div>
+        </div>
+        <div class="pk-month" id="pkM1">
+          <div class="pk-nav">
+            <button class="pk-nav-btn" style="visibility:hidden">&#8249;</button>
+            <span class="pk-month-title" id="pkT1"></span>
+            <button class="pk-nav-btn" id="pkNext" onclick="pkNav(1)">&#8250;</button>
+          </div>
+          <div class="pk-grid" id="pkG1"></div>
+        </div>
+      </div>
+      <div class="pk-hint" id="pkHintText" style="padding:8px 16px 12px;text-align:center;font-size:12px;color:var(--muted);font-style:italic">Anreisedatum antippen</div>
+    </div>
   </div>
 </div>
 
@@ -895,6 +904,14 @@ let pkYear=TODAY.getFullYear(), pkMonth=TODAY.getMonth();
 let pkF=null, pkT=null, pkPicking='from';
 const MNL2=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
 
+function pkOpen(mode){
+  pkPicking=mode;
+  const wrap=document.getElementById('pkCalWrap');
+  wrap.style.display='block';
+  wrap.scrollIntoView({behavior:'smooth',block:'nearest'});
+  renderPicker();
+}
+
 function pkNav(d){
   pkMonth+=d;
   if(pkMonth>11){pkMonth=0;pkYear++;}
@@ -945,7 +962,16 @@ function renderPicker(){
     pkPicking==='from'?'Anreisedatum antippen':'Abreisedatum antippen';
   const btn=document.getElementById('pkBtn');
   btn.disabled=!(pkF&&pkT);
-  btn.textContent=pkF&&pkT?`Anfrage senden: ${fmt(pkF)} – ${fmt(pkT)} →`:'Anfrage senden →';
+  btn.textContent=pkF&&pkT?`Anfrage stellen: ${fmt(pkF)} – ${fmt(pkT)} →`:'Anfrage stellen →';
+  // Update compact display
+  const df=document.getElementById('pkDispF'),dt=document.getElementById('pkDispT');
+  if(df){df.textContent=pkF?fmt(pkF):'Datum wählen';df.style.color=pkF?'#C8960C':'#C8960C';}
+  if(dt){dt.textContent=pkT?fmt(pkT):'Datum wählen';dt.style.color=pkT?'#C8960C':'var(--muted)';}
+  // Highlight active field
+  document.getElementById('pkTriggerF').style.background=pkPicking==='from'?'rgba(200,150,12,.08)':'';
+  document.getElementById('pkTriggerT').style.background=pkPicking==='to'?'rgba(200,150,12,.08)':'';
+  // Hide calendar when both selected
+  if(pkF&&pkT) document.getElementById('pkCalWrap').style.display='none';
 }
 
 function pkDay(year,month,day){
@@ -970,7 +996,6 @@ function pkSubmit(){
   if(!pkF||!pkT)return;
   document.getElementById('rFrom').value=fmt(pkF);
   document.getElementById('rTo').value=fmt(pkT);
-  // Show form below picker smoothly
   const t1=document.getElementById('tab1');
   t1.style.display='block';
   t1.classList.add('on');
@@ -981,7 +1006,7 @@ window.sw=sw;window.changeYear=changeYear;window.changeBookMonth=changeBookMonth
 window.clearSel=clearSel;window.setSt=setSt;window.saveBooking=saveBooking;
 window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInquiries=loadInquiries;
 window.dayClick=dayClick;window.bookDayClick=bookDayClick;
-window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;window.pkDay=pkDay;window.pkNav=pkNav;window.pkSubmit=pkSubmit;
+window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;window.pkDay=pkDay;window.pkNav=pkNav;window.pkSubmit=pkSubmit;window.pkOpen=pkOpen;
 
 setSt('Belegt');
 loadYear(curYear);
