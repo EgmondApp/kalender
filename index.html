@@ -185,6 +185,85 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   .bk-d{min-height:38px}
   .yn-btn{width:44px;height:44px}
 }
+
+@media print {
+  @page { size: A4 landscape; margin: 10mm; }
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  #printArea { position: fixed; top: 0; left: 0; width: 100%; }
+}
+
+#printArea {
+  display: none;
+  font-family: Arial, sans-serif;
+}
+
+.pr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #333;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+.pr-title { font-size: 16px; font-weight: 900; }
+.pr-year  { font-size: 14px; color: #555; }
+
+.pr-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+.pr-mo {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+}
+.pr-mo-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 3px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 2px;
+}
+.pr-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+}
+.pr-h {
+  font-size: 6px;
+  text-align: center;
+  color: #999;
+  font-weight: 700;
+}
+.pr-d {
+  font-size: 7px;
+  font-weight: 700;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: 2px;
+  line-height: 1.1;
+}
+.pr-em { }
+.pr-booked { background: #ffcccc; color: #900; }
+.pr-name { font-size: 5px; display: block; color: #900; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.pr-holiday { color: #c06000; }
+.pr-school { color: #888; font-style: italic; }
+.pr-weekend { color: #aaa; }
+.pr-today { font-weight: 900; text-decoration: underline; }
+
+.pr-legend {
+  margin-top: 6px;
+  display: flex;
+  gap: 12px;
+  font-size: 8px;
+  color: #555;
+}
 </style>
 </head>
 <body>
@@ -215,6 +294,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <h2 id="yearTitle">2026</h2>
       <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
     </div>
+    <div style="text-align:right;margin-bottom:12px"><button onclick="printCal()" style="background:none;border:1px solid #C8960C;color:#C8960C;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer">🖨️ Drucken</button></div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="pubHint" style="display:none;margin-top:12px;padding:12px 14px;background:var(--bg);border-radius:10px;border-left:3px solid #C8960C;font-size:13px;color:var(--muted);line-height:1.7">👆 <strong>Schritt 1:</strong> Von-Datum antippen, dann Bis-Datum – der Zeitraum wird automatisch ins Anfrageformular übernommen.<br>✏️ <strong>Schritt 2:</strong> Name und E-Mail ausfüllen und Anfrage absenden. Wir melden uns schnell zurück!</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
@@ -290,6 +370,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 </div>
 <div class="toast" id="toast"></div>
+<div id="printArea"></div>
 
 <!-- Firebase SDK (modular - kein eval benoetigt) -->
 <script type="module">
@@ -671,11 +752,50 @@ if(IS_ADMIN){
 }
 
 // Expose to global scope (required for onclick handlers with type="module")
+
+function printCal(){
+  const sp=getSpecial(curYear);
+  const MNS_FULL=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+  const DAYS=['Mo','Di','Mi','Do','Fr','Sa','So'];
+  let html=`<div class="pr-header"><div class="pr-title">🏡 Egmond – Belegungskalender</div><div class="pr-year">${curYear}</div></div><div class="pr-grid">`;
+  for(let m=0;m<12;m++){
+    const dim=new Date(curYear,m+1,0).getDate();
+    const fw=(new Date(curYear,m,1).getDay()+6)%7;
+    html+=`<div class="pr-mo"><div class="pr-mo-title">${MNS_FULL[m]}</div><div class="pr-days">`;
+    DAYS.forEach(d=>html+=`<div class="pr-h">${d}</div>`);
+    for(let i=0;i<fw;i++)html+=`<div class="pr-em"></div>`;
+    for(let day=1;day<=dim;day++){
+      const d=new Date(curYear,m,day),dow=(d.getDay()+6)%7,key=dk(d);
+      const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
+      const isTd=d.toDateString()===TODAY.toDateString();
+      const isWe=dow>=5;
+      let cls='pr-d';
+      let extra='';
+      if(isB){
+        cls+=' pr-booked';
+        const firstName=info.name?(info.name.split(' ')[0]):'';
+        if(firstName)extra=`<span class="pr-name">${firstName}</span>`;
+      } else if(sp2?.type==='holiday') cls+=' pr-holiday';
+      else if(sp2?.type==='school') cls+=' pr-school';
+      else if(isWe) cls+=' pr-weekend';
+      if(isTd) cls+=' pr-today';
+      html+=`<div class="${cls}">${day}${extra}</div>`;
+    }
+    html+=`</div></div>`;
+  }
+  html+=`</div>`;
+  html+=`<div class="pr-legend"><span>🔴 Belegt (Name)</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
+  document.getElementById('printArea').innerHTML=html;
+  document.getElementById('printArea').style.display='block';
+  window.print();
+  document.getElementById('printArea').style.display='none';
+}
+
 window.sw=sw;window.changeYear=changeYear;window.changeBookMonth=changeBookMonth;
 window.clearSel=clearSel;window.setSt=setSt;window.saveBooking=saveBooking;
 window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInquiries=loadInquiries;
 window.dayClick=dayClick;window.bookDayClick=bookDayClick;
-window.updInq=updInq;window.acceptInq=acceptInq;
+window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;
 
 setSt('Belegt');
 loadYear(curYear);
