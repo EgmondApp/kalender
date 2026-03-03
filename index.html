@@ -296,7 +296,19 @@ const db = getFirestore(initializeApp({
   appId:             "1:841553122795:web:81aa058d4a5dc049b675ae"
 }));
 
-const IS_ADMIN = new URLSearchParams(location.search).get('admin') === ADMIN_KEY;
+// Admin via URL param (legacy) oder /admin Pfad mit Passwort
+let IS_ADMIN = new URLSearchParams(location.search).get('admin') === ADMIN_KEY;
+
+if(!IS_ADMIN && location.pathname.endsWith('/admin')) {
+  const pw = prompt('🔐 Admin-Passwort:');
+  if(pw === ADMIN_KEY) {
+    IS_ADMIN = true;
+    // URL sauber halten ohne Reload
+    history.replaceState(null,'',location.pathname.replace('/admin','') || '/');
+  } else if(pw !== null) {
+    alert('❌ Falsches Passwort.');
+  }
+}
 const TODAY    = new Date();
 let curYear    = TODAY.getFullYear();
 let bk         = {};   // bookings cache { "YYYY-MM-DD": {status,name} }
