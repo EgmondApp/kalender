@@ -161,7 +161,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .empty{text-align:center;color:var(--muted);padding:36px 0;font-size:14px}
-.sticky-confirm{position:sticky;bottom:16px;z-index:100;padding:0 4px;margin-top:12px}
 
 /* ── Mobile optimierungen ── */
 @media(max-width:480px){
@@ -211,13 +210,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
     </div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
-    <div id="pubHint" style="display:none;text-align:center;font-size:13px;color:var(--muted);padding:10px 0 4px;font-style:italic">👆 Tippe auf Von-Datum, dann Bis-Datum – anschließend Auswahl Bestätigen</div>
-    <div id="pubInfo" style="display:none;margin-top:10px;padding:10px 14px;background:#FFF5F5;border-radius:10px;font-size:12px;color:#B71C1C;text-align:center;border:1px solid #FFCDD2">🔴 Rot markierte Tage sind bereits belegt und nicht verfügbar.</div>
-    <div id="pubConfirm" style="display:none" class="sticky-confirm">
-      <button onclick="confirmSel()" style="width:100%;padding:14px;background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(21,101,192,.4)">✅ Zeitraum bestätigen & Anfrage stellen</button>
-      <button onclick="clrPublicSel()" style="width:100%;padding:10px;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;margin-top:4px">Auswahl zurücksetzen</button>
-    </div>
-    <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
+    <div id="pubHint" style="display:none;margin-top:12px;padding:12px 14px;background:var(--bg);border-radius:10px;border-left:3px solid #C8960C;font-size:13px;color:var(--muted);line-height:1.7">👆 <strong>Schritt 1:</strong> Von-Datum antippen, dann Bis-Datum – der Zeitraum wird automatisch ins Anfrageformular übernommen.<br>✏️ <strong>Schritt 2:</strong> Name und E-Mail ausfüllen und Anfrage absenden. Wir melden uns schnell zurück!</div>
   </div>
   <div class="card" style="padding:12px 14px">
     <div class="card-title" style="margin-bottom:10px">Legende</div>
@@ -236,7 +229,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <div id="tab1" class="tc">
   <div class="card">
     <div class="card-title">📩 Verfügbarkeit anfragen</div>
-    <p class="req-intro">👆 <strong>Schritt 1:</strong> Im Kalender-Tab Von- und Bis-Datum antippen – der Zeitraum wird automatisch hier eingetragen.<br><br>✏️ <strong>Schritt 2:</strong> Name und E-Mail ausfüllen und Anfrage absenden. Wir melden uns schnell zurück!</p>
+
     <div id="reqResult" class="result"></div>
     <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
     <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
@@ -550,7 +543,6 @@ function renderMatrix(year){
   document.getElementById('calLoading').style.display='none';
   document.getElementById('matrixWrap').style.display='block';
   if(!IS_ADMIN && document.getElementById('pubHint')) document.getElementById('pubHint').style.display='block';
-  if(!IS_ADMIN && document.getElementById('pubInfo')) document.getElementById('pubInfo').style.display='block';
 }
 
 function dayClick(year,month,day){
@@ -568,13 +560,9 @@ function dayClick(year,month,day){
       document.getElementById('delBtn').style.display=hasB?'block':'none';
     }
   } else {
-    const cb=document.getElementById('pubConfirm');
-    if(cb) cb.style.display=selF&&selT?'block':'none';
+    if(selF&&selT) sw(1);
   }
 }
-
-function confirmSel(){if(selF&&selT)sw(1);}
-function clrPublicSel(){selF=null;selT=null;picking='from';updateChips();renderMatrix(curYear);const c=document.getElementById('pubConfirm');if(c)c.style.display='none';}
 
 function clearSel(){selF=null;selT=null;picking='from';updateChips();renderMatrix(curYear);document.getElementById('delBtn').style.display='none';}
 
@@ -678,7 +666,7 @@ if(IS_ADMIN){
 window.sw=sw;window.changeYear=changeYear;window.changeBookMonth=changeBookMonth;
 window.clearSel=clearSel;window.setSt=setSt;window.saveBooking=saveBooking;
 window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInquiries=loadInquiries;
-window.dayClick=dayClick;window.bookDayClick=bookDayClick;window.confirmSel=confirmSel;window.clrPublicSel=clrPublicSel;
+window.dayClick=dayClick;window.bookDayClick=bookDayClick;
 window.updInq=updInq;window.acceptInq=acceptInq;
 
 setSt('Belegt');
