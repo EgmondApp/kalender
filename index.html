@@ -187,7 +187,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 }
 
 @media print {
-  @page { size: A4 landscape; margin: 8mm; }
+  @page { size: A4 landscape; margin: 5mm; }
   html, body { height: auto !important; overflow: visible !important; }
   body > *:not(#printArea) { display: none !important; }
   #printArea {
@@ -203,6 +203,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   font-family: Arial, Helvetica, sans-serif;
   background: #fff;
   color: #000;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .pr-header {
@@ -210,66 +212,77 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   justify-content: space-between;
   align-items: center;
   border-bottom: 1.5px solid #000;
-  padding-bottom: 3px;
-  margin-bottom: 6px;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
 }
-.pr-title { font-size: 13px; font-weight: 900; }
-.pr-year  { font-size: 12px; }
+.pr-title { font-size: 11px; font-weight: 900; }
+.pr-year  { font-size: 11px; }
 
 .pr-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, auto);
-  gap: 4px;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 3px;
+  height: calc(100vh - 20px);
+  box-sizing: border-box;
 }
 
 .pr-mo {
-  border: 1px solid #aaa;
+  border: 1px solid #999;
   padding: 3px 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .pr-mo-title {
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: .4px;
+  letter-spacing: .3px;
   margin-bottom: 2px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 1px;
+  flex-shrink: 0;
 }
 .pr-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
+  gap: 0;
+  flex: 1;
+  align-content: start;
 }
 .pr-h {
-  font-size: 6px;
+  font-size: 7px;
   text-align: center;
-  color: #777;
-  font-weight: 700;
+  color: #666;
+  font-weight: 800;
+  padding: 1px 0;
 }
 .pr-d {
-  font-size: 7.5px;
+  font-size: 9px;
   font-weight: 600;
   text-align: center;
-  padding: 1px 0;
-  line-height: 1.2;
+  padding: 2px 1px;
+  line-height: 1.15;
+  border-radius: 2px;
 }
 .pr-em { }
-.pr-booked { background: #ddd; font-weight: 900; }
-.pr-name { font-size: 5px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-style: italic; }
-.pr-holiday { font-style: italic; color: #444; }
-.pr-school { color: #888; }
+.pr-booked { background: #ccc; font-weight: 900; border-radius: 2px; }
+.pr-name { font-size: 6px; display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-style: italic; line-height: 1; }
+.pr-holiday { font-style: italic; color: #555; font-weight: 800; }
+.pr-school { color: #aaa; }
 .pr-weekend { color: #bbb; }
 .pr-today { text-decoration: underline; font-weight: 900; }
 
 .pr-legend {
-  margin-top: 5px;
+  margin-top: 3px;
   display: flex;
   gap: 14px;
   font-size: 7px;
   color: #444;
   border-top: 1px solid #ccc;
-  padding-top: 3px;
+  padding-top: 2px;
+  flex-shrink: 0;
 }
 </style>
 </head>
