@@ -55,7 +55,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-stat{font-size:9px;font-weight:700}
 .mx-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .mx-h{text-align:center;font-size:7px;color:#B0BEC5;font-weight:700;padding:1px 0}
-.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:3px;font-size:8px;font-weight:700;cursor:default}
+.mx-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:9px;font-weight:700;cursor:default}
 .mx-d.click{cursor:pointer;transition:transform .1s}.mx-d.click:active{transform:scale(.78)}
 .mx-em{aspect-ratio:1}
 .mx-free{background:var(--free);color:var(--free-t)}
@@ -63,12 +63,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-holiday{background:var(--holiday);color:var(--holiday-t);outline:1px solid #FB8C00;outline-offset:-1px}
 .mx-bridge{background:var(--bridge);color:var(--bridge-t);outline:1px solid #F9A825;outline-offset:-1px}
 .mx-school{background:var(--school);color:var(--school-t)}
-.mx-weekend{opacity:.6}
+.mx-weekend{opacity:1}
 .mx-today{outline:2px solid var(--accent2)!important;outline-offset:-1px;font-weight:900}
 .mx-sf{background:var(--free-d)!important;color:#fff!important;border-radius:4px 0 0 4px}
 .mx-st{background:var(--booked-d)!important;color:#fff!important;border-radius:0 4px 4px 0}
 .mx-sr{background:var(--weekend)!important;color:var(--weekend-t)!important}
-@media(max-width:360px){.mx-outer{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.mx-outer{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.mx-outer{grid-template-columns:1fr}}
 
 /* ── Ladeanimation ── */
 .loading{text-align:center;padding:40px 0;color:var(--muted)}
@@ -88,7 +89,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .bk-holiday{background:var(--holiday);color:var(--holiday-t);outline:1px solid #FB8C00;outline-offset:-1px}
 .bk-bridge{background:var(--bridge);color:var(--bridge-t)}
 .bk-school{background:var(--school);color:var(--school-t)}
-.bk-we{opacity:.65}
+.bk-we{opacity:1}
 .bk-today{outline:2.5px solid var(--accent2);outline-offset:-2px;font-weight:900}
 .bk-sf{background:var(--free-d)!important;color:#fff!important;border-radius:7px 0 0 7px}
 .bk-st{background:var(--booked-d)!important;color:#fff!important;border-radius:0 7px 7px 0}
@@ -149,8 +150,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .inq-btn.seen{background:#ECEFF1;color:#546E7A}
 
 /* ── Legende ── */
-.lg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.lg-item{padding:11px 13px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:-.1px}
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lg-item{padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
 
 /* ── Anfrage-Intro ── */
 .req-intro{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;padding:12px 14px;background:var(--bg);border-radius:8px;border-left:3px solid var(--accent)}
@@ -207,15 +208,15 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
-  <div class="card">
-    <div class="card-title">Legende</div>
+  <div class="card" style="padding:12px 14px">
+    <div class="card-title" style="margin-bottom:10px">Legende</div>
     <div class="lg">
       <div class="lg-item" style="background:var(--free);color:var(--free-t)">✅ Frei</div>
       <div class="lg-item" style="background:var(--booked);color:var(--booked-t)">🔴 Belegt</div>
       <div class="lg-item" style="background:var(--holiday);color:var(--holiday-t)">🎉 Feiertag NRW</div>
       <div class="lg-item" style="background:var(--bridge);color:var(--bridge-t)">🌉 Brückentag</div>
       <div class="lg-item" style="background:var(--school);color:var(--school-t)">🏖️ Schulferien</div>
-      <div class="lg-item" style="background:var(--weekend);color:var(--weekend-t)">📅 Wochenende</div>
+
     </div>
   </div>
 </div>
@@ -497,7 +498,7 @@ function renderMatrix(year){
       else if(sp2?.type==='holiday')cls+=' mx-holiday';
       else if(sp2?.type==='bridge')cls+=' mx-bridge';
       else if(sp2?.type==='school')cls+=' mx-school';
-      else if(dow>=5)cls+=' mx-free mx-weekend';
+      else cls+=' mx-free';
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
       if(IS_ADMIN)cls+=' click';
@@ -581,7 +582,7 @@ function renderBookCal(){
     else if(sp2?.type==='holiday')cls+=' bk-holiday';
     else if(sp2?.type==='bridge')cls+=' bk-bridge';
     else if(sp2?.type==='school')cls+=' bk-school';
-    else if(dow>=5)cls+=' bk-free bk-we';
+    else cls+=' bk-free';
     else cls+=' bk-free';
     if(isTd)cls+=' bk-today';
     if(isPast&&!isSF&&!isST&&!isSR)cls+=' bk-past';
