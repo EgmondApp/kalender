@@ -50,6 +50,8 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
   padding:0 32px 28px;
   display:flex;align-items:flex-end;justify-content:space-between;
   width:100%;
+  max-width:1400px;
+  margin:0 auto;
   min-height:320px;
   box-sizing:border-box;
 }
@@ -65,10 +67,10 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .tab.on{color:var(--sunset-orange);border-bottom-color:var(--sunset-orange);background:linear-gradient(to bottom,transparent,rgba(232,101,10,.06))}
 
 /* ── Layout ── */
-.wrap{padding:16px;max-width:680px;margin:0 auto;padding-bottom:60px}
+.wrap{padding:16px 20px;max-width:680px;margin:0 auto;padding-bottom:60px}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1px solid var(--border);}
 .card-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
-.tc{display:none}.tc.on{display:block}
+.tc{display:none}.tc.on{display:block;max-width:680px;margin-left:auto;margin-right:auto}
 
 /* ── Jahr-Nav ── */
 .year-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
@@ -326,7 +328,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 }
 
 /* ── Public Booking Picker ── */
-.pk-wrap{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px;border:1px solid var(--border);max-width:680px}
+.pk-wrap{background:#fff;border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px;border:1px solid var(--border)}
 .pk-months{display:grid;grid-template-columns:1fr 1fr;gap:0}
 @media(max-width:480px){.pk-months{grid-template-columns:1fr}}
 .pk-month{padding:16px}
@@ -522,10 +524,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 <!-- TAB 5: INFO (Public) -->
 <div id="tab5" class="tc">
-  <button onclick="sw(4)" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;padding:4px 0;margin-bottom:10px">
-    ← Zurück
-  </button>
-
   <!-- Adresse & Anfahrt -->
   <div class="card">
     <div class="card-title">📍 Adresse & Anfahrt</div>
@@ -1000,6 +998,7 @@ if(IS_ADMIN){
   document.getElementById('printBtn').style.display='block';
 } else {
   // Public: nur Buchen + Info Tabs zeigen
+  document.getElementById('t0').style.display='none';
   document.getElementById('t4').style.display='';
   document.getElementById('t5').style.display='';
   document.getElementById('tab0').classList.remove('on');
