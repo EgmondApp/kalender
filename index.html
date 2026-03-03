@@ -127,6 +127,23 @@ textarea{resize:vertical;min-height:80px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .empty{text-align:center;color:var(--muted);padding:30px 0;font-size:14px}
+/* Buchungs-Kalender (Monatsansicht) */
+.bk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.bk-h{text-align:center;font-size:10px;color:#90A4AE;font-weight:700;padding:2px 0}
+.bk-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;transition:transform .1s;user-select:none}
+.bk-d:active{transform:scale(.85)}
+.bk-em{aspect-ratio:1}
+.bk-free{background:var(--free);color:var(--free-t)}
+.bk-booked{background:var(--booked);color:var(--booked-t)}
+.bk-holiday{background:var(--holiday);color:var(--holiday-t);outline:1px solid #FB8C00;outline-offset:-1px}
+.bk-bridge{background:var(--bridge);color:var(--bridge-t);outline:1px solid #FFB300;outline-offset:-1px}
+.bk-school{background:var(--school);color:var(--school-t)}
+.bk-we{opacity:.65}
+.bk-today{outline:2px solid var(--accent2);outline-offset:-1px;font-weight:900}
+.bk-sf{background:#1B5E20!important;color:#fff!important}
+.bk-st{background:#B71C1C!important;color:#fff!important}
+.bk-sr{background:var(--weekend)!important;color:var(--weekend-t)!important}
+.bk-past{opacity:.35}
 </style>
 </head>
 <body>
@@ -464,8 +481,9 @@ function dayClick(year,month,day){
   const d=new Date(year,month,day);
   if(picking==='from'){selF=d;selT=null;picking='to';}
   else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
-  updateChips();renderMatrix(curYear);
-  sw(2);
+  // Sync booking calendar to clicked month
+  bookYear=year;bookMonth=month;
+  updateChips();renderMatrix(curYear);renderBookCal();
   if(selF&&selT){
     let hasB=false;
     for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
@@ -495,6 +513,62 @@ function setSt(s){
 
 function changeYear(d){curYear+=d;document.getElementById('yearTitle').textContent=curYear;loadYear(curYear);}
 
+// ── Buchungs-Kalender ─────────────────────────
+let bookYear=TODAY.getFullYear(), bookMonth=TODAY.getMonth();
+
+function changeBookMonth(d){
+  bookMonth+=d;
+  if(bookMonth>11){bookMonth=0;bookYear++;}
+  if(bookMonth<0){bookMonth=11;bookYear--;}
+  renderBookCal();
+}
+
+function renderBookCal(){
+  const sp=getSpecial(bookYear);
+  const dim=new Date(bookYear,bookMonth+1,0).getDate();
+  const fw=(new Date(bookYear,bookMonth,1).getDay()+6)%7;
+  document.getElementById('bookMonthTitle').textContent=MNL[bookMonth]+' '+bookYear;
+  let cells='<div class="bk-grid">';
+  cells+='<div class="bk-h">Mo</div><div class="bk-h">Di</div><div class="bk-h">Mi</div><div class="bk-h">Do</div><div class="bk-h">Fr</div><div class="bk-h" style="opacity:.5">Sa</div><div class="bk-h" style="opacity:.5">So</div>';
+  for(let i=0;i<fw;i++)cells+='<div class="bk-em"></div>';
+  for(let day=1;day<=dim;day++){
+    const d=new Date(bookYear,bookMonth,day),dow=(d.getDay()+6)%7,key=dk(d);
+    const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
+    const isTd=d.toDateString()===TODAY.toDateString();
+    const isPast=d<new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
+    const isSF=selF&&dk(d)===dk(selF),isST=selT&&dk(d)===dk(selT);
+    const isSR=selF&&selT&&d>selF&&d<selT;
+    let cls='bk-d';
+    if(isSF&&isST)cls+=' bk-sf bk-st';
+    else if(isSF)cls+=' bk-sf';
+    else if(isST)cls+=' bk-st';
+    else if(isSR)cls+=' bk-sr';
+    else if(isB)cls+=' bk-booked';
+    else if(sp2?.type==='holiday')cls+=' bk-holiday';
+    else if(sp2?.type==='bridge')cls+=' bk-bridge';
+    else if(sp2?.type==='school')cls+=' bk-school';
+    else if(dow>=5)cls+=' bk-free bk-we';
+    else cls+=' bk-free';
+    if(isTd)cls+=' bk-today';
+    if(isPast&&!isSF&&!isST&&!isSR)cls+=' bk-past';
+    cells+=`<div class="${cls}" onclick="bookDayClick(${bookYear},${bookMonth},${day})">${day}</div>`;
+  }
+  cells+='</div>';
+  document.getElementById('bookCal').innerHTML=cells;
+}
+
+function bookDayClick(year,month,day){
+  const d=new Date(year,month,day);
+  if(picking==='from'){selF=d;selT=null;picking='to';}
+  else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
+  updateChips();renderBookCal();renderMatrix(curYear);
+  if(selF&&selT){
+    let hasB=false;
+    for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
+    document.getElementById('delBtn').style.display=hasB?'block':'none';
+  }
+}
+
 // ── UI Helpers ────────────────────────────────
 function sw(n){
   for(let i=0;i<4;i++){
@@ -502,6 +576,7 @@ function sw(n){
     document.getElementById('tab'+i)?.classList.toggle('on',i===n);
   }
   if(n===3)loadInquiries();
+  if(n===2)renderBookCal();
 }
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -515,6 +590,7 @@ if(IS_ADMIN){
 }
 setSt('Frei');
 loadYear(curYear);
+renderBookCal();
 </script>
 </body>
 </html>
