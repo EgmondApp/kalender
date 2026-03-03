@@ -8,11 +8,11 @@
 <title>Egmond</title>
 <style>
 :root {
-  --bg:#F0F4F8; --card:#fff; --border:#DDE3EC; --text:#1A2332; --muted:#7A8AA0;
-  --accent:#2E7D32; --accent-dark:#1B5E20; --accent2:#1565C0;
+  --bg:#FFFDF5; --card:#fff; --border:#E8DFC8; --text:#1A1A2E; --muted:#7A7A9A;
+  --accent:#1565C0; --accent-dark:#0D47A1; --accent2:#C8960C;
   --shadow-sm:0 1px 4px rgba(0,0,0,.06); --shadow:0 4px 16px rgba(0,0,0,.08); --shadow-lg:0 8px 32px rgba(0,0,0,.12);
   --r:16px; --r-sm:10px;
-  --free:#F1F5F9; --free-t:#455A64; --free-d:#607D8B;
+  --free:#F7F3E8; --free-t:#5A5030; --free-d:#9A8A50;
   --booked:#FFCDD2; --booked-t:#B71C1C; --booked-d:#D32F2F;
   --holiday:#FFF3E0; --holiday-t:#BF6000;
   --bridge:#FFF8DC; --bridge-t:#9A7000;
@@ -24,17 +24,17 @@ html{scroll-behavior:smooth}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
 
 /* ── Header ── */
-.header{background:linear-gradient(135deg,#2E7D32 0%,#1B5E20 100%);color:#fff;padding:16px 20px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.header{background:linear-gradient(135deg,#1565C0 0%,#0D47A1 100%);color:#fff;padding:16px 20px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.2)}
 .header-left{display:flex;align-items:center;gap:10px}
 .header-icon{width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .header h1{font-size:20px;font-weight:800;letter-spacing:-.4px;line-height:1.1}
 .header p{font-size:11px;opacity:.7;margin-top:1px;letter-spacing:.3px}
-.admin-badge{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.3px;backdrop-filter:blur(4px)}
+.admin-badge{background:rgba(200,150,12,.25);border:1px solid rgba(200,150,12,.6);color:#FFE082;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.3px}
 
 /* ── Tabs ── */
 .tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:69px;z-index:199;box-shadow:var(--shadow-sm)}
 .tab{flex:1;padding:14px 6px 12px;text-align:center;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;transition:all .2s;letter-spacing:.2px;user-select:none}
-.tab.on{color:var(--accent);border-bottom-color:var(--accent);background:linear-gradient(to bottom,transparent,#F1F8E9)}
+.tab.on{color:var(--accent);border-bottom-color:var(--accent2);background:linear-gradient(to bottom,transparent,#FFFBEE)}
 
 /* ── Layout ── */
 .wrap{padding:16px;max-width:560px;margin:0 auto;padding-bottom:60px}
@@ -64,10 +64,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .mx-bridge{background:var(--bridge);color:var(--bridge-t)}
 .mx-school{background:var(--school);color:var(--school-t)}
 .mx-weekend{opacity:1}
-.mx-today{outline:2px solid var(--accent2)!important;outline-offset:-1px;font-weight:900}
-.mx-sf{background:#1565C0!important;color:#fff!important;border-radius:4px}
-.mx-st{background:#1565C0!important;color:#fff!important;border-radius:4px}
-.mx-sr{background:#BBDEFB!important;color:#0D47A1!important}
+.mx-today{outline:2px solid #C8960C!important;outline-offset:-1px;font-weight:900}
+.mx-sf{background:#C8960C!important;color:#fff!important;border-radius:4px}
+.mx-st{background:#C8960C!important;color:#fff!important;border-radius:4px}
+.mx-sr{background:#FFF8DC!important;color:#7A6000!important}
 @media(max-width:600px){.mx-outer{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.mx-outer{grid-template-columns:1fr}}
 
@@ -90,10 +90,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .bk-bridge{background:var(--bridge);color:var(--bridge-t)}
 .bk-school{background:var(--school);color:var(--school-t)}
 .bk-we{opacity:1}
-.bk-today{outline:2.5px solid var(--accent2);outline-offset:-2px;font-weight:900}
-.bk-sf{background:var(--free-d)!important;color:#fff!important;border-radius:7px 0 0 7px}
-.bk-st{background:var(--booked-d)!important;color:#fff!important;border-radius:0 7px 7px 0}
-.bk-sr{background:var(--weekend)!important;color:var(--weekend-t)!important;border-radius:0}
+.bk-today{outline:2.5px solid #C8960C;outline-offset:-2px;font-weight:900}
+.bk-sf{background:#C8960C!important;color:#fff!important;border-radius:7px}
+.bk-st{background:#C8960C!important;color:#fff!important;border-radius:7px}
+.bk-sr{background:#FFF8DC!important;color:#7A6000!important;border-radius:0}
 .bk-past{opacity:.3;cursor:default}
 
 /* ── Chips ── */
@@ -101,8 +101,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .chip{background:var(--bg);border:2px solid var(--border);border-radius:var(--r-sm);padding:12px;text-align:center;transition:all .2s}
 .chip-lbl{font-size:9px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 .chip-val{font-size:16px;font-weight:800;margin-top:4px;letter-spacing:-.3px}
-.chip.af{border-color:var(--free-d);background:#F1F8E9}.chip.af .chip-val{color:var(--free-t)}
-.chip.at{border-color:var(--booked-d);background:#FFF5F5}.chip.at .chip-val{color:var(--booked-t)}
+.chip.af{border-color:#C8960C;background:#FFFBEE}.chip.af .chip-val{color:#7A6000}
+.chip.at{border-color:#C8960C;background:#FFFBEE}.chip.at .chip-val{color:#7A6000}
 .pick-hint{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;font-style:italic}
 .clr-btn{display:block;margin:8px auto 0;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:4px}
 
@@ -123,7 +123,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 /* ── Buttons ── */
 .btn{width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:800;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
 .btn:active{transform:scale(.98)}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-green{background:linear-gradient(135deg,#2E7D32,#1B5E20);color:#fff;box-shadow:0 4px 14px rgba(46,125,50,.35)}
+.btn-green{background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;box-shadow:0 4px 14px rgba(21,101,192,.35)}
 .btn-red{background:linear-gradient(135deg,#C62828,#B71C1C);color:#fff;box-shadow:0 4px 14px rgba(198,40,40,.3);margin-top:10px}
 .spin-sm{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
 
@@ -154,13 +154,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .lg-item{padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
 
 /* ── Anfrage-Intro ── */
-.req-intro{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;padding:12px 14px;background:var(--bg);border-radius:8px;border-left:3px solid var(--accent)}
+.req-intro{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;padding:12px 14px;background:var(--bg);border-radius:8px;border-left:3px solid #C8960C}
 
 /* ── Toast ── */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#1A2332;color:#fff;padding:12px 22px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;pointer-events:none;letter-spacing:.2px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .empty{text-align:center;color:var(--muted);padding:36px 0;font-size:14px}
+.sticky-confirm{position:sticky;bottom:16px;z-index:100;padding:0 4px;margin-top:12px}
 
 /* ── Mobile optimierungen ── */
 @media(max-width:480px){
@@ -206,10 +207,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
     </div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
-    <div id="pubHint" style="display:none;text-align:center;font-size:13px;color:var(--muted);padding:10px 0 4px;font-style:italic">👆 Tippe auf Von-Datum, dann Bis-Datum um eine Anfrage zu stellen</div>
+    <div id="pubHint" style="display:none;text-align:center;font-size:13px;color:var(--muted);padding:10px 0 4px;font-style:italic">👆 Tippe auf Von-Datum, dann Bis-Datum – dann oben den grünen Button zum Bestätigen antippen</div>
     <div id="pubInfo" style="display:none;margin-top:10px;padding:10px 14px;background:#FFF5F5;border-radius:10px;font-size:12px;color:#B71C1C;text-align:center;border:1px solid #FFCDD2">🔴 Rot markierte Tage sind bereits belegt und nicht verfügbar.</div>
-    <div id="pubConfirm" style="display:none;margin-top:12px">
-      <button onclick="confirmSel()" style="width:100%;padding:14px;background:linear-gradient(135deg,#2E7D32,#1B5E20);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer">✅ Zeitraum bestätigen & Anfrage stellen</button>
+    <div id="pubConfirm" style="display:none" class="sticky-confirm">
+      <button onclick="confirmSel()" style="width:100%;padding:14px;background:linear-gradient(135deg,#1565C0,#0D47A1);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(21,101,192,.4)">✅ Zeitraum bestätigen & Anfrage stellen</button>
       <button onclick="clrPublicSel()" style="width:100%;padding:10px;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;margin-top:4px">Auswahl zurücksetzen</button>
     </div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
@@ -244,6 +245,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 <!-- TAB 2: BUCHEN (Admin) -->
 <div id="tab2" class="tc">
+  <div class="card" style="padding:12px 16px;background:#EFF6FF;border:1px solid #BFDBFE">
+    <div class="card-title" style="color:#1565C0;margin-bottom:8px">💡 Kurzanleitung</div>
+    <p style="font-size:12px;color:#1e40af;line-height:1.7"><strong>Buchung eintragen:</strong> Im Kalender unten Von- und Bis-Datum antippen → Status und Name eintragen → Speichern.<br><br><strong>Anfrage annehmen:</strong> Im Tab "Anfragen" auf ✅ Annehmen tippen → Zeitraum wird automatisch eingetragen → nur noch Speichern.</p>
+  </div>
   <div class="card" style="padding:12px 14px">
     <div class="bk-nav">
       <button class="yn-btn" onclick="changeBookMonth(-1)">&#8249;</button>
