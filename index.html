@@ -306,11 +306,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <div id="tab0" class="tc on">
   <div id="adminHint" style="display:none;padding:12px 16px;background:#0D1E30;border:1px solid #2A5A8A;border-radius:var(--r);margin-bottom:14px;box-shadow:var(--shadow)">
     <div style="font-size:10px;font-weight:800;color:#4A90D9;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">💡 Kurzanleitung</div>
-    <p style="font-size:12px;color:#8AAFCC;line-height:1.8"><strong>1 – Direkt eintragen:</strong><br>Von- und Bis-Datum auswählen → „Buchung eintragen“ öffnen → Name eintragen → Speichern.<br><strong>oder<br>2 – Anfrage annehmen:</strong><br>„Anfragen“ öffnen → Annehmen → Zeitraum &amp; Name überprüfen → Speichern.</p>
+    <p style="font-size:12px;color:#8AAFCC;line-height:1.8"><strong>Variante 1 – Direkt eintragen:</strong><br>Von- und Bis-Datum auswählen → „Buchung eintragen“ öffnen → Name eintragen → Speichern.<br><br><strong>Variante 2 – Anfrage annehmen:</strong><br>„Anfragen“ öffnen → ✅ Annehmen tippen → Zeitraum &amp; Name werden automatisch übernommen → nur noch Speichern.</p>
   </div>
   <div id="pubHint" style="display:none;padding:12px 16px;background:#0D1E30;border:1px solid #2A5A8A;border-radius:var(--r);margin-bottom:14px;box-shadow:var(--shadow)">
     <div style="font-size:10px;font-weight:800;color:#4A90D9;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">📅 Anfrage stellen</div>
-    <p style="font-size:12px;color:#8AAFCC;line-height:1.8"><strong>1:</strong> Von-Datum antippen, dann Bis-Datum – der Zeitraum wird automatisch ins Anfrageformular übernommen.<br><br><strong> 2:</strong> Name und E-Mail ausfüllen und Anfrage absenden. Wir melden uns schnell zurück!</p>
+    <p style="font-size:12px;color:#8AAFCC;line-height:1.8"><strong>Schritt 1:</strong> Von-Datum antippen, dann Bis-Datum – der Zeitraum wird automatisch ins Anfrageformular übernommen.<br><br><strong>Schritt 2:</strong> Name und E-Mail ausfüllen und Anfrage absenden. Wir melden uns schnell zurück!</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;font-size:11px;font-weight:700">
+    <span style="padding:4px 10px;border-radius:6px;background:var(--booked);color:var(--booked-t)">🔴 Belegt</span>
+    <span style="padding:4px 10px;border-radius:6px;background:var(--holiday);color:var(--holiday-t)">🎉 Feiertag NRW</span>
+    <span style="padding:4px 10px;border-radius:6px;background:var(--bridge);color:var(--bridge-t)">🌉 Brückentag</span>
+    <span style="padding:4px 10px;border-radius:6px;background:var(--school);color:var(--school-t)">🏖️ Schulferien</span>
   </div>
   <div class="card" style="padding:14px 18px">
     <div class="year-nav">
@@ -321,17 +327,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <div id="printBtn" style="display:none;text-align:right;margin-bottom:12px"><button onclick="printCal()" style="background:none;border:1px solid #C8960C;color:#C8960C;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;cursor:pointer">🖨️ Drucken</button></div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
-  </div>
-  <div class="card" style="padding:12px 14px">
-    <div class="card-title" style="margin-bottom:10px">Legende</div>
-    <div class="lg">
-      <div class="lg-item" style="background:var(--free);color:var(--free-t)">⬜ Verfügbar</div>
-      <div class="lg-item" style="background:var(--booked);color:var(--booked-t)">🔴 Belegt</div>
-      <div class="lg-item" style="background:var(--holiday);color:var(--holiday-t)">🎉 Feiertag NRW</div>
-      <div class="lg-item" style="background:var(--bridge);color:var(--bridge-t)">🌉 Brückentag</div>
-      <div class="lg-item" style="background:var(--school);color:var(--school-t)">🏖️ Schulferien</div>
-
-    </div>
   </div>
 </div>
 
