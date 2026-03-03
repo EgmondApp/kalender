@@ -381,6 +381,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <div class="tabs" id="tabBar">
   <div class="tab on"  id="t0" onclick="sw(0)">📅 Kalender</div>
   <div class="tab"     id="t4" onclick="sw(4)">🗓️ Buchen</div>
+  <div class="tab"     id="t5" onclick="sw(5)">🏠 Info</div>
   <div class="tab"     id="t1" onclick="sw(1)" style="display:none">📩 Anfrage</div>
   <div class="tab"    id="t2" onclick="sw(2)" style="display:none">✏️ Buchung eintragen</div>
   <div class="tab"     id="t3" onclick="sw(3)" style="display:none">📋 Anfragen</div>
@@ -516,6 +517,97 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <div id="inqList"><div class="loading"><div class="spin"></div></div></div>
 </div>
 
+
+<!-- TAB 5: INFO (Public) -->
+<div id="tab5" class="tc">
+
+  <!-- Adresse & Anfahrt -->
+  <div class="card">
+    <div class="card-title">📍 Adresse & Anfahrt</div>
+    <div style="font-size:15px;font-weight:800;color:var(--sunset-orange);margin-bottom:4px">Kennedyboulevard 604</div>
+    <div style="font-size:14px;color:var(--muted);margin-bottom:14px">1931 XM Egmond aan Zee</div>
+    <div style="background:var(--bg);border-radius:10px;padding:12px 14px;border:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">Eingang</div>
+      <p style="font-size:13px;color:var(--text);line-height:1.7">Ganz am <strong>Südende des Innenhofs</strong>. Eingangstür vor Kopf rechts.<br>2. Etage links – Klingel <strong>„Kimmeskamp"</strong></p>
+    </div>
+    <div style="background:var(--bg);border-radius:10px;padding:12px 14px;border:1px solid var(--border);margin-top:8px">
+      <div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">🚗 Parken</div>
+      <p style="font-size:13px;color:var(--text);line-height:1.7"><strong>Zweite Garage rechts</strong> neben der Eingangstür.</p>
+    </div>
+    <a href="https://maps.google.com/?q=Kennedyboulevard+604,+1931+XM+Egmond+aan+Zee" target="_blank"
+       style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:12px;background:var(--egmond-blue);color:#fff;border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.3px">
+      🗺️ In Google Maps öffnen
+    </a>
+  </div>
+
+  <!-- Zur Wohnung -->
+  <div class="card">
+    <div class="card-title">🛏️ Zur Wohnung</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
+        <span style="font-size:18px;flex-shrink:0">🧺</span>
+        <span style="font-size:13px;color:var(--text);line-height:1.6">Bettzeug und Handtücher <strong>nicht vergessen</strong>.</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
+        <span style="font-size:18px;flex-shrink:0">🛋️</span>
+        <span style="font-size:13px;color:var(--text);line-height:1.6">Ausziehbetten <strong>unter der Sitzlandschaft</strong>. Decken &amp; Kissen in den Bettkästen im Schlafzimmer.</span>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
+        <span style="font-size:18px;flex-shrink:0">☂️</span>
+        <span style="font-size:13px;color:var(--text);line-height:1.6">Markise ist <strong>elektrisch</strong> – Stecker an der Balkontür anschalten. Fernbedienung im Regal der Sitzlandschaft ganz links.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bei Ankunft & Abfahrt -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">✅ Bei Ankunft</div>
+      <ul style="font-size:12px;color:var(--text);line-height:1.9;list-style:none;padding:0;margin:0">
+        <li>🔌 Kühlschrank einstecken</li>
+        <li>🔥 Gas einschalten<br><span style="font-size:11px;color:var(--muted)">(zwischen Kühlschrank &amp; Herd)</span></li>
+        <li>🌡️ Heizung auf Temperatur</li>
+      </ul>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">🚪 Bei Abfahrt</div>
+      <ul style="font-size:12px;color:var(--text);line-height:1.9;list-style:none;padding:0;margin:0">
+        <li>🔌 Kühlschränke ausstecken &amp; öffnen</li>
+        <li>❄️ Heizung auf Schneeflocke</li>
+        <li>🔥 Gas ausschhalten</li>
+        <li>🚪 Zwischentür zuziehen</li>
+        <li>🚿 Bad &amp; WC offen lassen</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Endreinigung -->
+  <div class="card" style="border-left:3px solid var(--sunset-orange)">
+    <div class="card-title">🧹 Reinigung & Übergabe</div>
+    <p style="font-size:13px;color:var(--text);line-height:1.7">Bitte die Wohnung <strong>gereinigt übergeben</strong> – so wie ihr sie gerne vorfindet.<br><br>
+    Eine <strong>Endreinigung</strong> kann für ca. <strong>70 €</strong> <span style="color:var(--muted);font-size:12px">(Stand 2025)</span> beim Hausmeister dazu gebucht werden.</p>
+  </div>
+
+  <!-- Abfall -->
+  <div class="card">
+    <div class="card-title">🗑️ Abfallentsorgung</div>
+    <p style="font-size:13px;color:var(--text);line-height:1.6;margin-bottom:10px">Für Restmüll den <strong>Abfallpass</strong> im Flurregal nutzen. Die Gebühren übernehmen wir.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">30L-Sack</div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);margin-top:2px">~0,55 €</div>
+      </div>
+      <div style="background:var(--bg);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">60L-Sack</div>
+        <div style="font-size:18px;font-weight:800;color:var(--text);margin-top:2px">~1,10 €</div>
+      </div>
+    </div>
+    <div style="background:#F0FAF0;border-radius:8px;padding:10px 12px;border:1px solid #B0DDB0;font-size:12px;color:#2A7A2A">
+      ♻️ <strong>Papier, Glas und Plastik (PMD)</strong> sind an den Sammelstellen kostenfrei.
+    </div>
+  </div>
+
+</div>
 </div>
 <div class="toast" id="toast"></div>
 <div id="printArea"></div>
@@ -879,7 +971,7 @@ function bookDayClick(year,month,day){
 
 // ── UI Helpers ────────────────────────────────
 function sw(n){
-  for(let i=0;i<5;i++){
+  for(let i=0;i<6;i++){
     document.getElementById('t'+i)?.classList.toggle('on',i===n);
     document.getElementById('tab'+i)?.classList.toggle('on',i===n);
   }
