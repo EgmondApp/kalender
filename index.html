@@ -191,7 +191,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <div class="tabs" id="tabBar">
   <div class="tab on"  id="t0" onclick="sw(0)">📅 Kalender</div>
   <div class="tab"     id="t1" onclick="sw(1)">📩 Anfrage</div>
-  <div class="tab"     id="t2" onclick="sw(2)" style="display:none">✏️ Buchen</div>
+  <div class="tab"    id="t2" onclick="sw(2)" style="display:none">✏️ Buchung eintragen</div>
   <div class="tab"     id="t3" onclick="sw(3)" style="display:none">📋 Anfragen</div>
 </div>
 
@@ -477,13 +477,29 @@ async function updInq(id,status){
 }
 
 function acceptInq(id,from,to,name){
-  sw(2);
-  document.getElementById('rFrom').value=from;
-  document.getElementById('rTo').value=to;
-  document.getElementById('bookName').value=name;
+  // Parse DD.MM.YYYY
+  function parseDate(s){const p=s.split('.');return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]));}
+  const f=parseDate(from),t=parseDate(to);
+  // Check for conflicts
+  let conflict=false;
+  for(let d=new Date(f);d<=t;d.setDate(d.getDate()+1)){
+    if(bk[dk(d)]?.status==='Belegt'){conflict=true;break;}
+  }
+  if(conflict){
+    toast('⚠️ Zeitraum enthält bereits belegte Tage!');
+    return;
+  }
+  // Set selection
+  selF=f;selT=t;picking='from';
+  bookYear=f.getFullYear();bookMonth=f.getMonth();
+  updateChips();
   setSt('Belegt');
+  document.getElementById('bookName').value=name;
   updInq(id,'accepted');
-  toast('Zeitraum im Kalender waehlen und speichern');
+  sw(2);
+  renderMatrix(curYear);
+  renderBookCal();
+  toast('Zeitraum gewählt – jetzt speichern');
 }
 
 // ── Kalender rendern ──────────────────────────
