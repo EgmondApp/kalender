@@ -163,7 +163,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 /* ── Result ── */
 .result{border-radius:var(--r-sm);padding:14px 16px;margin-bottom:14px;font-size:14px;font-weight:700;display:none;border:1px solid transparent}
-.result.ok{background:#F0FAF0;color:#2A7A2A;border-color:#B0DDB0;display:block}
+.result.ok{background:#F0FAF0;color:#2A7A2A;border-color:#B0DDB0;display:block;padding:32px 16px;font-size:18px;text-align:center;border-radius:16px}
 .result.err{background:#FDF0EE;color:var(--egmond-red);border-color:#EEBAB5;display:block}
 
 /* ── Anfragen ── */
@@ -872,6 +872,7 @@ async function deleteBooking(){
 
 async function sendInquiry(){
   const res=document.getElementById('reqResult'),btn=document.getElementById('reqBtn');
+  const form=btn.closest('.card');
   res.className='result';
   const name=document.getElementById('rName').value.trim();
   const email=document.getElementById('rEmail').value.trim();
@@ -888,10 +889,13 @@ async function sendInquiry(){
       timestamp:serverTimestamp(),
       status:'new'
     });
-    res.className='result ok';res.textContent='Anfrage gesendet! Wir melden uns.';
+    // Verstecke Formular, zeige nur Bestätigung
+    form.style.display='none';
+    res.className='result ok';res.innerHTML='✅ Anfrage gesendet!<br>Wir melden uns bald.';
     ['rName','rEmail','rPhone','rFrom','rTo','rMsg'].forEach(id=>document.getElementById(id).value='');
     pkF=null;pkT=null;pkPicking='from';
-    setTimeout(()=>{ pkBackToPicker(); renderPicker(); }, 2000);
+    // Längere Wartezeit (3500ms) für bessere Sichtbarkeit
+    setTimeout(()=>{ form.style.display='block'; pkBackToPicker(); renderPicker(); }, 3500);
   }catch(e){res.className='result err';res.textContent='Fehler: '+e.message;}
   btn.disabled=false;btn.textContent='Anfrage senden';
 }
@@ -1274,6 +1278,8 @@ function pkSubmit(){
   document.getElementById('pkForm').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function pkBackToPicker(){
+  document.getElementById('reqResult').className='result';
+  document.getElementById('reqResult').textContent='';
   document.getElementById('pkForm').style.display='none';
   document.getElementById('pkView').style.display='block';
 }
