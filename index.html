@@ -29,7 +29,7 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 
 /* ── Header ── */
 .header{
-  background:url('images/header_neu.jpg') 64% center/cover no-repeat;
+  background:url('images/Egmond Sonnenuntergang.jpg') 64% center/cover no-repeat;
   border-bottom:4px solid var(--egmond-red);
   color:#fff;
   padding:0;
@@ -37,6 +37,7 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
   box-shadow:0 4px 28px rgba(169,1,0,.35);
   overflow:hidden;
   min-height:320px;
+  transition:background-image 0.8s ease-in-out;
 }
 .header::before{
   content:'';position:absolute;inset:0;
@@ -655,23 +656,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <div class="card" style="margin-bottom:14px">
     <div class="card-title">📸 Fotos</div>
     <div id="gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-      <div class="gp" onclick="openLightbox(0)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0e8d8;display:flex;align-items:center;justify-content:center;font-size:22px">🌅</div>
-      <div class="gp" onclick="openLightbox(1)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#e8f0d8;display:flex;align-items:center;justify-content:center;font-size:22px">🏖️</div>
-      <div class="gp" onclick="openLightbox(2)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#d8e8f0;display:flex;align-items:center;justify-content:center;font-size:22px">🌊</div>
-      <div class="gp" onclick="openLightbox(3)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0d8e8;display:flex;align-items:center;justify-content:center;font-size:22px">🛋️</div>
-      <div class="gp" onclick="openLightbox(4)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#e8d8f0;display:flex;align-items:center;justify-content:center;font-size:22px">🍳</div>
-      <div class="gp" onclick="openLightbox(5)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0d8;display:flex;align-items:center;justify-content:center;font-size:22px">🛏️</div>
-      <div class="gp" onclick="openLightbox(6)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#d8f0e8;display:flex;align-items:center;justify-content:center;font-size:22px">🚿</div>
-      <div class="gp" onclick="openLightbox(7)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0ddd8;display:flex;align-items:center;justify-content:center;font-size:22px">🌿</div>
-      <div class="gp" onclick="openLightbox(8)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#d8d8f0;display:flex;align-items:center;justify-content:center;font-size:22px">🚗</div>
-      <div class="gp" onclick="openLightbox(9)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0ead8;display:flex;align-items:center;justify-content:center;font-size:22px">🏠</div>
+    <div class="gp" onclick="openLightbox(0)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sonnenuntergang.jpg');background-size:cover;background-position:center"></div>
+    <div class="gp" onclick="openLightbox(1)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sterne.jpg');background-size:cover;background-position:center"></div>
+    <div class="gp" onclick="openLightbox(2)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Abend.jpg');background-size:cover;background-position:center"></div>
+    <div class="gp" onclick="openLightbox(3)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Fenster.jpg');background-size:cover;background-position:center"></div>
     </div>
   </div>
 
   <!-- Lightbox -->
   <div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center;flex-direction:column">
     <div style="position:relative;width:100%;max-width:500px;padding:0 16px;box-sizing:border-box">
-      <div id="lbImg" style="width:100%;aspect-ratio:1;border-radius:12px;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden"></div>
+      <div id="lbImg" style="width:100%;aspect-ratio:1;border-radius:12px;background:#2a2a2a;background-size:cover;background-position:center;overflow:hidden"></div>
       <div id="lbCaption" style="text-align:center;color:#fff;font-size:13px;margin-top:10px;opacity:.7"></div>
       <button onclick="event.stopPropagation();lbNav(-1)" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer">‹</button>
       <button onclick="event.stopPropagation();lbNav(1)"  style="position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer">›</button>
@@ -723,17 +718,25 @@ const MNL2=["Januar","Februar","März","April","Mai","Juni","Juli","August","Sep
 
 // ── Galerie / Lightbox ────────────────────────
 const PHOTOS = [
-  {emoji:'🌅', caption:'Sonnenuntergang am Strand'},
-  {emoji:'🏖️', caption:'Strand Egmond aan Zee'},
-  {emoji:'🌊', caption:'Nordsee'},
-  {emoji:'🛋️', caption:'Wohnzimmer'},
-  {emoji:'🍳', caption:'Küche'},
-  {emoji:'🛏️', caption:'Schlafzimmer'},
-  {emoji:'🚿', caption:'Bad'},
-  {emoji:'🌿', caption:'Balkon'},
-  {emoji:'🚗', caption:'Parkplatz & Eingang'},
-  {emoji:'🏠', caption:'Gebäude'},
+  {img:'images/Egmond Sonnenuntergang.jpg', caption:'Sonnenuntergang'},
+  {img:'images/Egmond Sterne.jpg', caption:'Sternenhimmel'},
+  {img:'images/Egmond Abend.jpg', caption:'Abendansicht'},
+  {img:'images/Egmond Fenster.jpg', caption:'Fensterblick'},
 ];
+
+// ── Header Slideshow ────────────────────────
+const HEADER_IMAGES = [
+  'images/Egmond Sonnenuntergang.jpg',
+  'images/Egmond Sterne.jpg',
+  'images/Egmond Abend.jpg',
+  'images/Egmond Fenster.jpg'
+];
+let headerIdx = 0;
+function rotateHeaderImage() {
+  headerIdx = (headerIdx + 1) % HEADER_IMAGES.length;
+  document.querySelector('.header').style.backgroundImage = `url('${HEADER_IMAGES[headerIdx]}')`;
+}
+setInterval(rotateHeaderImage, 8000); // Wechsel alle 8 Sekunden
 let lbIdx = 0;
 function openLightbox(i) {
   lbIdx = i;
@@ -752,7 +755,7 @@ function lbNav(dir) {
 }
 function updateLightbox() {
   const p = PHOTOS[lbIdx];
-  document.getElementById('lbImg').textContent = p.emoji;
+  document.getElementById('lbImg').style.backgroundImage = `url('${p.img}')`;
   document.getElementById('lbCaption').textContent = p.caption + ' (' + (lbIdx+1) + '/' + PHOTOS.length + ')';
 }
 // Swipe support
