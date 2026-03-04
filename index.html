@@ -370,8 +370,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .pk-chip-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 .pk-chip-val{font-size:15px;font-weight:800;margin-top:3px;color:var(--egmond-gold)}
 .pk-hint{text-align:center;font-size:12px;color:var(--muted);padding:0 16px 12px;font-style:italic}
-.pk-btn{margin:0 16px 16px;width:calc(100% - 32px);padding:15px;background:linear-gradient(135deg,var(--egmond-red),#8B0000);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(169,1,0,.35);letter-spacing:.2px;transition:all .15s}
-.pk-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 22px rgba(169,1,0,.45)}
+.pk-btn{margin:0 16px 16px;width:calc(100% - 32px);padding:15px;background:linear-gradient(135deg,var(--egmond-blue),#004A7A);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 18px rgba(0,102,171,.25);letter-spacing:.2px;transition:all .15s}
+.pk-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 22px rgba(0,102,171,.35)}
 .pk-btn:disabled{opacity:.35;cursor:default}
 
 /* ── Modal Popover ── */
@@ -385,11 +385,11 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 /* ── Buttons für Compact-Picker ── */
 .pk-date-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.pk-date-btn{padding:16px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
+.pk-date-btn{padding:12px;border:2px solid var(--border);border-radius:12px;background:#fff;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
 .pk-date-btn:active{transform:scale(.97)}
 .pk-date-btn.active{border-color:var(--egmond-gold);background:#FFFBF0}
-.pk-date-btn-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:6px}
-.pk-date-btn-val{font-size:16px;font-weight:800;color:var(--text)}
+.pk-date-btn-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
+.pk-date-btn-val{font-size:14px;font-weight:800;color:var(--text)}
 .pk-date-btn.active .pk-date-btn-val{color:var(--egmond-gold)}
 </style>
 </head>
@@ -470,6 +470,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     </div>
     
     <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Anfrage senden →</button>
+    
+    <!-- Fotogalerie -->
+    <div class="card" style="margin-bottom:14px;margin-top:20px">
+      <div class="card-title">📸 Fotos</div>
+      <div id="gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+      <div class="gp" onclick="openLightbox(0)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sonnenuntergang.jpg');background-size:cover;background-position:center"></div>
+      <div class="gp" onclick="openLightbox(1)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sterne.jpg');background-size:cover;background-position:center"></div>
+      <div class="gp" onclick="openLightbox(2)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Abend.jpg');background-size:cover;background-position:center"></div>
+      <div class="gp" onclick="openLightbox(3)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Fenster.jpg');background-size:cover;background-position:center"></div>
+      </div>
+    </div>
   </div>
   
   <!-- Modal: Kalender-Picker -->
