@@ -10,18 +10,13 @@
 <style>
 :root {
   /* Egmond Wappen: Rot, Gold, Blau */
-  --bg:#F5F3F0; --card:#FAF8F5; --border:#E0D9D0; --text:#1C1408; --muted:#7A6850;
-  --accent:#0066AB; --accent-dark:#00447A; --accent2:#FFDA4E;
-  --shadow-sm:0 1px 6px rgba(20,12,4,.09); --shadow:0 4px 20px rgba(20,12,4,.11); --shadow-lg:0 8px 40px rgba(20,12,4,.16);
-  --r:14px; --r-sm:9px;
-  --free:#E8E2D6; --free-t:#3A2A14; --free-d:#0066AB;
-  --booked:#FFF0E8; --booked-t:#A90100; --booked-d:#A90100;
-  --holiday:#D4F4FF; --holiday-t:#00A8D8; --holiday-d:#00A8D8;
-  --bridge:#D4F4FF; --bridge-t:#00A8D8; --bridge-d:#00A8D8;
-  --school:#C5DCF7; --school-t:#0052A8; --school-d:#0052A8;
-  --weekend:#EDE6DC; --weekend-t:#7A6850;
   --egmond-red:#A90100; --egmond-gold:#FFDA4E; --egmond-blue:#0066AB;
-  --sunset-orange:#A90100; --sunset-sky:#0066AB;
+  --bg:#F5F3F0; --card:#FAF8F5; --border:#E0D9D0; --text:#1C1408; --muted:#7A6850;
+  --shadow-sm:0 1px 6px rgba(20,12,4,.09); --shadow:0 4px 20px rgba(20,12,4,.11);
+  --r:14px; --r-sm:9px;
+  --free:#E8E2D6; --free-t:#3A2A14;
+  --holiday:#D4F4FF; --holiday-t:#00A8D8;
+  --school:#C5DCF7; --school-t:#0052A8;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -83,7 +78,6 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .mx-outer{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .mx-mo{background:#fff;border-radius:var(--r-sm);box-shadow:var(--shadow-sm);padding:9px 10px;border:1px solid var(--border)}
 .mx-ttl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--egmond-red);border-bottom:1.5px solid rgba(169,1,0,.2);padding-bottom:3px}
-.mx-stat{font-size:9px;font-weight:700}
 .mx-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
 .mx-h{text-align:center;font-size:7px;color:var(--muted);font-weight:700;padding:1px 0}
 .is-admin .mx-d{font-size:11px;min-height:32px}
@@ -98,7 +92,6 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .mx-holiday{background:var(--holiday);color:var(--holiday-t)}
 .mx-bridge{background:var(--holiday);color:var(--holiday-t)}
 .mx-school{background:var(--school);color:var(--school-t)}
-.mx-weekend{background:#FAF6F0;color:#A09080}
 .mx-today{outline:2px solid var(--egmond-gold)!important;outline-offset:-1px;font-weight:900}
 .mx-sf{background:var(--egmond-gold)!important;color:#fff!important;border-radius:3px}
 .mx-st{background:var(--egmond-gold)!important;color:#fff!important;border-radius:3px}
@@ -109,37 +102,6 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .loading{text-align:center;padding:40px 0;color:var(--muted)}
 .spin{display:inline-block;width:30px;height:30px;border:3px solid #D4C8B8;border-top-color:var(--egmond-red);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── Buchungs-Kalender ── */
-.bk-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;max-width:400px;margin-left:auto;margin-right:auto}
-.bk-month-title{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;letter-spacing:-.2px;color:var(--sunset-sky)}
-.bk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;max-width:400px;margin:0 auto}
-.bk-h{text-align:center;font-size:10px;color:var(--muted);font-weight:700;padding:2px 0;text-transform:uppercase;letter-spacing:.3px;max-width:48px}
-.bk-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .12s;user-select:none;color:var(--text);max-width:48px}
-.bk-d:hover:not(.bk-booked):not(.bk-past){filter:brightness(.94)}
-.bk-d:active{transform:scale(.82)}
-.bk-em{aspect-ratio:1}
-.bk-free{background:var(--free);color:var(--free-t)}
-.bk-booked{background:var(--egmond-red);color:#fff;cursor:default}
-.bk-holiday{background:var(--holiday);color:var(--holiday-t)}
-.bk-bridge{background:var(--holiday);color:var(--holiday-t)}
-.bk-school{background:var(--school);color:var(--school-t)}
-.bk-we{background:#FAF6F0;color:#A09080}
-.bk-today{outline:2.5px solid var(--egmond-gold);outline-offset:-2px;font-weight:900}
-.bk-sf{background:var(--egmond-gold)!important;color:#fff!important;border-radius:7px}
-.bk-st{background:var(--egmond-gold)!important;color:#fff!important;border-radius:7px}
-.bk-sr{background:#FFF8E0!important;color:#8A6000!important;border-radius:0}
-.bk-past{opacity:.3;cursor:default}
-
-/* ── Chips ── */
-.chips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.chip{background:var(--bg);border:2px solid var(--border);border-radius:var(--r-sm);padding:12px;text-align:center;transition:all .2s}
-.chip-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.chip-val{font-size:16px;font-weight:800;margin-top:4px;letter-spacing:-.3px;color:var(--text)}
-.chip.af{border-color:var(--egmond-gold);background:#FFFBF0}.chip.af .chip-val{color:var(--egmond-gold)}
-.chip.at{border-color:var(--egmond-gold);background:#FFFBF0}.chip.at .chip-val{color:var(--egmond-gold)}
-.pick-hint{text-align:center;font-size:12px;color:var(--muted);margin-top:10px;font-style:italic}
-.clr-btn{display:block;margin:8px auto 0;background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:4px}
 
 /* ── Status-Buttons ── */
 .st-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -158,7 +120,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 /* ── Buttons ── */
 .btn{width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:800;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
 .btn:active{transform:scale(.98)}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-green{background:linear-gradient(135deg,var(--sunset-orange),#B84A04);color:#fff;box-shadow:0 4px 18px rgba(232,101,10,.3);letter-spacing:.2px}
+.btn-green{background:linear-gradient(135deg,var(--egmond-red),#B84A04);color:#fff;box-shadow:0 4px 18px rgba(232,101,10,.3);letter-spacing:.2px}
 
 @media(min-width:481px){
   .print-btn{display:block!important}
@@ -181,7 +143,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .inq-mail{font-size:12px;color:var(--muted);margin-bottom:4px}
 .inq-msg{font-size:13px;color:var(--egmond-blue);line-height:1.5;background:#F0F5FA;padding:8px 10px;border-radius:8px;margin-top:6px}
 .hint-box{padding:8px 12px;background:#FFF8F0;border:1.5px solid #E8C890;border-radius:var(--r);margin-bottom:10px;box-shadow:var(--shadow-sm)}
-.hint-box-title{font-size:9px;font-weight:800;color:var(--sunset-orange);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
+.hint-box-title{font-size:9px;font-weight:800;color:var(--egmond-red);text-transform:uppercase;letter-spacing:.8px;margin-bottom:3px}
 .hint-box p{font-size:11px;color:#3A2810;line-height:1.5;margin:0}
 .badge{font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;background:var(--egmond-red);color:#fff;letter-spacing:.3px}
 .inq-btns{display:flex;gap:8px;margin-top:12px}
@@ -192,14 +154,29 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .inq-btn.seen{background:#F5F5F5;color:var(--muted);border:1.5px solid var(--border)}
 
 /* ── Legende ── */
-.lg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.lg-item{padding:7px 10px;border-radius:7px;font-size:11px;font-weight:700}
+.legend-bar{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;font-size:10px;font-weight:700}
+.legend-chip{padding:4px 10px;border-radius:20px;white-space:nowrap}
+.legend-chip.booked{background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8}
+.legend-chip.holiday{background:var(--holiday);color:var(--holiday-t);border:1px solid var(--holiday-t)}
+.legend-chip.school{background:var(--school);color:var(--school-t);border:1px solid var(--school-t)}
 
-/* ── Anfrage-Intro ── */
-.req-intro{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;padding:12px 14px;background:var(--bg);border-radius:8px;border-left:3px solid var(--egmond-gold)}
+/* ── Info-Tab ── */
+.info-list{display:flex;flex-direction:column;gap:8px}
+.info-item{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+.info-icon{font-size:16px;flex-shrink:0}
+.info-icon-lg{font-size:20px;flex-shrink:0}
+.info-text{font-size:13px;color:var(--text);line-height:1.6}
+.info-section-title{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.info-address{font-size:15px;font-weight:800;color:var(--egmond-red);margin-bottom:2px}
+.info-address-sub{font-size:14px;color:var(--muted);margin-bottom:10px}
+.info-map-link{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:7px 13px;background:var(--egmond-blue);color:#fff;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.2px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.info-checklist{font-size:12px;color:var(--text);line-height:1.9;list-style:none;padding:0;margin:0}
+.info-note{color:var(--muted)}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 
 /* ── Toast ── */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sunset-orange);color:#fff;padding:12px 24px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 6px 24px rgba(232,101,10,.4);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:10000;white-space:nowrap;pointer-events:none;letter-spacing:.2px}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--egmond-red);color:#fff;padding:12px 24px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 6px 24px rgba(232,101,10,.4);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:10000;white-space:nowrap;pointer-events:none;letter-spacing:.2px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .empty{text-align:center;color:var(--muted);padding:36px 0;font-size:14px;font-style:italic}
@@ -222,12 +199,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   .wrap{padding:0 10px 40px}
   .card{padding:10px;border-radius:12px}
   .year-nav h2{font-size:22px}
-  .bk-d{font-size:14px;border-radius:6px}
   .btn{padding:17px;font-size:17px}
   .tab{font-size:10px;padding:12px 3px 10px;letter-spacing:.1px}
   input,textarea{font-size:16px}
-  .chips{gap:8px}
-  .chip-val{font-size:15px}
   .mx-mo{padding:5px 6px}
   .mx-outer{gap:6px}
   .mx-ttl{font-size:10px;margin-bottom:3px}
@@ -237,7 +211,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 }
 @media(hover:none){
   /* Touch-Geräte: größere Tipp-Ziele */
-  .bk-d{min-height:38px}
   .yn-btn{width:44px;height:44px}
 }
 
@@ -430,17 +403,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <div class="hint-box-title">💡 Kurzanleitung</div>
     <p><strong>📝 Alle Buchungen erfolgen im Tab „Buchung eintragen"</strong><br>Zeitraum wählen → Mieter eintragen (oder „nicht belegt") → Speichern<br><br><strong>✅ Anfragen:</strong> Tab „Anfragen" → Annehmen → zu „Buchung eintragen"</p>
   </div>
-  <div id="legendBar" style="display:none;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:6px;margin-bottom:12px">
-    <div style="display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;font-size:10px;font-weight:700">
-      <span style="padding:4px 10px;border-radius:20px;background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8;white-space:nowrap">🔴 Belegt</span>
-      <span style="padding:4px 10px;border-radius:20px;background:#D4F4FF;color:#00A8D8;border:1px solid #00A8D8;white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
-      <span style="padding:4px 10px;border-radius:20px;background:#C5DCF7;color:#0052A8;border:1px solid #0052A8;white-space:nowrap">🏖️ Ferien NRW</span>
-    </div>
-    <button onclick="printCal()" style="flex-shrink:0;background:#fff;border:1.5px solid var(--egmond-red);color:var(--egmond-red);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:none" class="print-btn">🖨️ Drucken</button>
-  </div>
   <div id="pubHint" class="hint-box" style="display:none">
     <div class="hint-box-title">📅 Verfügbarkeit</div>
     <p>Hier siehst du die Jahresübersicht. Freie Zeiträume buchst du im Tab „Buchen".</p>
+  </div>
+  <div id="legendBar" style="display:none;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:6px;margin-bottom:12px">
+    <div class="legend-bar">
+      <span class="legend-chip booked">🔴 Belegt</span>
+      <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
+      <span class="legend-chip school">🏖️ Ferien NRW</span>
+    </div>
+    <button onclick="printCal()" style="flex-shrink:0;background:#fff;border:1.5px solid var(--egmond-red);color:var(--egmond-red);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:none" class="print-btn">🖨️ Drucken</button>
   </div>
   <div class="card" style="padding:14px 18px">
     <div class="year-nav">
@@ -482,7 +455,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <!-- Fotogalerie (JS-generiert) -->
     <div class="card" style="margin-bottom:14px;margin-top:20px">
       <div class="card-title">📸 Fotos</div>
-      <div id="gallery1" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
+      <div id="gallery1" class="gallery-grid"></div>
     </div>
   </div>
   
@@ -492,10 +465,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <button class="pk-modal-close" onclick="closeCalendarModal()">✕</button>
       
       <!-- Legende nur im Modal -->
-      <div style="display:flex;flex-wrap:nowrap;gap:6px;margin-bottom:16px;font-size:10px;font-weight:700;overflow-x:auto">
-        <span style="padding:4px 10px;border-radius:20px;background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8;white-space:nowrap">🔴 Belegt</span>
-        <span style="padding:4px 10px;border-radius:20px;background:#D4F4FF;color:#00A8D8;border:1px solid #00A8D8;white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
-        <span style="padding:4px 10px;border-radius:20px;background:#C5DCF7;color:#0052A8;border:1px solid #0052A8;white-space:nowrap">🏖️ Ferien NRW</span>
+      <div class="legend-bar" style="margin-bottom:16px">
+        <span class="legend-chip booked">🔴 Belegt</span>
+        <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
+        <span class="legend-chip school">🏖️ Ferien NRW</span>
       </div>
       
       <!-- Status-Text im Modal -->
@@ -547,10 +520,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 <!-- TAB 2: BUCHEN (Admin) -->
 <div id="tab2" class="tc">
   <div class="hint-box"><div class="hint-box-title">💡 Kurzanleitung</div><p><strong>📝 Alle Buchungen erfolgen im Tab „Buchung eintragen"</strong><br>Zeitraum wählen → Mieter eintragen (oder „nicht belegt") → Speichern<br><br><strong>✅ Anfragen:</strong> Tab „Anfragen" → Annehmen → zu „Buchung eintragen"</p></div>
-  <div style="display:flex;flex-wrap:nowrap;gap:5px;margin-bottom:10px;font-size:10px;font-weight:700;overflow-x:auto">
-    <span style="padding:3px 8px;border-radius:6px;background:var(--booked);color:var(--booked-t);white-space:nowrap">🔴 Belegt</span>
-    <span style="padding:3px 8px;border-radius:6px;background:var(--holiday);color:var(--holiday-t);white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
-    <span style="padding:3px 8px;border-radius:6px;background:var(--school);color:var(--school-t);white-space:nowrap">🏖️ Ferien NRW</span>
+  <div class="legend-bar" style="margin-bottom:10px">
+    <span class="legend-chip booked">🔴 Belegt</span>
+    <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
+    <span class="legend-chip school">🏖️ Ferien NRW</span>
   </div>
   <div class="pk-wrap" style="max-width:680px;margin-left:auto;margin-right:auto">
     <div class="pk-months" id="adminPickerMonths">
@@ -611,23 +584,22 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <!-- Adresse -->
   <div class="card">
     <div class="card-title">📍 Adresse</div>
-    <div style="font-size:15px;font-weight:800;color:var(--sunset-orange);margin-bottom:2px">Kennedyboulevard 604</div>
-    <div style="font-size:14px;color:var(--muted);margin-bottom:10px">1931 XM Egmond aan Zee</div>
-    <a href="https://maps.google.com/?q=Kennedyboulevard+604,+1931+XM+Egmond+aan+Zee" target="_blank"
-       style="display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:7px 13px;background:var(--egmond-blue);color:#fff;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;letter-spacing:.2px">
+    <div class="info-address">Kennedyboulevard 604</div>
+    <div class="info-address-sub">1931 XM Egmond aan Zee</div>
+    <a href="https://maps.google.com/?q=Kennedyboulevard+604,+1931+XM+Egmond+aan+Zee" target="_blank" class="info-map-link">
       🗺️ In Google Maps öffnen
     </a>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="background:var(--bg);border-radius:10px;padding:11px 14px;border:1px solid var(--border)">
-        <div style="font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px">🚗 Anreise &amp; Eingang</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-            <span style="font-size:20px;flex-shrink:0">🅿️</span>
-            <div style="font-size:13px;color:var(--text);line-height:1.6"><strong>Parken:</strong><br>Am Südende des Innenhofs. Vorletzte Garage rechts – Nummer 21.</div>
+    <div class="info-list">
+      <div class="info-item" style="padding:11px 14px;flex-direction:column">
+        <div class="info-section-title">🚗 Anreise &amp; Eingang</div>
+        <div class="info-list">
+          <div class="info-item">
+            <span class="info-icon-lg">🅿️</span>
+            <div class="info-text"><strong>Parken:</strong><br>Am Südende des Innenhofs. Vorletzte Garage rechts – Nummer 21.</div>
           </div>
-          <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-            <span style="font-size:20px;flex-shrink:0">🚪</span>
-            <div style="font-size:13px;color:var(--text);line-height:1.6"><strong>Eingang:</strong><br>Eingangstür links nahe der Garage. Dann 2. Etage links – Türschild „Kimmeskamp".</div>
+          <div class="info-item">
+            <span class="info-icon-lg">🚪</span>
+            <div class="info-text"><strong>Eingang:</strong><br>Eingangstür links nahe der Garage. Dann 2. Etage links – Türschild „Kimmeskamp".</div>
           </div>
         </div>
       </div>
@@ -637,35 +609,35 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <!-- Zur Wohnung -->
   <div class="card">
     <div class="card-title">🏠 Zur Wohnung</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-        <span style="font-size:16px;flex-shrink:0">🧺</span>
-        <span style="font-size:13px;color:var(--text);line-height:1.6">Bettzeug und Handtücher <strong>nicht vergessen</strong>.</span>
+    <div class="info-list">
+      <div class="info-item">
+        <span class="info-icon">🧺</span>
+        <span class="info-text">Bettzeug und Handtücher <strong>nicht vergessen</strong>.</span>
       </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-        <span style="font-size:16px;flex-shrink:0">🛋️</span>
-        <span style="font-size:13px;color:var(--text);line-height:1.6">Ausziehbetten <strong>unter der Sitzlandschaft</strong>. Decken &amp; Kissen in den Bettkästen im Schlafzimmer.</span>
+      <div class="info-item">
+        <span class="info-icon">🛋️</span>
+        <span class="info-text">Ausziehbetten <strong>unter der Sitzlandschaft</strong>. Decken &amp; Kissen in den Bettkästen im Schlafzimmer.</span>
       </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-        <span style="font-size:16px;flex-shrink:0">☀️</span>
-        <span style="font-size:13px;color:var(--text);line-height:1.6">Markise ist <strong>elektrisch</strong> – Stecker an der Balkontür anschalten. Fernbedienung im Regal der Sitzlandschaft ganz links.</span>
+      <div class="info-item">
+        <span class="info-icon">☀️</span>
+        <span class="info-text">Markise ist <strong>elektrisch</strong> – Stecker an der Balkontür anschalten. Fernbedienung im Regal der Sitzlandschaft ganz links.</span>
       </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-        <span style="font-size:16px;flex-shrink:0">🗑️</span>
-        <span style="font-size:13px;color:var(--text);line-height:1.6">Für den Restmüll den <strong>Abfallpass</strong> im Flurregal nutzen. Die Gebühren übernehmen wir – achtet bitte dennoch auf die Kosten pro Einwurf: <strong>30L-Sack ca. 0,55 €</strong> · <strong>60L-Sack ca. 1,10 €</strong>. Papier, Glas und Plastik (PMD) sind an den Sammelstellen kostenfrei.</span>
+      <div class="info-item">
+        <span class="info-icon">🗑️</span>
+        <span class="info-text">Für den Restmüll den <strong>Abfallpass</strong> im Flurregal nutzen. Die Gebühren übernehmen wir – achtet bitte dennoch auf die Kosten pro Einwurf: <strong>30L-Sack ca. 0,55 €</strong> · <strong>60L-Sack ca. 1,10 €</strong>. Papier, Glas und Plastik (PMD) sind an den Sammelstellen kostenfrei.</span>
       </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
-        <span style="font-size:16px;flex-shrink:0">🧹</span>
-        <span style="font-size:13px;color:var(--text);line-height:1.6">Bitte die Wohnung <strong>gereinigt übergeben</strong> – so wie Ihr Sie gerne vorfinden würdet. Eine Endreinigung kann für ca. <strong>70 €</strong> <span style="color:var(--muted)">(Stand 2025)</span> über die Hausmeister dazu gebucht werden.</span>
+      <div class="info-item">
+        <span class="info-icon">🧹</span>
+        <span class="info-text">Bitte die Wohnung <strong>gereinigt übergeben</strong> – so wie Ihr Sie gerne vorfinden würdet. Eine Endreinigung kann für ca. <strong>70 €</strong> <span class="info-note">(Stand 2025)</span> über die Hausmeister dazu gebucht werden.</span>
       </div>
     </div>
   </div>
 
   <!-- Bei Ankunft & Abfahrt -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+  <div class="info-grid">
     <div class="card" style="margin-bottom:0">
       <div class="card-title">✅ Bei Ankunft</div>
-      <ul style="font-size:12px;color:var(--text);line-height:1.9;list-style:none;padding:0;margin:0">
+      <ul class="info-checklist">
         <li>🔌 Kühlschränke einstecken</li>
         <li>🔥 Gas aufdrehen - rechts neben dem Herd</li>
         <li>🌡️ Heizung auf Temperatur</li>
@@ -674,7 +646,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     </div>
     <div class="card" style="margin-bottom:0">
       <div class="card-title">🚪 Bei Abfahrt</div>
-      <ul style="font-size:12px;color:var(--text);line-height:1.9;list-style:none;padding:0;margin:0">
+      <ul class="info-checklist">
         <li>🔌 Kühlschränke ausstecken &amp; öffnen</li>
         <li>💧 Wasserhahn für Spülmaschine aufdrehen</li>
         <li>❄️ Heizung auf Schneeflocke</li>
@@ -688,7 +660,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <!-- Fotogalerie (JS-generiert) -->
   <div class="card" style="margin-bottom:14px">
     <div class="card-title">📸 Fotos</div>
-    <div id="gallery2" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
+    <div id="gallery2" class="gallery-grid"></div>
   </div>
 
 </div><!-- /wrap -->
