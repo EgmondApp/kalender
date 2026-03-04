@@ -596,6 +596,34 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     </div>
   </div>
 
+  <!-- Fotogalerie -->
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title">📸 Fotos</div>
+    <div id="gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+      <div class="gp" onclick="openLightbox(0)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0e8d8;display:flex;align-items:center;justify-content:center;font-size:22px">🌅</div>
+      <div class="gp" onclick="openLightbox(1)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#e8f0d8;display:flex;align-items:center;justify-content:center;font-size:22px">🏖️</div>
+      <div class="gp" onclick="openLightbox(2)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#d8e8f0;display:flex;align-items:center;justify-content:center;font-size:22px">🌊</div>
+      <div class="gp" onclick="openLightbox(3)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0d8e8;display:flex;align-items:center;justify-content:center;font-size:22px">🛋️</div>
+      <div class="gp" onclick="openLightbox(4)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#e8d8f0;display:flex;align-items:center;justify-content:center;font-size:22px">🍳</div>
+      <div class="gp" onclick="openLightbox(5)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0f0d8;display:flex;align-items:center;justify-content:center;font-size:22px">🛏️</div>
+      <div class="gp" onclick="openLightbox(6)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#d8f0e8;display:flex;align-items:center;justify-content:center;font-size:22px">🚿</div>
+      <div class="gp" onclick="openLightbox(7)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0ddd8;display:flex;align-items:center;justify-content:center;font-size:22px">🌿</div>
+      <div class="gp" onclick="openLightbox(8)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#d8d8f0;display:flex;align-items:center;justify-content:center;font-size:22px">🚗</div>
+      <div class="gp" onclick="openLightbox(9)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background:#f0ead8;display:flex;align-items:center;justify-content:center;font-size:22px">🏠</div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:9999;align-items:center;justify-content:center;flex-direction:column">
+    <div style="position:relative;width:100%;max-width:500px;padding:0 16px;box-sizing:border-box">
+      <div id="lbImg" style="width:100%;aspect-ratio:1;border-radius:12px;background:#2a2a2a;display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden"></div>
+      <div id="lbCaption" style="text-align:center;color:#fff;font-size:13px;margin-top:10px;opacity:.7"></div>
+      <button onclick="event.stopPropagation();lbNav(-1)" style="position:absolute;left:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer">‹</button>
+      <button onclick="event.stopPropagation();lbNav(1)"  style="position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer">›</button>
+    </div>
+    <div style="color:rgba(255,255,255,.4);font-size:12px;margin-top:16px">Tippen zum Schließen</div>
+  </div>
+
   <!-- Bei Ankunft & Abfahrt -->
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
     <div class="card" style="margin-bottom:0">
@@ -659,6 +687,45 @@ let selF=null, selT=null, picking='from', curSt='Frei';
 let pkYear=TODAY.getFullYear(), pkMonth=TODAY.getMonth();
 let pkF=null, pkT=null, pkPicking='from';
 const MNL2=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
+
+// ── Galerie / Lightbox ────────────────────────
+const PHOTOS = [
+  {emoji:'🌅', caption:'Sonnenuntergang am Strand'},
+  {emoji:'🏖️', caption:'Strand Egmond aan Zee'},
+  {emoji:'🌊', caption:'Nordsee'},
+  {emoji:'🛋️', caption:'Wohnzimmer'},
+  {emoji:'🍳', caption:'Küche'},
+  {emoji:'🛏️', caption:'Schlafzimmer'},
+  {emoji:'🚿', caption:'Bad'},
+  {emoji:'🌿', caption:'Balkon'},
+  {emoji:'🚗', caption:'Parkplatz & Eingang'},
+  {emoji:'🏠', caption:'Gebäude'},
+];
+let lbIdx = 0;
+function openLightbox(i) {
+  lbIdx = i;
+  updateLightbox();
+  const lb = document.getElementById('lightbox');
+  lb.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').style.display = 'none';
+  document.body.style.overflow = '';
+}
+function lbNav(dir) {
+  lbIdx = (lbIdx + dir + PHOTOS.length) % PHOTOS.length;
+  updateLightbox();
+}
+function updateLightbox() {
+  const p = PHOTOS[lbIdx];
+  document.getElementById('lbImg').textContent = p.emoji;
+  document.getElementById('lbCaption').textContent = p.caption + ' (' + (lbIdx+1) + '/' + PHOTOS.length + ')';
+}
+// Swipe support
+let _lbX = 0;
+document.addEventListener('touchstart', e => { if(document.getElementById('lightbox').style.display==='flex') _lbX = e.touches[0].clientX; });
+document.addEventListener('touchend',   e => { if(document.getElementById('lightbox').style.display==='flex'){ const dx=e.changedTouches[0].clientX-_lbX; if(Math.abs(dx)>40) lbNav(dx<0?1:-1); }});
 
 // ── NRW Sondertage ────────────────────────────
 function getSpecial(year) {
