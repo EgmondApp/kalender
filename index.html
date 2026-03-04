@@ -369,13 +369,13 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .pk-btn:disabled{opacity:.35;cursor:default}
 
 /* ── Modal Popover ── */
-.pk-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:900;backdrop-filter:blur(2px)}
+.pk-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.2);z-index:900;backdrop-filter:blur(1px)}
 .pk-modal-overlay.open{display:flex;align-items:flex-end}
 .pk-modal{background:#fff;border-radius:24px 24px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 -8px 32px rgba(0,0,0,.15);animation:slideUp .3s ease}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .pk-modal-close{position:absolute;top:12px;right:12px;width:36px;height:36px;background:rgba(0,0,0,.08);border:none;border-radius:50%;cursor:pointer;font-size:20px;transition:all .2s}
 .pk-modal-close:hover{background:rgba(0,0,0,.15)}
-@media(min-width:481px){.pk-modal-overlay{align-items:center;justify-content:center}.pk-modal{border-radius:24px;max-height:85vh;max-width:700px;width:100%;padding:32px}}
+@media(min-width:481px){.pk-modal-overlay{align-items:center;justify-content:center;background:rgba(0,0,0,.35)}.pk-modal{border-radius:24px;max-height:85vh;max-width:700px;width:100%;padding:32px}}
 
 /* ── Buttons für Compact-Picker ── */
 .pk-date-buttons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
@@ -385,6 +385,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .pk-date-btn-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:6px}
 .pk-date-btn-val{font-size:16px;font-weight:800;color:var(--text)}
 .pk-date-btn.active .pk-date-btn-val{color:var(--egmond-gold)}
+
+/* Status-Text nur auf Mobile anzeigen */
+@media(max-width:480px){
+  #pkModalStatus{display:block!important}
+}
+@media(min-width:481px){
+  #pkModalStatus{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -478,6 +486,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
         <span style="padding:4px 10px;border-radius:20px;background:#FFFBE8;color:#8B6F47;border:1px solid #E8D898;white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
         <span style="padding:4px 10px;border-radius:20px;background:#D8EAF8;color:#0A3A68;border:1px solid #8ABCE0;white-space:nowrap">🏖️ Ferien NRW</span>
       </div>
+      
+      <!-- Status-Text nur auf Mobile -->
+      <div id="pkModalStatus" style="display:none;text-align:center;font-size:14px;font-weight:700;color:var(--egmond-red);margin-bottom:16px">Anreisedatum wählen</div>
       
       <div class="pk-wrap" style="margin-bottom:0;max-width:none">
         <div class="pk-months">
@@ -1234,6 +1245,13 @@ function renderPicker(){
   document.getElementById('pkToBtn').className='pk-date-btn'+(pkT?' active':'');
   document.getElementById('pkFromDisplay').textContent=pkF?fmt(pkF):'—';
   document.getElementById('pkToDisplay').textContent=pkT?fmt(pkT):'—';
+  
+  // Update Status-Text auf Mobile
+  const statusEl=document.getElementById('pkModalStatus');
+  if(statusEl){
+    statusEl.textContent = pkPicking==='from'?'Anreisedatum wählen':'Abreisedatum wählen';
+  }
+  
   const btn=document.getElementById('pkBtn');
   btn.disabled=!(pkF&&pkT);
   btn.textContent=pkF&&pkT?`Anfrage senden: ${fmt(pkF)} – ${fmt(pkT)} →`:'Anfrage senden →';
