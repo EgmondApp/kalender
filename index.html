@@ -37,14 +37,8 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
   box-shadow:0 4px 28px rgba(169,1,0,.35);
   overflow:hidden;
   min-height:320px;
-  transition:background-image 1s ease-in-out, min-height .35s ease, box-shadow .3s ease;
+  transition:background-image 1s ease-in-out;
 }
-.header.collapsed{min-height:60px;box-shadow:0 2px 12px rgba(169,1,0,.25)}
-.header.collapsed .header-inner{min-height:60px;padding-bottom:12px}
-.header.collapsed .header-icon{width:32px;height:32px;padding:2px}
-.header.collapsed .header-icon img{width:26px!important}
-.header.collapsed h1{font-size:18px}
-.header.collapsed .header::before{background:rgba(10,6,2,.7)}
 .header::before{
   content:'';position:absolute;inset:0;
   background:
@@ -69,8 +63,7 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .admin-badge{background:rgba(169,1,0,.25);border:1.5px solid rgba(169,1,0,.5);color:#FFF;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.3px;backdrop-filter:blur(4px)}
 
 /* ── Tabs ── */
-.tabs{display:flex;background:#F2F7FC;border-bottom:2px solid var(--border);position:sticky;top:323px;z-index:199;box-shadow:0 2px 8px rgba(26,18,8,.06);transition:top .35s ease}
-.header.collapsed~.tabs{top:63px}
+.tabs{display:flex;background:#F2F7FC;border-bottom:2px solid var(--border);position:sticky;top:323px;z-index:199;box-shadow:0 2px 8px rgba(26,18,8,.06)}
 .tab{flex:1;padding:13px 6px 11px;text-align:center;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;letter-spacing:.3px;text-transform:uppercase;user-select:none}
 .tab.on{color:var(--egmond-red);border-bottom-color:var(--egmond-red);background:linear-gradient(to bottom,transparent,rgba(169,1,0,.06))}
 
@@ -213,15 +206,17 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 /* ── Mobile optimierungen ── */
 @media(max-width:480px){
-  .header{min-height:120px!important}
-  .header.collapsed{min-height:54px!important}
+  .header{min-height:120px!important;transition:min-height .35s ease,box-shadow .3s ease}
+  .header.collapsed{min-height:54px!important;box-shadow:0 2px 12px rgba(169,1,0,.25)}
   .header.collapsed .header-inner{min-height:54px!important;padding-bottom:8px!important}
+  .header.collapsed .header-icon{width:26px!important;height:26px!important;padding:2px!important}
+  .header.collapsed .header-icon img{width:22px!important}
   .header.collapsed h1{font-size:16px!important}
   .header-inner{padding:0 16px 16px!important;min-height:120px!important;align-items:flex-end!important}
   .header h1{font-size:19px!important}
   .header p{font-size:9px!important;letter-spacing:1.2px!important}
   .header-icon{width:34px!important;height:34px!important;font-size:18px!important}
-  .tabs{top:123px!important}
+  .tabs{top:123px!important;transition:top .35s ease}
   .header.collapsed~.tabs{top:57px!important}
   .card{margin-bottom:10px!important}
   .wrap{padding:0 10px 40px}
@@ -1374,14 +1369,14 @@ loadYear(curYear);
 renderBookCal();
 renderPicker();
 
-// ── Header collapse on scroll ────────────────
+// ── Header collapse on scroll (mobile only) ──
 const headerEl=document.querySelector('.header');
-let lastScroll=0;
+const mobileQuery=window.matchMedia('(max-width:480px)');
 window.addEventListener('scroll',()=>{
+  if(!mobileQuery.matches){headerEl.classList.remove('collapsed');return;}
   const y=window.scrollY;
-  if(y>80&&!headerEl.classList.contains('collapsed')){headerEl.classList.add('collapsed');}
-  else if(y<=30&&headerEl.classList.contains('collapsed')){headerEl.classList.remove('collapsed');}
-  lastScroll=y;
+  if(y>60&&!headerEl.classList.contains('collapsed')){headerEl.classList.add('collapsed');}
+  else if(y<=20&&headerEl.classList.contains('collapsed')){headerEl.classList.remove('collapsed');}
 },{passive:true});
 </script>
 </body>
