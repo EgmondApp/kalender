@@ -70,9 +70,9 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .tc{display:none}.tc.on{display:block;max-width:680px;margin:0 auto;padding-top:16px}
 
 /* ── Jahr-Nav ── */
-.year-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.year-nav h2{font-family:'Source Sans 3',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;color:var(--egmond-red)}
-.yn-btn{width:38px;height:38px;border-radius:50%;border:2px solid var(--egmond-red);background:#fff;color:var(--egmond-red);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:var(--shadow-sm)}
+.year-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:12px}
+.year-nav h2{font-family:'Source Sans 3',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--egmond-red)}
+.yn-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--egmond-red);background:#fff;color:var(--egmond-red);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:none}
 .yn-btn:hover{background:var(--egmond-red);color:#fff}.yn-btn:active{background:var(--egmond-red);color:#fff;transform:scale(.92)}
 
 /* ── Matrix ── */
@@ -229,7 +229,7 @@ input[readonly]{background:var(--bg);cursor:default}
   .card{margin-bottom:10px!important}
   .wrap{padding:0 10px 40px}
   .card{padding:10px;border-radius:12px}
-  .year-nav h2{font-size:24px}
+  .year-nav h2{font-size:18px}
   .btn{padding:17px;font-size:17px}
   .tab{font-size:10px;padding:12px 3px 10px;letter-spacing:.1px}
   input,textarea{font-size:16px}
@@ -243,7 +243,7 @@ input[readonly]{background:var(--bg);cursor:default}
 }
 @media(hover:none){
   /* Touch-Geräte: größere Tipp-Ziele */
-  .yn-btn{width:44px;height:44px}
+  .yn-btn{width:36px;height:36px}
 }
 
 @media print {
@@ -355,11 +355,11 @@ input[readonly]{background:var(--bg);cursor:default}
 .pk-month{padding:16px}
 .pk-month+.pk-month{border-left:1px solid var(--border)}
 @media(max-width:480px){.pk-month+.pk-month{border-left:none;border-top:1px solid var(--border)}}
-.pk-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.pk-nav-btn{width:32px;height:32px;border-radius:50%;border:2px solid var(--egmond-red);background:#fff;color:var(--egmond-red);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.pk-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:10px}
+.pk-nav-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--egmond-red);background:#fff;color:var(--egmond-red);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .pk-nav-btn:hover{background:var(--egmond-red);color:#fff}
 .pk-nav-btn:disabled{opacity:.2;cursor:default}
-.pk-month-title{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;text-align:center;flex:1;color:var(--text)}
+.pk-month-title{font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:800;text-align:center;flex:1;color:var(--egmond-red);letter-spacing:-.3px}
 .pk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 .pk-h{text-align:center;font-size:10px;color:var(--muted);font-weight:700;padding:4px 0;text-transform:uppercase;letter-spacing:.3px}
 .pk-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border-radius:50%;cursor:pointer;transition:all .15s;user-select:none;color:var(--text)}
