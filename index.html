@@ -90,6 +90,9 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .mx-em{aspect-ratio:1}
 .mx-free{background:var(--free);color:var(--free-t)}
 .mx-booked{background:var(--egmond-red);color:#fff}
+.mx-booked-arr{background:linear-gradient(to bottom right,var(--free) 50%,var(--egmond-red) 50%);color:var(--free-t)}
+.mx-booked-dep{background:linear-gradient(to bottom right,var(--egmond-red) 50%,var(--free) 50%);color:#fff}
+.mx-changeover{background:linear-gradient(to bottom right,var(--egmond-red) calc(50% - .5px),#fff calc(50% - .5px),#fff calc(50% + .5px),var(--egmond-red) calc(50% + .5px));color:#fff}
 .mx-holiday{background:var(--holiday);color:var(--holiday-t)}
 .mx-bridge{background:var(--holiday);color:var(--holiday-t)}
 .mx-school{background:var(--school);color:var(--school-t)}
@@ -175,6 +178,7 @@ input[readonly]{background:var(--bg);cursor:default}
 .legend-chip.booked{background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8}
 .legend-chip.holiday{background:var(--holiday);color:var(--holiday-t);border:1px solid var(--holiday-t)}
 .legend-chip.school{background:var(--school);color:var(--school-t);border:1px solid var(--school-t)}
+.legend-chip.half{background:linear-gradient(to bottom right,var(--egmond-red) 50%,var(--free) 50%);color:#fff;border:1px solid var(--egmond-red)}
 
 /* ── Info-Tab ── */
 .info-list{display:flex;flex-direction:column;gap:8px}
@@ -322,6 +326,21 @@ input[readonly]{background:var(--bg);cursor:default}
   font-weight: 900;
   border-radius: 1pt;
 }
+.pr-booked-arr {
+  background: linear-gradient(to bottom right, transparent 50%, #bbb 50%) !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.pr-booked-dep {
+  background: linear-gradient(to bottom right, #bbb 50%, transparent 50%) !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.pr-changeover {
+  background: linear-gradient(to bottom right, #bbb calc(50% - .5pt), #fff calc(50% - .5pt), #fff calc(50% + .5pt), #bbb calc(50% + .5pt)) !important;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
 
 .pr-name {
   font-size: 5pt;
@@ -363,10 +382,13 @@ input[readonly]{background:var(--bg);cursor:default}
 .pk-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 .pk-h{text-align:center;font-size:10px;color:var(--muted);font-weight:700;padding:4px 0;text-transform:uppercase;letter-spacing:.3px}
 .pk-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border-radius:50%;cursor:pointer;transition:all .15s;user-select:none;color:var(--text)}
-.pk-d:hover:not(.pk-booked):not(.pk-past):not(.pk-em){background:rgba(212,150,10,.15);color:var(--egmond-gold)}
+.pk-d:hover:not(.pk-booked):not(.pk-changeover):not(.pk-past):not(.pk-em){background:rgba(212,150,10,.15);color:var(--egmond-gold)}
 .pk-em{aspect-ratio:1}
 .pk-free{color:var(--free-t);background:var(--free);border-radius:4px}
 .pk-booked{background:var(--egmond-red);color:#fff;cursor:default;border-radius:4px}
+.pk-booked-arr{background:linear-gradient(to bottom right,var(--free) 50%,var(--egmond-red) 50%);color:var(--free-t);border-radius:4px}
+.pk-booked-dep{background:linear-gradient(to bottom right,var(--egmond-red) 50%,var(--free) 50%);color:#fff;border-radius:4px}
+.pk-changeover{background:linear-gradient(to bottom right,var(--egmond-red) calc(50% - .5px),#fff calc(50% - .5px),#fff calc(50% + .5px),var(--egmond-red) calc(50% + .5px));color:#fff;cursor:default;border-radius:4px}
 .pk-past{color:#C8C0B8;cursor:default;background:transparent}
 .pk-today{font-weight:900;outline:2px solid var(--egmond-gold);outline-offset:-2px;border-radius:50%}
 .pk-holiday{background:var(--holiday);color:var(--holiday-t);border-radius:4px}
@@ -443,6 +465,7 @@ input[readonly]{background:var(--bg);cursor:default}
       <span class="legend-chip booked">🔴 Belegt</span>
       <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
       <span class="legend-chip school">🏖️ Ferien NRW</span>
+      <span class="legend-chip half">◤ An-/Abreise</span>
     </div>
     <button onclick="printCal()" class="print-btn">🖨️ Drucken</button>
   </div>
@@ -500,6 +523,7 @@ input[readonly]{background:var(--bg);cursor:default}
         <span class="legend-chip booked">🔴 Belegt</span>
         <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
         <span class="legend-chip school">🏖️ Ferien NRW</span>
+      <span class="legend-chip half">◤ An-/Abreise</span>
       </div>
       
       <!-- Status-Text im Modal -->
@@ -557,6 +581,7 @@ input[readonly]{background:var(--bg);cursor:default}
     <span class="legend-chip booked">🔴 Belegt</span>
     <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
     <span class="legend-chip school">🏖️ Ferien NRW</span>
+      <span class="legend-chip half">◤ An-/Abreise</span>
   </div>
   <div class="pk-wrap" style="max-width:680px;margin-left:auto;margin-right:auto">
     <div class="pk-months" id="adminPickerMonths">
@@ -892,6 +917,26 @@ function addD(dt,n){const d=new Date(dt);d.setDate(d.getDate()+n);return d;}
 function dk(dt){return dt.getFullYear()+'-'+String(dt.getMonth()+1).padStart(2,'0')+'-'+String(dt.getDate()).padStart(2,'0');}
 function fmt(d){if(!d)return'—';return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear();}
 
+// ── Halbtage-Logik ───────────────────────────
+// Gibt den Belegungstyp eines Tages zurück
+function dayType(info){
+  if(!info||info.status!=='Belegt')return'free';
+  if(info.name2)return'changeover';
+  if(info.half==='am')return'dep';
+  if(info.half==='pm')return'arr';
+  return'full';
+}
+// Prüft ob ein Tag für eine bestimmte Rolle verfügbar ist
+// need: 'arrival'(PM), 'departure'(AM), 'full'(ganzer Tag)
+function isAvail(key,need){
+  const t=dayType(bk[key]||{});
+  if(t==='free')return true;
+  if(t==='full'||t==='changeover')return false;
+  if(need==='arrival'&&t==='dep')return true;  // PM frei
+  if(need==='departure'&&t==='arr')return true; // AM frei
+  return false;
+}
+
 // ── Firebase ──────────────────────────────────
 async function loadYear(year){
   document.getElementById('calLoading').style.display='block';
@@ -916,10 +961,51 @@ async function saveBooking(){
   btn.disabled=true;btn.innerHTML='<span class="spin-sm"></span>Speichern…';
   // Group updates by year for cross-year bookings
   const byYear={};
+  const fk=dk(selF),tk=dk(selT),sameDay=fk===tk;
   for(let d=new Date(selF);d<=selT;d.setDate(d.getDate()+1)){
-    const y=d.getFullYear();
+    const y=d.getFullYear(),key=dk(d);
     if(!byYear[y])byYear[y]={};
-    byYear[y][dk(d)]={status:curSt,name:curSt==='Belegt'?name:''};
+    if(curSt==='Belegt'){
+      const isFirst=key===fk,isLast=key===tk;
+      const existing=bk[key]||{};
+      let entry;
+      if(sameDay){
+        // Einzeltag: voller Tag
+        entry={status:'Belegt',name};
+      } else if(isFirst){
+        // Anreisetag (PM)
+        if(existing.status==='Belegt'&&existing.half==='am'){
+          // Wechseltag: bestehende Abreise + neue Anreise
+          entry={status:'Belegt',name:existing.name,half:'am',name2:name};
+        } else {
+          entry={status:'Belegt',name,half:'pm'};
+        }
+      } else if(isLast){
+        // Abreisetag (AM)
+        if(existing.status==='Belegt'&&existing.half==='pm'){
+          // Wechseltag: neue Abreise + bestehende Anreise
+          entry={status:'Belegt',name,half:'am',name2:existing.name};
+        } else {
+          entry={status:'Belegt',name,half:'am'};
+        }
+      } else {
+        entry={status:'Belegt',name};
+      }
+      byYear[y][key]=entry;
+    } else {
+      // Frei setzen – Wechseltag-Ränder beachten
+      const existing=bk[key]||{};
+      const isFirst=key===fk,isLast=key===tk;
+      if(existing.name2&&isFirst){
+        // Nur PM (Anreise) entfernen, AM (Abreise) behalten
+        byYear[y][key]={status:'Belegt',name:existing.name,half:'am'};
+      } else if(existing.name2&&isLast){
+        // Nur AM (Abreise) entfernen, PM (Anreise) behalten
+        byYear[y][key]={status:'Belegt',name:existing.name2,half:'pm'};
+      } else {
+        byYear[y][key]={status:'Frei',name:''};
+      }
+    }
   }
   try{
     for(const [y,updates] of Object.entries(byYear)){
@@ -938,11 +1024,21 @@ async function saveBooking(){
 async function deleteBooking(){
   if(!selF||!selT)return;
   if(!confirm('Buchung wirklich loeschen?'))return;
-  const byYear={};
+  const byYear={},fk=dk(selF),tk=dk(selT);
   for(let d=new Date(selF);d<=selT;d.setDate(d.getDate()+1)){
-    const y=d.getFullYear();
+    const y=d.getFullYear(),key=dk(d);
     if(!byYear[y])byYear[y]={};
-    byYear[y][dk(d)]={status:'Frei',name:''};
+    const existing=bk[key]||{};
+    const isFirst=key===fk,isLast=key===tk;
+    if(existing.name2&&isFirst){
+      // Wechseltag am Anfang: nur PM entfernen
+      byYear[y][key]={status:'Belegt',name:existing.name,half:'am'};
+    } else if(existing.name2&&isLast){
+      // Wechseltag am Ende: nur AM entfernen
+      byYear[y][key]={status:'Belegt',name:existing.name2,half:'pm'};
+    } else {
+      byYear[y][key]={status:'Frei',name:''};
+    }
   }
   try{
     for(const [y,updates] of Object.entries(byYear)){
@@ -1041,10 +1137,16 @@ function acceptInq(id,from,to,name){
   // Parse DD.MM.YYYY
   function parseDate(s){const p=s.split('.');return new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]));}
   const f=parseDate(from),t=parseDate(to);
-  // Check for conflicts
+  // Check for conflicts (mit Halbtage-Unterstützung)
+  const fk=dk(f),tk=dk(t);
   let conflict=false;
   for(let d=new Date(f);d<=t;d.setDate(d.getDate()+1)){
-    if(bk[dk(d)]?.status==='Belegt'){conflict=true;break;}
+    const key=dk(d);
+    const isFirst=key===fk,isLast=key===tk;
+    if(isFirst&&isAvail(key,'arrival'))continue;
+    if(isLast&&isAvail(key,'departure'))continue;
+    if(!isFirst&&!isLast&&isAvail(key,'full'))continue;
+    if((bk[key]||{}).status==='Belegt'){conflict=true;break;}
   }
   if(conflict){
     toast('⚠️ Zeitraum enthält bereits belegte Tage!');
@@ -1077,6 +1179,7 @@ function renderMatrix(year){
     for(let day=1;day<=dim;day++){
       const d=new Date(year,m,day),dow=(d.getDay()+6)%7,key=dk(d);
       const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
+      const dt=dayType(info);
       isB?bc++:fc++;
       const isTd=d.toDateString()===now.toDateString();
       const isSF=selF&&dk(d)===dk(selF),isST=selT&&dk(d)===dk(selT),isSR=selF&&selT&&d>selF&&d<selT;
@@ -1085,14 +1188,26 @@ function renderMatrix(year){
       else if(isSF)cls+=' mx-sf';
       else if(isST)cls+=' mx-st';
       else if(isSR)cls+=' mx-sr';
-      else if(isB)cls+=' mx-booked';
+      else if(dt==='changeover')cls+=' mx-changeover';
+      else if(dt==='arr')cls+=' mx-booked-arr';
+      else if(dt==='dep')cls+=' mx-booked-dep';
+      else if(dt==='full')cls+=' mx-booked';
       else if(sp2?.type==='holiday')cls+=' mx-holiday';
       else if(sp2?.type==='bridge')cls+=' mx-bridge';
       else if(sp2?.type==='school')cls+=' mx-school';
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
       if(IS_ADMIN)cls+=' click';
-      const nameShort=isB&&IS_ADMIN&&info.name?x(info.name.split(' ')[0]):'';cells+=`<div class="${cls}"${IS_ADMIN?` onclick="dayClick(${year},${m},${day})"`:''} title="${isB&&!IS_ADMIN?'Belegt':(isB?x(info.name)||'Belegt':(sp2?x(sp2.name):'Frei'))}"><span>${day}</span>${nameShort?`<span class="mx-name">${nameShort}</span>`:''}</div>`;
+      // Titel und Kurzname
+      let title='',nameShort='';
+      if(isB&&!IS_ADMIN) title='Belegt';
+      else if(dt==='changeover') { title=`Abreise: ${x(info.name)} / Anreise: ${x(info.name2)}`;nameShort=IS_ADMIN?x((info.name2||'').split(' ')[0]):''; }
+      else if(dt==='dep') { title=IS_ADMIN?`Abreise: ${x(info.name)}`:'Belegt';nameShort=IS_ADMIN?x((info.name||'').split(' ')[0]):''; }
+      else if(dt==='arr') { title=IS_ADMIN?`Anreise: ${x(info.name)}`:'Belegt';nameShort=IS_ADMIN?x((info.name||'').split(' ')[0]):''; }
+      else if(dt==='full') { title=IS_ADMIN?(x(info.name)||'Belegt'):'Belegt';nameShort=IS_ADMIN?x((info.name||'').split(' ')[0]):''; }
+      else if(sp2) title=x(sp2.name);
+      else title='Frei';
+      cells+=`<div class="${cls}"${IS_ADMIN?` onclick="dayClick(${year},${m},${day})"`:''} title="${title}"><span>${day}</span>${nameShort?`<span class="mx-name">${nameShort}</span>`:''}</div>`;
     }
     html+=`<div class="mx-mo"><div class="mx-ttl"><span>${MNS[m]}</span></div><div class="mx-grid">${cells}</div></div>`;
   }
@@ -1163,6 +1278,7 @@ function renderBookCal(){
     for(let day=1;day<=dim;day++){
       const d=new Date(y,m,day),key=dk(d);
       const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
+      const dt=dayType(info);
       const isTd=d.toDateString()===now.toDateString();
       const isPast=d<startOfDay;
       const dkD=dk(d);
@@ -1173,13 +1289,19 @@ function renderBookCal(){
       else if(isSF)cls+=' pk-sf';
       else if(isST)cls+=' pk-st';
       else if(isSR)cls+=' pk-sr';
-      else if(isB)cls+=' pk-booked';
+      else if(dt==='changeover')cls+=' pk-changeover';
+      else if(dt==='arr')cls+=' pk-booked-arr';
+      else if(dt==='dep')cls+=' pk-booked-dep';
+      else if(dt==='full')cls+=' pk-booked';
       else if(sp2?.type==='holiday'||sp2?.type==='bridge')cls+=' pk-free pk-holiday';
       else if(sp2?.type==='school')cls+=' pk-free pk-school';
       else cls+=' pk-free';
       if(isTd&&!isSF&&!isST)cls+=' pk-today';
       if(isPast&&!isSF&&!isST&&!isSR)cls+=' pk-past';
-      cells+=`<div class="${cls}" onclick="bookDayClick(${y},${m},${day})" title="${isB?x(info.name)||'Belegt':''}">${day}</div>`;
+      let title='';
+      if(dt==='changeover')title=`${x(info.name)} → ${x(info.name2)}`;
+      else if(isB)title=x(info.name)||'Belegt';
+      cells+=`<div class="${cls}" onclick="bookDayClick(${y},${m},${day})" title="${title}">${day}</div>`;
     }
     document.getElementById('bkG'+mi).innerHTML=cells;
   }
@@ -1254,7 +1376,19 @@ function printCal(){
       const isWe=dow>=5;
       let cls='pr-d';
       let extra='';
-      if(isB){
+      const dt=dayType(info);
+      if(dt==='changeover'){
+        cls+=' pr-changeover';
+        extra=`<span class="pr-name">${x((info.name||'').split(' ')[0])}→${x((info.name2||'').split(' ')[0])}</span>`;
+      } else if(dt==='arr'){
+        cls+=' pr-booked-arr';
+        const firstName=info.name?x(info.name.split(' ')[0]):'';
+        if(firstName)extra=`<span class="pr-name">An:${firstName}</span>`;
+      } else if(dt==='dep'){
+        cls+=' pr-booked-dep';
+        const firstName=info.name?x(info.name.split(' ')[0]):'';
+        if(firstName)extra=`<span class="pr-name">Ab:${firstName}</span>`;
+      } else if(dt==='full'){
         cls+=' pr-booked';
         const firstName=info.name?x(info.name.split(' ')[0]):'';
         if(firstName)extra=`<span class="pr-name">${firstName}</span>`;
@@ -1267,7 +1401,7 @@ function printCal(){
     html+=`</div></div>`;
   }
   html+=`</div>`;
-  html+=`<div class="pr-legend"><span>🔴 Belegt (Name)</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
+  html+=`<div class="pr-legend"><span>🔴 Belegt (Name)</span><span>◤ Abreise / ◢ Anreise</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
   document.getElementById('printArea').innerHTML=html;
   document.getElementById('printArea').style.display='block';
   window.print();
@@ -1316,23 +1450,29 @@ function renderPicker(){
     for(let day=1;day<=dim;day++){
       const d=new Date(y,m,day),key=dk(d);
       const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
+      const dt=dayType(info);
       const isPast=d<startOfDay;
       const isTd=d.toDateString()===now.toDateString();
       const dkD=dk(d);
       const isSF=pkF&&dkD===dk(pkF),isST=pkT&&dkD===dk(pkT);
       const isSR=pkF&&pkT&&d>pkF&&d<pkT;
+      // Voll belegt oder Wechseltag = nicht klickbar
+      const fullyBlocked=dt==='full'||dt==='changeover';
       let cls='pk-d';
-      if(isB||isPast) cls+=isPast?' pk-past':' pk-booked';
+      if(isPast) cls+=' pk-past';
+      else if(fullyBlocked) cls+=' pk-booked';
       else if(isSF&&isST) cls+=' pk-sf pk-st';
       else if(isSF) cls+=' pk-sf';
       else if(isST) cls+=' pk-st';
       else if(isSR) cls+=' pk-sr';
+      else if(dt==='arr') cls+=' pk-booked-arr';
+      else if(dt==='dep') cls+=' pk-booked-dep';
       else if(sp2?.type==='holiday') cls+=' pk-free pk-holiday';
       else if(sp2?.type==='bridge') cls+=' pk-free pk-bridge';
       else if(sp2?.type==='school') cls+=' pk-free pk-school';
       else cls+=' pk-free';
       if(isTd&&!isSF&&!isST) cls+=' pk-today';
-      const clickable=!isB&&!isPast;
+      const clickable=!isPast&&!fullyBlocked;
       cells+=`<div class="${cls}"${clickable?` onclick="pkDay(${y},${m},${day})"`:''} title="${isB?'Belegt':(sp2?sp2.name:'')}">${day}</div>`;
     }
     document.getElementById('pkG'+mi).innerHTML=cells;
@@ -1364,10 +1504,17 @@ function pkDay(year,month,day){
   else{
     if(d<=pkF){pkF=d;pkT=null;pkPicking='to';}
     else{
-      // Check no booked days in range
+      // Konfliktprüfung mit Halbtage-Unterstützung
+      const fk=dk(pkF),lk=dk(d);
       let conflict=false;
       for(let x=new Date(pkF);x<=d;x.setDate(x.getDate()+1)){
-        if(bk[dk(x)]?.status==='Belegt'){conflict=true;break;}
+        const key=dk(x);
+        const isFirst=key===fk,isLast=key===lk;
+        if(isFirst&&isAvail(key,'arrival'))continue;
+        if(isLast&&isAvail(key,'departure'))continue;
+        if(!isFirst&&!isLast&&isAvail(key,'full'))continue;
+        // Tag ist belegt und nicht verfügbar für diese Rolle
+        if((bk[key]||{}).status==='Belegt'){conflict=true;break;}
       }
       if(conflict){toast('⚠️ Zeitraum enthält belegte Tage');pkF=d;pkT=null;pkPicking='to';}
       else{pkT=d;pkPicking='from';closeCalendarModal();}
