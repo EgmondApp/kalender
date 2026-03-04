@@ -37,8 +37,14 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
   box-shadow:0 4px 28px rgba(169,1,0,.35);
   overflow:hidden;
   min-height:320px;
-  transition:background-image 1s ease-in-out;
+  transition:background-image 1s ease-in-out, min-height .35s ease, box-shadow .3s ease;
 }
+.header.collapsed{min-height:60px;box-shadow:0 2px 12px rgba(169,1,0,.25)}
+.header.collapsed .header-inner{min-height:60px;padding-bottom:12px}
+.header.collapsed .header-icon{width:32px;height:32px;padding:2px}
+.header.collapsed .header-icon img{width:26px!important}
+.header.collapsed h1{font-size:18px}
+.header.collapsed .header::before{background:rgba(10,6,2,.7)}
 .header::before{
   content:'';position:absolute;inset:0;
   background:
@@ -63,7 +69,8 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .admin-badge{background:rgba(169,1,0,.25);border:1.5px solid rgba(169,1,0,.5);color:#FFF;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.3px;backdrop-filter:blur(4px)}
 
 /* ── Tabs ── */
-.tabs{display:flex;background:#F2F7FC;border-bottom:2px solid var(--border);position:sticky;top:323px;z-index:199;box-shadow:0 2px 8px rgba(26,18,8,.06)}
+.tabs{display:flex;background:#F2F7FC;border-bottom:2px solid var(--border);position:sticky;top:323px;z-index:199;box-shadow:0 2px 8px rgba(26,18,8,.06);transition:top .35s ease}
+.header.collapsed~.tabs{top:63px}
 .tab{flex:1;padding:13px 6px 11px;text-align:center;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;letter-spacing:.3px;text-transform:uppercase;user-select:none}
 .tab.on{color:var(--egmond-red);border-bottom-color:var(--egmond-red);background:linear-gradient(to bottom,transparent,rgba(169,1,0,.06))}
 
@@ -199,7 +206,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .req-intro{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:18px;padding:12px 14px;background:var(--bg);border-radius:8px;border-left:3px solid var(--egmond-gold)}
 
 /* ── Toast ── */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sunset-orange);color:#fff;padding:12px 24px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 6px 24px rgba(232,101,10,.4);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;pointer-events:none;letter-spacing:.2px}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--sunset-orange);color:#fff;padding:12px 24px;border-radius:24px;font-size:13px;font-weight:700;box-shadow:0 6px 24px rgba(232,101,10,.4);transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:10000;white-space:nowrap;pointer-events:none;letter-spacing:.2px}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
 .empty{text-align:center;color:var(--muted);padding:36px 0;font-size:14px;font-style:italic}
@@ -207,11 +214,15 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 /* ── Mobile optimierungen ── */
 @media(max-width:480px){
   .header{min-height:120px!important}
+  .header.collapsed{min-height:54px!important}
+  .header.collapsed .header-inner{min-height:54px!important;padding-bottom:8px!important}
+  .header.collapsed h1{font-size:16px!important}
   .header-inner{padding:0 16px 16px!important;min-height:120px!important;align-items:flex-end!important}
   .header h1{font-size:19px!important}
   .header p{font-size:9px!important;letter-spacing:1.2px!important}
   .header-icon{width:34px!important;height:34px!important;font-size:18px!important}
   .tabs{top:123px!important}
+  .header.collapsed~.tabs{top:57px!important}
   .card{margin-bottom:10px!important}
   .wrap{padding:0 10px 40px}
   .card{padding:10px;border-radius:12px}
@@ -433,8 +444,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     <button onclick="printCal()" style="flex-shrink:0;background:#fff;border:1.5px solid var(--egmond-red);color:var(--egmond-red);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:none" class="print-btn">🖨️ Drucken</button>
   </div>
   <div id="pubHint" class="hint-box" style="display:none">
-    <div class="hint-box-title">💡 Anfrage stellen</div>
-    <p>Von–Bis antippen → Zeitraum ins Formular übernommen → Name &amp; E-Mail ausfüllen → Absenden.</p>
+    <div class="hint-box-title">📅 Verfügbarkeit</div>
+    <p>Hier siehst du die Jahresübersicht. Freie Zeiträume buchst du im Tab „Buchen".</p>
   </div>
   <div class="card" style="padding:14px 18px">
     <div class="year-nav">
@@ -469,25 +480,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       </button>
     </div>
     
+    <div id="pkNightsInfo" style="text-align:center;font-size:13px;font-weight:700;color:var(--egmond-gold);margin-bottom:12px;min-height:20px"></div>
+    
     <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Anfrage senden →</button>
     
-    <!-- Fotogalerie -->
+    <!-- Fotogalerie (JS-generiert) -->
     <div class="card" style="margin-bottom:14px;margin-top:20px">
       <div class="card-title">📸 Fotos</div>
-      <div id="gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-      <div class="gp" onclick="openLightbox(0)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sonnenuntergang.jpg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(1)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sterne.jpg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(2)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Abend.jpg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(3)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Fenster.jpg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(4)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (1).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(5)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (2).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(6)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (3).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(7)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (4).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(8)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (5).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(9)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (6).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(10)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (7).jpeg');background-size:cover;background-position:center"></div>
-      <div class="gp" onclick="openLightbox(11)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (8).jpeg');background-size:cover;background-position:center"></div>
-      </div>
+      <div id="gallery1" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
     </div>
   </div>
   
@@ -540,8 +540,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
       <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
       <div class="field"><label class="field-lbl">Telefonnummer</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
-      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ"></div>
-      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ"></div>
+      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ" readonly style="background:#F5F3F0;cursor:default"></div>
+      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ" readonly style="background:#F5F3F0;cursor:default"></div>
       <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
       <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
     </div>
@@ -690,23 +690,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     </div>
   </div>
 
-  <!-- Fotogalerie -->
+  <!-- Fotogalerie (JS-generiert) -->
   <div class="card" style="margin-bottom:14px">
     <div class="card-title">📸 Fotos</div>
-    <div id="gallery" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-    <div class="gp" onclick="openLightbox(0)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sonnenuntergang.jpg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(1)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Sterne.jpg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(2)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Abend.jpg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(3)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond Fenster.jpg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(4)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (1).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(5)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (2).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(6)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (3).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(7)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (4).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(8)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (5).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(9)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (6).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(10)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (7).jpeg');background-size:cover;background-position:center"></div>
-    <div class="gp" onclick="openLightbox(11)" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('images/Egmond app (8).jpeg');background-size:cover;background-position:center"></div>
-    </div>
+    <div id="gallery2" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"></div>
   </div>
 
 </div><!-- /wrap -->
@@ -792,6 +779,13 @@ const PHOTOS = [
   {img:'images/Egmond app (8).jpeg', caption:''},
 ];
 let lbIdx = 0;
+
+// Render galleries dynamically from PHOTOS array
+function renderGalleries(){
+  const html=PHOTOS.map((p,i)=>`<div class="gp" onclick="openLightbox(${i})" style="aspect-ratio:1;border-radius:8px;overflow:hidden;cursor:pointer;background-image:url('${p.img}');background-size:cover;background-position:center"></div>`).join('');
+  document.querySelectorAll('[id^="gallery"]').forEach(el=>el.innerHTML=html);
+}
+renderGalleries();
 function openLightbox(i) {
   lbIdx = i;
   updateLightbox();
@@ -932,7 +926,6 @@ async function deleteBooking(){
 
 async function sendInquiry(){
   const res=document.getElementById('reqResult'),btn=document.getElementById('reqBtn');
-  const formContainer=document.getElementById('pkForm');
   res.className='result';
   const name=document.getElementById('rName').value.trim();
   const email=document.getElementById('rEmail').value.trim();
@@ -949,12 +942,23 @@ async function sendInquiry(){
       timestamp:serverTimestamp(),
       status:'new'
     });
-    // Verstecke komplettes Formular, zeige nur Bestätigung
-    formContainer.innerHTML='<div class="result ok" style="padding:32px 16px;font-size:18px;text-align:center;border-radius:16px;margin:0">✅ Anfrage gesendet!<br>Wir melden uns bald.</div>';
-    // Nach 3 Sekunden zum Info-Tab wechseln
+    // Zeige Bestätigung als Overlay statt Form-HTML zu zerstören
+    res.className='result ok';res.textContent='✅ Anfrage gesendet! Wir melden uns bald.';
+    // Reset Picker-State
+    pkF=null;pkT=null;pkPicking='from';
+    // Nach 3 Sekunden alles zurücksetzen und zum Info-Tab
     setTimeout(()=>{ 
       sw(5);
-      formContainer.innerHTML='';
+      res.className='result';res.textContent='';
+      document.getElementById('rName').value='';
+      document.getElementById('rEmail').value='';
+      document.getElementById('rPhone').value='';
+      document.getElementById('rFrom').value='';
+      document.getElementById('rTo').value='';
+      document.getElementById('rMsg').value='';
+      document.getElementById('pkForm').style.display='none';
+      document.getElementById('pkView').style.display='block';
+      renderPicker();
     }, 3000);
   }catch(e){res.className='result err';res.textContent='Fehler: '+e.message;}
   btn.disabled=false;btn.textContent='Anfrage senden';
@@ -1069,20 +1073,20 @@ function renderMatrix(year){
 
 function dayClick(year,month,day){
   const d=new Date(year,month,day);
-  if(!IS_ADMIN&&bk[dk(d)]?.status==='Belegt')return;
+  if(!IS_ADMIN){
+    // Public: Klick auf Matrix → zum Buchen-Tab wechseln
+    sw(4);
+    return;
+  }
   if(picking==='from'){selF=d;selT=null;picking='to';}
   else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
   bookYear=year;bookMonth=month;
   updateChips();renderMatrix(curYear);
-  if(IS_ADMIN){
-    renderBookCal();
-    if(selF&&selT){
-      let hasB=false;
-      for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
-      document.getElementById('delBtn').style.display=hasB?'block':'none';
-    }
-  } else {
-    if(selF&&selT) sw(1);
+  renderBookCal();
+  if(selF&&selT){
+    let hasB=false;
+    for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
+    document.getElementById('delBtn').style.display=hasB?'block':'none';
   }
 }
 
@@ -1192,10 +1196,11 @@ if(IS_ADMIN){
   document.getElementById('legendBar').style.display='flex';
 
 } else {
-  // Public: nur Buchen + Info Tabs zeigen
+  // Public: Kalender + Buchen + Info Tabs zeigen
   document.getElementById('t5').style.display='';
+  document.getElementById('legendBar').style.display='flex';
+  document.querySelector('#legendBar .print-btn')?.remove(); // kein Drucken für Public
   sw(4);
-  document.getElementById('t0').style.display='none';
   document.getElementById('pubHint').style.display='block';
 }
 
@@ -1242,9 +1247,14 @@ function printCal(){
 
 // ── Public Booking Picker ──────────────────────
 function openCalendarModal(mode){
-  pkPicking=mode;
-  pkMonth=TODAY.getMonth();
-  pkYear=TODAY.getFullYear();
+  // Wenn Anreise schon gewählt und 'to' angefordert → direkt Abreise-Modus
+  if(mode==='to'&&pkF){
+    pkPicking='to';
+  } else {
+    pkPicking='from';
+  }
+  pkMonth=pkF?pkF.getMonth():TODAY.getMonth();
+  pkYear=pkF?pkF.getFullYear():TODAY.getFullYear();
   renderPicker();
   document.getElementById('pkModalOverlay').classList.add('open');
   document.body.style.overflow='hidden';
@@ -1307,7 +1317,14 @@ function renderPicker(){
   
   const btn=document.getElementById('pkBtn');
   btn.disabled=!(pkF&&pkT);
-  btn.textContent=pkF&&pkT?`Anfrage senden: ${fmt(pkF)} – ${fmt(pkT)} →`:'Anfrage senden →';
+  if(pkF&&pkT){
+    const nights=Math.round((pkT-pkF)/(1000*60*60*24));
+    btn.textContent=`Anfrage senden: ${fmt(pkF)} – ${fmt(pkT)} (${nights} ${nights===1?'Nacht':'Nächte'}) →`;
+    document.getElementById('pkNightsInfo').textContent=`🌙 ${nights} ${nights===1?'Nacht':'Nächte'}`;
+  } else {
+    btn.textContent='Anfrage senden →';
+    document.getElementById('pkNightsInfo').textContent=pkF?'Jetzt Abreisedatum wählen':'';
+  }
 }
 
 function pkDay(year,month,day){
@@ -1356,6 +1373,16 @@ setSt('Belegt');
 loadYear(curYear);
 renderBookCal();
 renderPicker();
+
+// ── Header collapse on scroll ────────────────
+const headerEl=document.querySelector('.header');
+let lastScroll=0;
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  if(y>80&&!headerEl.classList.contains('collapsed')){headerEl.classList.add('collapsed');}
+  else if(y<=30&&headerEl.classList.contains('collapsed')){headerEl.classList.remove('collapsed');}
+  lastScroll=y;
+},{passive:true});
 </script>
 </body>
 </html>
