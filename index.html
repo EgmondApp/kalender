@@ -456,8 +456,8 @@ input[readonly]{background:var(--bg);cursor:default}
 <div id="tab0" class="tc on">
   <div id="adminHint" class="admin-hint" style="display:none"></div>
   <div id="pubHint" class="hint-box" style="display:none">
-    <div class="hint-box-title">📅 Verfügbarkeit</div>
-    <p>Hier siehst du die Jahresübersicht. Freie Zeiträume buchst du im Tab „Buchen".</p>
+    <div class="hint-box-title">📅 Verfügbarkeit &amp; Buchung</div>
+    <p>Anreise- &amp; Abreisedatum direkt im Kalender antippen – du wirst automatisch zur Anfrage weitergeleitet.</p>
   </div>
   <div id="legendBar" style="display:none">
     <div class="legend-bar">
@@ -1178,7 +1178,9 @@ function renderMatrix(year){
       const dt=dayType(info);
       isB?bc++:fc++;
       const isTd=d.toDateString()===now.toDateString();
-      const isSF=selF&&dk(d)===dk(selF),isST=selT&&dk(d)===dk(selT),isSR=selF&&selT&&d>selF&&d<selT;
+      // Selection: admin uses selF/selT, public uses pkF/pkT
+      const sF=IS_ADMIN?selF:pkF, sT=IS_ADMIN?selT:pkT;
+      const isSF=sF&&dk(d)===dk(sF),isST=sT&&dk(d)===dk(sT),isSR=sF&&sT&&d>sF&&d<sT;
       let cls='mx-d';
       if(isSF&&isST)cls+=' mx-sf mx-st';
       else if(isSF)cls+=' mx-sf';
@@ -1193,7 +1195,9 @@ function renderMatrix(year){
       else if(sp2?.type==='school')cls+=' mx-school';
       else cls+=' mx-free';
       if(isTd)cls+=' mx-today';
-      if(IS_ADMIN)cls+=' click';
+      // Klickbar: Admin immer, Public nur nicht-voll-belegte Tage
+      const canClick=IS_ADMIN||(dt!=='full'&&dt!=='changeover');
+      if(canClick)cls+=' click';
       // Titel und Kurzname
       let title='',nameShort='';
       if(isB&&!IS_ADMIN) title='Belegt';
@@ -1203,7 +1207,7 @@ function renderMatrix(year){
       else if(dt==='full') { title=IS_ADMIN?(x(info.name)||'Belegt'):'Belegt';nameShort=IS_ADMIN?x((info.name||'').split(' ')[0]):''; }
       else if(sp2) title=x(sp2.name);
       else title='Frei';
-      cells+=`<div class="${cls}"${IS_ADMIN?` onclick="dayClick(${year},${m},${day})"`:''} title="${title}"><span>${day}</span>${nameShort?`<span class="mx-name">${nameShort}</span>`:''}</div>`;
+      cells+=`<div class="${cls}"${canClick?` onclick="dayClick(${year},${m},${day})"`:''} title="${title}"><span>${day}</span>${nameShort?`<span class="mx-name">${nameShort}</span>`:''}</div>`;
     }
     html+=`<div class="mx-mo"><div class="mx-ttl"><span>${MNS[m]}</span></div><div class="mx-grid">${cells}</div></div>`;
   }
@@ -1214,18 +1218,39 @@ function renderMatrix(year){
 }
 
 function dayClick(year,month,day){
-  if(!IS_ADMIN) return;
   const d=new Date(year,month,day);
-  if(picking==='from'){selF=d;selT=null;picking='to';}
-  else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
-  bookYear=year;bookMonth=month;
-  updateChips();renderMatrix(curYear);
-  renderBookCal();
-  if(selF&&selT){
-    let hasB=false;
-    for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
-    document.getElementById('delBtn').style.display=hasB?'block':'none';
-    sw(2);
+  if(IS_ADMIN){
+    if(picking==='from'){selF=d;selT=null;picking='to';}
+    else{if(d<selF){selT=selF;selF=d;}else selT=d;picking='from';}
+    bookYear=year;bookMonth=month;
+    updateChips();renderMatrix(curYear);
+    renderBookCal();
+    if(selF&&selT){
+      let hasB=false;
+      for(let x=new Date(selF);x<=selT;x.setDate(x.getDate()+1)){if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}}
+      document.getElementById('delBtn').style.display=hasB?'block':'none';
+      sw(2);
+    }
+  } else {
+    // Public: Datumsauswahl → zum Buchen-Tab
+    if(bk[dk(d)]?.status==='Belegt'&&dayType(bk[dk(d)])==='full')return;
+    if(pkPicking==='from'){pkF=d;pkT=null;pkPicking='to';renderMatrix(curYear);}
+    else{
+      if(d<=pkF){pkF=d;pkT=null;pkPicking='to';renderMatrix(curYear);}
+      else{
+        let conflict=false;
+        const fk=dk(pkF),lk=dk(d);
+        for(let x=new Date(pkF);x<=d;x.setDate(x.getDate()+1)){
+          const key=dk(x),isFirst=key===fk,isLast=key===lk;
+          if(isFirst&&isAvail(key,'arrival'))continue;
+          if(isLast&&isAvail(key,'departure'))continue;
+          if(!isFirst&&!isLast&&isAvail(key,'full'))continue;
+          if((bk[key]||{}).status==='Belegt'){conflict=true;break;}
+        }
+        if(conflict){toast('⚠️ Zeitraum enthält belegte Tage');pkF=d;pkT=null;pkPicking='to';renderMatrix(curYear);}
+        else{pkT=d;pkPicking='from';renderMatrix(curYear);renderPicker();sw(4);}
+      }
+    }
   }
 }
 
