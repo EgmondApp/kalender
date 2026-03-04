@@ -206,7 +206,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 /* ── Mobile optimierungen ── */
 @media(max-width:480px){
-  .header{min-height:120px!important;transition:min-height .35s ease,box-shadow .3s ease}
+  .header{min-height:120px!important}
   .header.collapsed{min-height:54px!important;box-shadow:0 2px 12px rgba(169,1,0,.25)}
   .header.collapsed .header-inner{min-height:54px!important;padding-bottom:8px!important}
   .header.collapsed .header-icon{width:26px!important;height:26px!important;padding:2px!important}
@@ -216,7 +216,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   .header h1{font-size:19px!important}
   .header p{font-size:9px!important;letter-spacing:1.2px!important}
   .header-icon{width:34px!important;height:34px!important;font-size:18px!important}
-  .tabs{top:123px!important;transition:top .35s ease}
+  .tabs{top:123px!important}
   .header.collapsed~.tabs{top:57px!important}
   .card{margin-bottom:10px!important}
   .wrap{padding:0 10px 40px}
@@ -1372,11 +1372,16 @@ renderPicker();
 // ── Header collapse on scroll (mobile only) ──
 const headerEl=document.querySelector('.header');
 const mobileQuery=window.matchMedia('(max-width:480px)');
+let _hTick=false;
 window.addEventListener('scroll',()=>{
-  if(!mobileQuery.matches){headerEl.classList.remove('collapsed');return;}
-  const y=window.scrollY;
-  if(y>60&&!headerEl.classList.contains('collapsed')){headerEl.classList.add('collapsed');}
-  else if(y<=20&&headerEl.classList.contains('collapsed')){headerEl.classList.remove('collapsed');}
+  if(_hTick)return;_hTick=true;
+  requestAnimationFrame(()=>{
+    _hTick=false;
+    if(!mobileQuery.matches){headerEl.classList.remove('collapsed');return;}
+    const y=window.scrollY;
+    if(y>100)headerEl.classList.add('collapsed');
+    else if(y<10)headerEl.classList.remove('collapsed');
+  });
 },{passive:true});
 </script>
 </body>
