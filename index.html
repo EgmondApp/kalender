@@ -479,8 +479,8 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
         <span style="padding:4px 10px;border-radius:20px;background:#D8EAF8;color:#0A3A68;border:1px solid #8ABCE0;white-space:nowrap">🏖️ Ferien NRW</span>
       </div>
       
-      <!-- Status-Text nur auf Mobile -->
-      <div id="pkModalStatus" style="display:none;text-align:center;font-size:14px;font-weight:700;color:var(--egmond-red);margin-bottom:16px">Anreisedatum wählen</div>
+      <!-- Status-Text im Modal -->
+      <div id="pkModalStatus" style="text-align:center;font-size:14px;font-weight:700;color:var(--egmond-red);margin-bottom:16px">Anreisedatum wählen</div>
       
       <div class="pk-wrap" style="margin-bottom:0;max-width:none">
         <div class="pk-months">
@@ -1238,11 +1238,8 @@ function renderPicker(){
   document.getElementById('pkFromDisplay').textContent=pkF?fmt(pkF):'—';
   document.getElementById('pkToDisplay').textContent=pkT?fmt(pkT):'—';
   
-  // Update Status-Text auf Mobile
-  const statusEl=document.getElementById('pkModalStatus');
-  if(statusEl){
-    statusEl.textContent = pkPicking==='from'?'Anreisedatum wählen':'Abreisedatum wählen';
-  }
+  // Update Status-Text
+  document.getElementById('pkModalStatus').textContent = pkPicking==='from'?'Anreisedatum wählen':'Abreisedatum wählen';
   
   const btn=document.getElementById('pkBtn');
   btn.disabled=!(pkF&&pkT);
