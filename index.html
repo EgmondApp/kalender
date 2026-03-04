@@ -29,7 +29,7 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 
 /* ── Header ── */
 .header{
-  background:url('images/Egmond Sonnenuntergang.jpg') 64% center/cover no-repeat;
+  background:url('images/header_neu.jpg') 64% center/cover no-repeat;
   border-bottom:4px solid var(--egmond-red);
   color:#fff;
   padding:0;
@@ -37,7 +37,6 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
   box-shadow:0 4px 28px rgba(169,1,0,.35);
   overflow:hidden;
   min-height:320px;
-  transition:background-image 0.8s ease-in-out;
 }
 .header::before{
   content:'';position:absolute;inset:0;
@@ -723,20 +722,6 @@ const PHOTOS = [
   {img:'images/Egmond Abend.jpg', caption:'Abendansicht'},
   {img:'images/Egmond Fenster.jpg', caption:'Fensterblick'},
 ];
-
-// ── Header Slideshow ────────────────────────
-const HEADER_IMAGES = [
-  'images/Egmond Sonnenuntergang.jpg',
-  'images/Egmond Sterne.jpg',
-  'images/Egmond Abend.jpg',
-  'images/Egmond Fenster.jpg'
-];
-let headerIdx = 0;
-function rotateHeaderImage() {
-  headerIdx = (headerIdx + 1) % HEADER_IMAGES.length;
-  document.querySelector('.header').style.backgroundImage = `url('${HEADER_IMAGES[headerIdx]}')`;
-}
-setInterval(rotateHeaderImage, 8000); // Wechsel alle 8 Sekunden
 let lbIdx = 0;
 function openLightbox(i) {
   lbIdx = i;
