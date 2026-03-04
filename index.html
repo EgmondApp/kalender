@@ -923,17 +923,28 @@ function fmt(d){if(!d)return'—';return String(d.getDate()).padStart(2,'0')+'.'
 
 // ── Halbtage-Logik ───────────────────────────
 // Gibt den Belegungstyp eines Tages zurück
-function dayType(info){
+function dayType(info,key){
   if(!info||info.status!=='Belegt')return'free';
   if(info.name2)return'changeover';
   if(info.half==='am')return'dep';
   if(info.half==='pm')return'arr';
+  // Auto-detect: Rand eines Buchungsblocks = halber Tag
+  if(key){
+    const d=new Date(key+'T12:00:00');
+    const prevK=dk(addD(d,-1)),nextK=dk(addD(d,1));
+    const prev=bk[prevK]||{},next=bk[nextK]||{};
+    const prevSame=prev.status==='Belegt'&&(prev.name===info.name||prev.name2===info.name);
+    const nextSame=next.status==='Belegt'&&(next.name===info.name||next.name2===info.name);
+    if(!prevSame&&nextSame)return'arr';   // erster Tag = Anreise
+    if(prevSame&&!nextSame)return'dep';   // letzter Tag = Abreise
+    if(!prevSame&&!nextSame)return'full'; // Einzeltag
+  }
   return'full';
 }
 // Prüft ob ein Tag für eine bestimmte Rolle verfügbar ist
 // need: 'arrival'(PM), 'departure'(AM), 'full'(ganzer Tag)
 function isAvail(key,need){
-  const t=dayType(bk[key]||{});
+  const t=dayType(bk[key]||{},key);
   if(t==='free')return true;
   if(t==='full'||t==='changeover')return false;
   if(need==='arrival'&&t==='dep')return true;  // PM frei
@@ -1183,7 +1194,7 @@ function renderMatrix(year){
     for(let day=1;day<=dim;day++){
       const d=new Date(year,m,day),dow=(d.getDay()+6)%7,key=dk(d);
       const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
-      const dt=dayType(info);
+      const dt=dayType(info,key);
       isB?bc++:fc++;
       const isTd=d.toDateString()===now.toDateString();
       // Selection: admin uses selF/selT, public uses pkF/pkT
@@ -1241,7 +1252,7 @@ function dayClick(year,month,day){
     }
   } else {
     // Public: Datumsauswahl → zum Buchen-Tab
-    if(bk[dk(d)]?.status==='Belegt'&&dayType(bk[dk(d)])==='full')return;
+    if(bk[dk(d)]?.status==='Belegt'&&dayType(bk[dk(d)],dk(d))==='full')return;
     if(pkPicking==='from'){pkF=d;pkT=null;pkPicking='to';renderMatrix(curYear);}
     else{
       if(d<=pkF){pkF=d;pkT=null;pkPicking='to';renderMatrix(curYear);}
@@ -1308,7 +1319,7 @@ function renderBookCal(){
     for(let day=1;day<=dim;day++){
       const d=new Date(y,m,day),key=dk(d);
       const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
-      const dt=dayType(info);
+      const dt=dayType(info,key);
       const isTd=d.toDateString()===now.toDateString();
       const isPast=d<startOfDay;
       const dkD=dk(d);
@@ -1406,7 +1417,7 @@ function printCal(){
       const isWe=dow>=5;
       let cls='pr-d';
       let extra='';
-      const dt=dayType(info);
+      const dt=dayType(info,key);
       if(dt==='changeover'){
         cls+=' pr-changeover';
         extra=`<span class="pr-name">${x((info.name||'').split(' ')[0])}→${x((info.name2||'').split(' ')[0])}</span>`;
@@ -1480,7 +1491,7 @@ function renderPicker(){
     for(let day=1;day<=dim;day++){
       const d=new Date(y,m,day),key=dk(d);
       const info=bk[key]||{},sp2=sp[key],isB=info.status==='Belegt';
-      const dt=dayType(info);
+      const dt=dayType(info,key);
       const isPast=d<startOfDay;
       const isTd=d.toDateString()===now.toDateString();
       const dkD=dk(d);
