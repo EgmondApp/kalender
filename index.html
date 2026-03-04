@@ -178,7 +178,6 @@ input[readonly]{background:var(--bg);cursor:default}
 .legend-chip.booked{background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8}
 .legend-chip.holiday{background:var(--holiday);color:var(--holiday-t);border:1px solid var(--holiday-t)}
 .legend-chip.school{background:var(--school);color:var(--school-t);border:1px solid var(--school-t)}
-.legend-chip.half{background:linear-gradient(to bottom right,var(--egmond-red) 50%,var(--free) 50%);color:#fff;border:1px solid var(--egmond-red)}
 
 /* ── Info-Tab ── */
 .info-list{display:flex;flex-direction:column;gap:8px}
@@ -465,7 +464,6 @@ input[readonly]{background:var(--bg);cursor:default}
       <span class="legend-chip booked">🔴 Belegt</span>
       <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
       <span class="legend-chip school">🏖️ Ferien NRW</span>
-      <span class="legend-chip half">◤ An-/Abreise</span>
     </div>
     <button onclick="printCal()" class="print-btn">🖨️ Drucken</button>
   </div>
@@ -523,7 +521,6 @@ input[readonly]{background:var(--bg);cursor:default}
         <span class="legend-chip booked">🔴 Belegt</span>
         <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
         <span class="legend-chip school">🏖️ Ferien NRW</span>
-      <span class="legend-chip half">◤ An-/Abreise</span>
       </div>
       
       <!-- Status-Text im Modal -->
@@ -581,7 +578,6 @@ input[readonly]{background:var(--bg);cursor:default}
     <span class="legend-chip booked">🔴 Belegt</span>
     <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
     <span class="legend-chip school">🏖️ Ferien NRW</span>
-      <span class="legend-chip half">◤ An-/Abreise</span>
   </div>
   <div class="pk-wrap" style="max-width:680px;margin-left:auto;margin-right:auto">
     <div class="pk-months" id="adminPickerMonths">
@@ -1335,7 +1331,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ── Start ─────────────────────────────────────
-const ADMIN_HINT='<div class="hint-box-title">💡 Kurzanleitung</div><p><strong>📝 Alle Buchungen erfolgen im Tab „Buchung eintragen"</strong><br>Zeitraum wählen → Mieter eintragen (oder „nicht belegt") → Speichern<br><br><strong>✅ Anfragen:</strong> Tab „Anfragen" → Annehmen → zu „Buchung eintragen"</p>';
+const ADMIN_HINT='<div class="hint-box-title">💡 Kurzanleitung</div><p>📝 Zeitraum wählen → Mieter → Speichern · ✅ Anfragen annehmen → wird übernommen · ✖️ „Nicht belegt" = Buchung löschen</p>';
 
 if(IS_ADMIN){
   document.getElementById('adminBadge').style.display='block';
@@ -1401,7 +1397,7 @@ function printCal(){
     html+=`</div></div>`;
   }
   html+=`</div>`;
-  html+=`<div class="pr-legend"><span>🔴 Belegt (Name)</span><span>◤ Abreise / ◢ Anreise</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
+  html+=`<div class="pr-legend"><span>🔴 Belegt (Name)</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
   document.getElementById('printArea').innerHTML=html;
   document.getElementById('printArea').style.display='block';
   window.print();
