@@ -751,11 +751,16 @@ const db = getFirestore(initializeApp({
 // Admin via URL param (legacy) oder /admin Pfad mit Passwort
 let IS_ADMIN = new URLSearchParams(location.search).get('admin') === ADMIN_KEY;
 
+// URL sofort säubern – Passwort nicht sichtbar lassen
+if(IS_ADMIN){
+  const url=new URL(location);url.searchParams.delete('admin');
+  history.replaceState(null,'',url.pathname+url.search+url.hash||'/');
+}
+
 if(!IS_ADMIN && location.pathname.endsWith('/admin')) {
   const pw = prompt('🔐 Admin-Passwort:');
   if(pw === ADMIN_KEY) {
     IS_ADMIN = true;
-    // URL sauber halten ohne Reload
     history.replaceState(null,'',location.pathname.replace('/admin','') || '/');
   } else if(pw !== null) {
     alert('❌ Falsches Passwort.');
