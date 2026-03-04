@@ -427,55 +427,61 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 <!-- TAB 4: BUCHEN (Public Picker) -->
 <div id="tab4" class="tc">
-  <div class="hint-box">
-    <div class="hint-box-title">💡 Zeitraum wählen</div>
-    <p style="font-size:12px;color:#3A2810;line-height:1.7">Anreise antippen, dann Abreise – dann Anfrage absenden.</p>
-  </div>
-  <div style="display:flex;flex-wrap:nowrap;gap:6px;margin-bottom:10px;font-size:10px;font-weight:700;overflow-x:auto">
-    <span style="padding:4px 10px;border-radius:20px;background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8;white-space:nowrap">🔴 Belegt</span>
-    <span style="padding:4px 10px;border-radius:20px;background:#FFFBE8;color:#8A6000;border:1px solid #E8D898;white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
-    <span style="padding:4px 10px;border-radius:20px;background:#D8EAF8;color:#0A3A68;border:1px solid #8ABCE0;white-space:nowrap">🏖️ Ferien NRW</span>
-  </div>
-  <div class="pk-wrap">
-    <div class="pk-months">
-      <div class="pk-month" id="pkM0">
-        <div class="pk-nav">
-          <button class="pk-nav-btn" id="pkPrev" onclick="pkNav(-1)">&#8249;</button>
-          <span class="pk-month-title" id="pkT0"></span>
-          <button class="pk-nav-btn" style="visibility:hidden">&#8250;</button>
-        </div>
-        <div class="pk-grid" id="pkG0"></div>
-      </div>
-      <div class="pk-month" id="pkM1">
-        <div class="pk-nav">
-          <button class="pk-nav-btn" style="visibility:hidden">&#8249;</button>
-          <span class="pk-month-title" id="pkT1"></span>
-          <button class="pk-nav-btn" id="pkNext" onclick="pkNav(1)">&#8250;</button>
-        </div>
-        <div class="pk-grid" id="pkG1"></div>
-      </div>
+  <!-- VIEW A: Kalender-Picker -->
+  <div id="pkView">
+    <div class="hint-box">
+      <div class="hint-box-title">💡 Zeitraum wählen</div>
+      <p style="font-size:12px;color:#3A2810;line-height:1.7">Anreise antippen, dann Abreise – dann Anfrage absenden.</p>
     </div>
-    <div class="pk-chips">
-      <div class="pk-chip" id="pkChipF"><div class="pk-chip-lbl">Anreise</div><div class="pk-chip-val" id="pkChipFv">—</div></div>
-      <div class="pk-chip" id="pkChipT"><div class="pk-chip-lbl">Abreise</div><div class="pk-chip-val" id="pkChipTv">—</div></div>
+    <div style="display:flex;flex-wrap:nowrap;gap:6px;margin-bottom:10px;font-size:10px;font-weight:700;overflow-x:auto">
+      <span style="padding:4px 10px;border-radius:20px;background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8;white-space:nowrap">🔴 Belegt</span>
+      <span style="padding:4px 10px;border-radius:20px;background:#FFFBE8;color:#8A6000;border:1px solid #E8D898;white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
+      <span style="padding:4px 10px;border-radius:20px;background:#D8EAF8;color:#0A3A68;border:1px solid #8ABCE0;white-space:nowrap">🏖️ Ferien NRW</span>
     </div>
-    <div class="pk-hint" id="pkHintText">Anreisedatum antippen</div>
-    <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Anfrage senden →</button>
+    <div class="pk-wrap">
+      <div class="pk-months">
+        <div class="pk-month" id="pkM0">
+          <div class="pk-nav">
+            <button class="pk-nav-btn" id="pkPrev" onclick="pkNav(-1)">&#8249;</button>
+            <span class="pk-month-title" id="pkT0"></span>
+            <button class="pk-nav-btn" style="visibility:hidden">&#8250;</button>
+          </div>
+          <div class="pk-grid" id="pkG0"></div>
+        </div>
+        <div class="pk-month" id="pkM1">
+          <div class="pk-nav">
+            <button class="pk-nav-btn" style="visibility:hidden">&#8249;</button>
+            <span class="pk-month-title" id="pkT1"></span>
+            <button class="pk-nav-btn" id="pkNext" onclick="pkNav(1)">&#8250;</button>
+          </div>
+          <div class="pk-grid" id="pkG1"></div>
+        </div>
+      </div>
+      <div class="pk-chips">
+        <div class="pk-chip" id="pkChipF"><div class="pk-chip-lbl">Anreise</div><div class="pk-chip-val" id="pkChipFv">—</div></div>
+        <div class="pk-chip" id="pkChipT"><div class="pk-chip-lbl">Abreise</div><div class="pk-chip-val" id="pkChipTv">—</div></div>
+      </div>
+      <div class="pk-hint" id="pkHintText">Anreisedatum antippen</div>
+      <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Anfrage senden →</button>
+    </div>
   </div>
-</div>
-
-<!-- TAB 1: ANFRAGE (extern) -->
-<div id="tab1" class="tc">
-  <div class="card">
-    <div class="card-title">📩 Verfügbarkeit anfragen</div>
-
-    <div id="reqResult" class="result"></div>
-    <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
-    <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
-    <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ"></div>
-    <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ"></div>
-    <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
-    <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
+  <!-- VIEW B: Anfrage-Formular (innerhalb Tab4, ersetzt Picker) -->
+  <div id="pkForm" style="display:none">
+    <div class="hint-box">
+      <div class="hint-box-title">📩 Anfrage absenden</div>
+      <p style="font-size:12px;color:#3A2810;line-height:1.7">Zeitraum übernommen – bitte Name und E-Mail ergänzen.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">📩 Verfügbarkeit anfragen</div>
+      <div id="reqResult" class="result"></div>
+      <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
+      <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
+      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ"></div>
+      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ"></div>
+      <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
+      <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
+    </div>
+    <button onclick="pkBackToPicker()" style="margin-top:8px;background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:4px 0">← Zurück zur Kalenderauswahl</button>
   </div>
 </div>
 
@@ -773,7 +779,7 @@ async function sendInquiry(){
     res.className='result ok';res.textContent='Anfrage gesendet! Wir melden uns.';
     ['rName','rEmail','rFrom','rTo','rMsg'].forEach(id=>document.getElementById(id).value='');
     pkF=null;pkT=null;pkPicking='from';
-    setTimeout(()=>{ sw(4); document.getElementById('t0').style.display='none'; document.getElementById('t5').style.display=''; }, 2000);
+    setTimeout(()=>{ pkBackToPicker(); renderPicker(); }, 2000);
   }catch(e){res.className='result err';res.textContent='Fehler: '+e.message;}
   btn.disabled=false;btn.textContent='Anfrage senden';
 }
@@ -1133,22 +1139,21 @@ function pkSubmit(){
   if(!pkF||!pkT)return;
   document.getElementById('rFrom').value=fmt(pkF);
   document.getElementById('rTo').value=fmt(pkT);
-  // Hide picker (tab4), show inquiry form (tab1), hide info (tab5)
-  document.getElementById('tab4').classList.remove('on');
-  document.getElementById('tab5').classList.remove('on');
-  document.getElementById('t4').classList.remove('on');
-  document.getElementById('t5').classList.remove('on');
-  const t1=document.getElementById('tab1');
-  t1.style.display='block';
-  t1.classList.add('on');
-  t1.scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('reqResult').className='result';
+  document.getElementById('pkView').style.display='none';
+  document.getElementById('pkForm').style.display='block';
+  document.getElementById('pkForm').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function pkBackToPicker(){
+  document.getElementById('pkForm').style.display='none';
+  document.getElementById('pkView').style.display='block';
 }
 
 window.sw=sw;window.changeYear=changeYear;window.changeBookMonth=changeBookMonth;
 window.clearSel=clearSel;window.setSt=setSt;window.saveBooking=saveBooking;
 window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInquiries=loadInquiries;
 window.dayClick=dayClick;window.bookDayClick=bookDayClick;
-window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;window.pkDay=pkDay;window.pkNav=pkNav;window.pkSubmit=pkSubmit;
+window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;window.pkDay=pkDay;window.pkNav=pkNav;window.pkSubmit=pkSubmit;window.pkBackToPicker=pkBackToPicker;
 
 setSt('Belegt');
 loadYear(curYear);
