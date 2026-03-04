@@ -529,13 +529,14 @@ input[readonly]{background:var(--bg);cursor:default}
   </div>
   <!-- VIEW B: Anfrage-Formular (innerhalb Tab4, ersetzt Picker) -->
   <div id="pkForm" style="display:none">
+    <div id="reqResult" class="result"></div>
+    <div id="reqFormFields">
     <div class="hint-box">
       <div class="hint-box-title">📩 Anfrage absenden</div>
       <p class="hint-text">Zeitraum überprüfen – Kontaktdaten ergänzen – Anfrage senden.<br>Wir tragen die Anfrage ein und melden uns.</p>
     </div>
     <div class="card">
       <div class="card-title">📩 Verfügbarkeit anfragen</div>
-      <div id="reqResult" class="result"></div>
       <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
       <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
       <div class="field"><label class="field-lbl">Telefonnummer</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
@@ -545,6 +546,7 @@ input[readonly]{background:var(--bg);cursor:default}
       <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
     </div>
     <button onclick="pkBackToPicker()" class="back-link">← Zurück zur Kalenderauswahl</button>
+    </div>
   </div>
 </div>
 
@@ -969,14 +971,17 @@ async function sendInquiry(){
       timestamp:serverTimestamp(),
       status:'new'
     });
-    // Zeige Bestätigung als Overlay statt Form-HTML zu zerstören
+    // Zeige Bestätigung, verstecke Formular
+    document.getElementById('reqFormFields').style.display='none';
     res.className='result ok';res.textContent='✅ Anfrage gesendet! Wir melden uns bald.';
+    res.scrollIntoView({behavior:'smooth',block:'center'});
     // Reset Picker-State
     pkF=null;pkT=null;pkPicking='from';
     // Nach 3 Sekunden alles zurücksetzen und zum Info-Tab
     setTimeout(()=>{ 
       sw(5);
       res.className='result';res.textContent='';
+      document.getElementById('reqFormFields').style.display='';
       document.getElementById('rName').value='';
       document.getElementById('rEmail').value='';
       document.getElementById('rPhone').value='';
@@ -1383,6 +1388,7 @@ function pkSubmit(){
 function pkBackToPicker(){
   document.getElementById('reqResult').className='result';
   document.getElementById('reqResult').textContent='';
+  document.getElementById('reqFormFields').style.display='';
   document.getElementById('pkForm').style.display='none';
   document.getElementById('pkView').style.display='block';
 }
