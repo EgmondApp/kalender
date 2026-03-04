@@ -449,7 +449,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <div id="pkView">
     <div class="hint-box">
       <div class="hint-box-title">💡 Zeitraum wählen</div>
-      <p style="font-size:12px;color:#3A2810;line-height:1.7">Anreise- &amp; Abreisedatum auswählen.</p>
+      <p style="font-size:12px;color:#3A2810;line-height:1.7">Anreise- &amp; Abreisedatum auswählen.<br>Anfrage senden tippen.</p>
     </div>
     
     <!-- Compact Date Buttons -->
@@ -505,13 +505,14 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
   <div id="pkForm" style="display:none">
     <div class="hint-box">
       <div class="hint-box-title">📩 Anfrage absenden</div>
-      <p style="font-size:12px;color:#3A2810;line-height:1.7">Zeitraum übernommen – Name &amp; E-Mail ergänzen.</p>
+      <p style="font-size:12px;color:#3A2810;line-height:1.7">Zeitraum überprüfen – Kontaktdaten ergänzen – Anfrage senden.<br>Wir tragen die Anfrage ein und melden uns.</p>
     </div>
     <div class="card">
       <div class="card-title">📩 Verfügbarkeit anfragen</div>
       <div id="reqResult" class="result"></div>
       <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
       <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
+      <div class="field"><label class="field-lbl">Telefonnummer</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
       <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ"></div>
       <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ"></div>
       <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
@@ -869,6 +870,7 @@ async function sendInquiry(){
   res.className='result';
   const name=document.getElementById('rName').value.trim();
   const email=document.getElementById('rEmail').value.trim();
+  const phone=document.getElementById('rPhone').value.trim();
   const from=document.getElementById('rFrom').value.trim();
   const to=document.getElementById('rTo').value.trim();
   const msg=document.getElementById('rMsg').value.trim();
@@ -877,12 +879,12 @@ async function sendInquiry(){
   btn.disabled=true;btn.innerHTML='<span class="spin-sm"></span>Wird gesendet…';
   try{
     await addDoc(collection(db,'inquiries'),{
-      name,email,from,to,message:msg,
+      name,email,phone,from,to,message:msg,
       timestamp:serverTimestamp(),
       status:'new'
     });
     res.className='result ok';res.textContent='Anfrage gesendet! Wir melden uns.';
-    ['rName','rEmail','rFrom','rTo','rMsg'].forEach(id=>document.getElementById(id).value='');
+    ['rName','rEmail','rPhone','rFrom','rTo','rMsg'].forEach(id=>document.getElementById(id).value='');
     pkF=null;pkT=null;pkPicking='from';
     setTimeout(()=>{ pkBackToPicker(); renderPicker(); }, 2000);
   }catch(e){res.className='result err';res.textContent='Fehler: '+e.message;}
@@ -906,6 +908,7 @@ async function loadInquiries(){
         </div>
         <div class="inq-period">📅 ${x(d.from)} – ${x(d.to)}</div>
         <div class="inq-mail">✉️ ${x(d.email)}</div>
+        ${d.phone?`<div class="inq-phone">📞 ${x(d.phone)}</div>`:''}
         ${d.message?`<div class="inq-msg">💬 ${x(d.message)}</div>`:''}
         <div class="inq-btns">
           <button class="inq-btn acc" onclick="acceptInq('${id}','${x(d.from)}','${x(d.to)}','${x(d.name)}')">✅ Annehmen</button>
