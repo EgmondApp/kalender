@@ -159,6 +159,10 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 .btn{width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:800;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
 .btn:active{transform:scale(.98)}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-green{background:linear-gradient(135deg,var(--sunset-orange),#B84A04);color:#fff;box-shadow:0 4px 18px rgba(232,101,10,.3);letter-spacing:.2px}
+
+@media(min-width:481px){
+  .print-btn{display:block!important}
+}
 .btn-red{background:#fff;border:2px solid var(--egmond-red)!important;color:var(--egmond-red);box-shadow:none;margin-top:10px}
 .spin-sm{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
 
@@ -426,7 +430,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <span style="padding:4px 10px;border-radius:20px;background:#FFFBE8;color:#8A6000;border:1px solid #E8D898;white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
       <span style="padding:4px 10px;border-radius:20px;background:#D8EAF8;color:#0A3A68;border:1px solid #8ABCE0;white-space:nowrap">🏖️ Ferien NRW</span>
     </div>
-    <button onclick="printCal()" style="flex-shrink:0;background:#fff;border:1.5px solid var(--egmond-red);color:var(--egmond-red);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">🖨️ Drucken</button>
+    <button onclick="printCal()" style="flex-shrink:0;background:#fff;border:1.5px solid var(--egmond-red);color:var(--egmond-red);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;display:none" class="print-btn">🖨️ Drucken</button>
   </div>
   <div id="pubHint" class="hint-box" style="display:none">
     <div class="hint-box-title">💡 Anfrage stellen</div>
@@ -528,7 +532,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
 
 <!-- TAB 2: BUCHEN (Admin) -->
 <div id="tab2" class="tc">
-  <div class="hint-box"><div class="hint-box-title">💡 Kurzanleitung</div><p>Von–Bis antippen → Name eintragen → 💾 Speichern</p></div>
+  <div class="hint-box"><div class="hint-box-title">💡 Kurzanleitung</div><p>Zeitraum gewählt – jetzt speichern</p></div>
   <div style="display:flex;flex-wrap:nowrap;gap:5px;margin-bottom:10px;font-size:10px;font-weight:700;overflow-x:auto">
     <span style="padding:3px 8px;border-radius:6px;background:var(--booked);color:var(--booked-t);white-space:nowrap">🔴 Belegt</span>
     <span style="padding:3px 8px;border-radius:6px;background:var(--holiday);color:var(--holiday-t);white-space:nowrap">🎉 Feier- &amp; Brückentage</span>
@@ -558,9 +562,6 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
       <div class="pk-chip" id="chipT"><div class="pk-chip-lbl">Bis</div><div class="pk-chip-val" id="chipTv">—</div></div>
     </div>
     <div class="pk-hint" id="pickHint">Von-Datum antippen</div>
-    <div style="padding:0 16px 12px;text-align:center">
-      <button class="clr-btn" onclick="clearSel()">Auswahl zurücksetzen</button>
-    </div>
   </div>
   <div class="card">
     <div class="card-title">🏷️ Status</div>
