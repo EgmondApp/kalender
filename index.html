@@ -80,7 +80,8 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .tc{display:none}.tc.on{display:block;max-width:680px;margin:0 auto;padding-top:16px}
 
 /* ── Jahr-Nav ── */
-.year-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:12px}
+.year-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.year-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin:0}
 .year-nav h2{font-family:'Source Sans 3',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--egmond-red)}
 .yn-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--egmond-red);background:#fff;color:var(--egmond-red);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:none}
 .yn-btn:hover{background:var(--egmond-red);color:#fff}.yn-btn:active{background:var(--egmond-red);color:#fff;transform:scale(.92)}
@@ -150,9 +151,92 @@ input[readonly]{background:var(--bg);cursor:default}
 .hint-text{font-size:12px;color:#3A2810;line-height:1.7}
 .br-mobile{display:none}
 @media(max-width:480px){.br-mobile{display:block}}
+@media(max-width:720px){
+  #legendBar{justify-content:flex-start;min-width:0;width:100%}
+  .legend-bar{justify-content:flex-start}
 }
+
 .btn-red{background:#fff;border:2px solid var(--egmond-red)!important;color:var(--egmond-red);box-shadow:none;margin-top:10px}
 .spin-sm{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+
+
+
+/* ── Public Funnel (Matrix-first) ── */
+.pub-funnel{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:100%;
+  z-index:120;
+  padding:12px;
+  display:block;
+  pointer-events:none; /* only the card should be clickable */
+}
+.pub-funnel-card{
+  margin:0 auto;
+  pointer-events:auto;
+  width:min(620px, calc(100% - 24px));
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 10px 32px rgba(20,12,4,.16);
+  padding:14px 14px 12px;
+}
+.pub-funnel-card:before{
+  content:"";
+  display:block;
+  width:44px;
+  height:4px;
+  border-radius:999px;
+  background:rgba(0,0,0,.12);
+  margin:0 auto 10px;
+}
+.pub-funnel-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.pub-step{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.pub-summary{font-size:15px;font-weight:900;color:var(--text);line-height:1.15}
+.pub-summary small{display:block;margin-top:4px;font-size:12px;font-weight:650;color:var(--muted);line-height:1.35}
+.pub-actions{display:flex;gap:10px;align-items:center;margin-top:10px}
+.pub-btn{
+  flex:1;
+  padding:12px 14px;
+  border-radius:12px;
+  border:2px solid var(--border);
+  background:#fff;
+  color:var(--text);
+  font-weight:800;
+  cursor:pointer;
+}
+.pub-btn.primary{
+  border:none;
+  color:#fff;
+  background:linear-gradient(135deg,var(--egmond-red),#B84A04);
+  box-shadow:0 6px 16px rgba(169,1,0,.22);
+}
+.pub-btn:disabled{opacity:.45;cursor:not-allowed}
+.pub-btn:active{transform:scale(.98)}
+.pub-funnel-legend{margin-top:10px}
+.legend-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:flex-end;overflow:visible;font-size:10px;font-weight:700}
+.legend-chip{padding:4px 10px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center}
+.legend-chip:before{content:"";width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
+.legend-chip.booked:before{background:var(--egmond-red)}
+.legend-chip.holiday:before{background:var(--holiday-t)}
+.legend-chip.school:before{background:var(--school-t)}
+/* Legend chips (popup) – no dots, no emojis */
+.legend-chip:before{display:none!important}
+.legend-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
+.legend-chip{padding:6px 12px;border-radius:999px;font-weight:700;font-size:12px;line-height:1;white-space:nowrap}
+.legend-chip.booked{background:var(--egmond-red);color:#fff}
+.legend-chip.holiday,.legend-chip.school{background:#fff;border:2px solid rgba(0,0,0,.12);color:var(--ink)}
+.pub-legend{margin:2px 0 10px}
+
+
+/* Make it feel identical on desktop/mobile, only spacing changes */
+@media(min-width:900px){
+  .pub-funnel{padding:16px}
+  .pub-funnel-card{padding:16px 16px 14px}
+}
+
 
 /* ── Result ── */
 .result{border-radius:var(--r-sm);padding:14px 16px;margin-bottom:14px;font-size:14px;font-weight:700;display:none;border:1px solid transparent}
@@ -185,13 +269,29 @@ input[readonly]{background:var(--bg);cursor:default}
 
 /* ── Legende ── */
 .legend-bar{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;font-size:10px;font-weight:700}
-#legendBar{align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:6px;margin-bottom:12px}
+#legendBar{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1;min-width:260px}
 .legend-chip{padding:4px 10px;border-radius:20px;white-space:nowrap}
-.legend-chip.booked{background:#FDF0EC;color:var(--egmond-red);border:1px solid #EEC8A8}
+.legend-chip.booked{background:var(--egmond-red);color:#fff;border:1px solid var(--egmond-red)}
 .legend-chip.holiday{background:var(--holiday);color:var(--holiday-t);border:1px solid var(--holiday-t)}
 .legend-chip.school{background:var(--school);color:var(--school-t);border:1px solid var(--school-t)}
 
+/* ── Mobile legend: wrap to avoid horizontal scroll ── */
+@media(max-width:520px){
+  .legend-bar{flex-wrap:wrap;overflow-x:hidden}
+  .legend-chip{padding:4px 8px}
+}
+
 /* ── Info-Tab ── */
+/* Ensure Info tab aligns with Kalender width */
+#tab5{max-width:680px;margin-left:auto;margin-right:auto}
+#tab5 .card{width:100%;max-width:680px;margin-left:auto;margin-right:auto}
+#tab5 .info-grid{width:100%;max-width:680px;margin-left:auto;margin-right:auto}
+
+
+/* ── Info tab: tighten spacing to tab bar ── */
+#tab5{margin-top:6px}
+#tab5 .card:first-child{margin-top:0}
+
 .info-list{display:flex;flex-direction:column;gap:8px}
 .info-item{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
 .info-icon{font-size:16px;flex-shrink:0}
@@ -451,6 +551,16 @@ input[readonly]{background:var(--bg);cursor:default}
 .pk-date-btn-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
 .pk-date-btn-val{font-size:14px;font-weight:800;color:var(--text)}
 .pk-date-btn.active .pk-date-btn-val{color:var(--egmond-blue)}
+
+#pubFunnel .legend-bar{justify-content:flex-start!important}
+#pubFunnel .pub-legend{justify-content:flex-start!important;text-align:left}
+
+/* Info: Share button aligned with address line */
+.info-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.85);cursor:pointer}
+.share-btn:hover{background:#fff}
+.share-btn:active{transform:scale(.98)}
+
 </style>
 </head>
 <body>
@@ -466,12 +576,15 @@ input[readonly]{background:var(--bg);cursor:default}
       </div>
     </div>
     <span class="admin-badge" id="adminBadge" style="display:none;cursor:pointer" onclick="adminLogout()">✏️ Familie</span>
+    <div id="pubBadges" style="display:none;align-items:center;gap:8px">
+      <span class="admin-badge" style="cursor:pointer" onclick="guestLogin()">👤 Gast</span>
+    </div>
   </div>
 </div>
 
 <div class="tabs" id="tabBar">
   <div class="tab on"  id="t0" onclick="sw(0)">📅 Kalender</div>
-  <div class="tab"     id="t4" onclick="sw(4)">🗓️ Buchen</div>
+  <div class="tab"     id="t4" onclick="sw(4)">🗓️ Anfragen</div>
   <div class="tab"     id="t5" onclick="sw(5)" style="display:none">🏠 Info</div>
   <div class="tab"     id="t1" onclick="sw(1)" style="display:none">📩 Anfrage</div>
   <div class="tab"    id="t2" onclick="sw(2)" style="display:none">✏️ Buchung eintragen</div>
@@ -483,26 +596,39 @@ input[readonly]{background:var(--bg);cursor:default}
 <!-- TAB 0: KALENDER -->
 <div id="tab0" class="tc on">
   <div id="adminHint" class="admin-hint" style="display:none"></div>
-  <div id="pubHint" class="hint-box" style="display:none">
-    <div class="hint-box-title">💡 So geht's</div>
-    <p>📍 Anreise &amp; Abreise wählen → ✅ Zeitraum bestätigen <span class="br-mobile"></span>📝 Kontaktdaten ergänzen → ✉️ Anfrage absenden</p>
-  </div>
-  <div id="legendBar" style="display:none">
-    <div class="legend-bar">
-      <span class="legend-chip booked">🔴 Belegt</span>
-      <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
-      <span class="legend-chip school">🏖️ Ferien NRW</span>
-    </div>
-    <button onclick="printCal()" class="print-btn">🖨️ Drucken</button>
-  </div>
   <div class="card" style="padding:14px 18px">
-    <div class="year-nav">
-      <button class="yn-btn" onclick="changeYear(-1)">&#8249;</button>
-      <h2 id="yearTitle">2026</h2>
-      <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
-    </div>
+    <div class="year-row">
+      <div class="year-nav">
+        <button class="yn-btn" onclick="changeYear(-1)">&#8249;</button>
+        <h2 id="yearTitle">2026</h2>
+        <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
+      </div>
+</div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
+  </div>
+
+
+  <div id="pubFunnel" class="pub-funnel" style="display:none">
+    <div class="pub-funnel-card">
+      <div id="legendBar" class="pub-legend" aria-label="Legende">
+        <div class="legend-bar">
+          <span class="legend-chip booked">Belegt</span>
+          <span class="legend-chip holiday">Feier- &amp; Brückentage</span>
+          <span class="legend-chip school">Ferien NRW</span>
+        </div>
+      </div>
+      <div class="pub-funnel-top">
+        <div>
+          <div class="pub-step" id="pubStepLabel">Zeitraum wählen</div>
+          <div class="pub-summary" id="pubSummary">Anreise wählen<small>Tippe ein freies Datum im Kalender.</small></div>
+        </div>
+      </div>
+      <div class="pub-actions">
+        <button class="pub-btn primary" id="pubContinueBtn" onclick="pubContinue()" disabled>Weiter zu Kontaktdaten</button>
+      </div>
+      </div>
+    </div>
   </div>
 
   <div id="bookingList" class="card" style="display:none;margin-top:12px">
@@ -519,19 +645,19 @@ input[readonly]{background:var(--bg);cursor:default}
 <div id="tab4" class="tc">
   <!-- VIEW A: Kalender-Picker (compact) -->
   <div id="pkView">
-    <div class="hint-box">
-      <div class="hint-box-title">💡 So geht's</div>
-      <p class="hint-text">📍 Anreise &amp; Abreise wählen → ✅ Zeitraum bestätigen <span class="br-mobile"></span>📝 Kontaktdaten ergänzen → ✉️ Anfrage absenden</p>
+<p class="hint-text"></p>
     </div>
+    <div id="legacyBooker">
+
     
     <!-- Compact Date Buttons -->
     <div class="pk-date-buttons">
       <button class="pk-date-btn" id="pkFromBtn" onclick="openCalendarModal('from')">
-        <span class="pk-date-btn-lbl">📍 Anreise</span>
+        <span class="pk-date-btn-lbl">Anreise</span>
         <span class="pk-date-btn-val" id="pkFromDisplay">—</span>
       </button>
       <button class="pk-date-btn" id="pkToBtn" onclick="openCalendarModal('to')">
-        <span class="pk-date-btn-lbl">📍 Abreise</span>
+        <span class="pk-date-btn-lbl">Abreise</span>
         <span class="pk-date-btn-val" id="pkToDisplay">—</span>
       </button>
     </div>
@@ -551,15 +677,7 @@ input[readonly]{background:var(--bg);cursor:default}
   <div class="pk-modal-overlay" id="pkModalOverlay" onclick="if(event.target===this) closeCalendarModal()">
     <div class="pk-modal">
       <button class="pk-modal-close" onclick="closeCalendarModal()">✕</button>
-      
-      <!-- Legende nur im Modal -->
-      <div class="legend-bar" style="margin-bottom:16px">
-        <span class="legend-chip booked">🔴 Belegt</span>
-        <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
-        <span class="legend-chip school">🏖️ Ferien NRW</span>
-      </div>
-      
-      <!-- Status-Text im Modal -->
+<!-- Status-Text im Modal -->
       <div id="pkModalStatus" class="pk-modal-status">Anreisedatum wählen</div>
       
       <div class="pk-wrap" style="margin-bottom:0;max-width:none">
@@ -584,21 +702,22 @@ input[readonly]{background:var(--bg);cursor:default}
       </div>
     </div>
   </div>
+      </div>
+
   <!-- VIEW B: Anfrage-Formular (innerhalb Tab4, ersetzt Picker) -->
   <div id="pkForm" style="display:none">
     <div id="reqResult" class="result"></div>
     <div id="reqFormFields">
-    <div class="hint-box">
-      <div class="hint-box-title">💡 So geht's</div>
-      <p class="hint-text">📍 Anreise &amp; Abreise wählen → ✅ Zeitraum bestätigen <span class="br-mobile"></span>📝 Kontaktdaten ergänzen → ✉️ Anfrage absenden</p>
+<p class="hint-text"></p>
     </div>
     <div class="card">
-      <div class="card-title">📝 Kontaktdaten</div>
+      <div class="card-title">📝 Anfrage senden</div>
+      <div id="reqRangeSummary" class="form-summary">Bitte zuerst einen Zeitraum wählen.</div>
       <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
       <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
-      <div class="field"><label class="field-lbl">Telefonnummer</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
-      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ" readonly></div>
-      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ" readonly></div>
+      <div class="field"><label class="field-lbl">Telefonnummer (optional)</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
+      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ" readonly style="cursor:pointer" onclick="openCalendarModal('from')"></div>
+      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ" readonly style="cursor:pointer" onclick="openCalendarModal('to')"></div>
       <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
       <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
     </div>
@@ -610,12 +729,7 @@ input[readonly]{background:var(--bg);cursor:default}
 <!-- TAB 2: BUCHEN (Admin) -->
 <div id="tab2" class="tc">
   <div class="admin-hint"></div>
-  <div class="legend-bar" style="margin-bottom:10px">
-    <span class="legend-chip booked">🔴 Belegt</span>
-    <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
-    <span class="legend-chip school">🏖️ Ferien NRW</span>
-  </div>
-  <div class="pk-wrap" style="max-width:680px;margin-left:auto;margin-right:auto">
+<div class="pk-wrap" style="max-width:680px;margin-left:auto;margin-right:auto">
     <div class="pk-months" id="adminPickerMonths">
       <div class="pk-month" id="bkM0">
         <div class="pk-nav">
@@ -643,7 +757,7 @@ input[readonly]{background:var(--bg);cursor:default}
   <div class="card">
     <div class="card-title">🏷️ Status</div>
     <div class="st-row">
-      <button class="st-btn ab" id="stB" onclick="setSt('Belegt')">🔴 Belegt</button>
+      <button class="st-btn ab" id="stB" onclick="setSt('Belegt')">Belegt</button>
       <button class="st-btn"   id="stF" onclick="setSt('Frei')">✖️ Nicht belegt</button>
     </div>
   </div>
@@ -672,8 +786,8 @@ input[readonly]{background:var(--bg);cursor:default}
 
   <!-- Adresse -->
   <div class="card">
-    <div class="card-title">📍 Adresse</div>
-    <div class="info-address">Kennedyboulevard 604</div>
+    <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>📍 Adresse</span></div>
+    <div class="info-address-row"><div class="info-address">Kennedyboulevard 604</div><button class="share-btn" type="button" onclick="shareApp()" aria-label="Teilen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M16 8l-4-4-4 4M12 4v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
     <div class="info-address-sub">1931 XM Egmond aan Zee</div>
     <a href="https://maps.google.com/?q=Kennedyboulevard+604,+1931+XM+Egmond+aan+Zee" target="_blank" class="info-map-link">
       🗺️ In Google Maps öffnen
@@ -1140,7 +1254,10 @@ async function sendInquiry(){
       document.getElementById('rMsg').value='';
       document.getElementById('pkForm').style.display='none';
       document.getElementById('pkView').style.display='block';
+  updatePublicFunnel();
       renderPicker();
+updatePublicFunnel();
+syncRequestSummary();
     }, 3000);
   }catch(e){res.className='result err';res.textContent='Fehler: '+e.message;}
   btn.disabled=false;btn.textContent='Anfrage senden';
@@ -1220,7 +1337,7 @@ function acceptInq(id,from,to,name){
 }
 
 // ── Kalender rendern ──────────────────────────
-const MNS=["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+const MNS=["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
 
 function renderMatrix(year){
   const sp=getSpecial(year),wrap=document.getElementById('matrix'),now=today();
@@ -1272,7 +1389,8 @@ function renderMatrix(year){
   wrap.innerHTML=html;
   document.getElementById('calLoading').style.display='none';
   document.getElementById('matrixWrap').style.display='block';
-  if(!IS_ADMIN && document.getElementById('pubHint')) document.getElementById('pubHint').style.display='block';
+  
+  if(!IS_ADMIN) updatePublicFunnel();
   if(IS_ADMIN) renderBookingList(year);
 }
 
@@ -1340,7 +1458,7 @@ function dayClick(year,month,day){
           if((bk[key]||{}).status==='Belegt'){conflict=true;break;}
         }
         if(conflict){toast('⚠️ Zeitraum enthält belegte Tage');pkF=d;pkT=null;pkPicking='to';renderMatrix(curYear);}
-        else{pkT=d;pkPicking='from';renderMatrix(curYear);renderPicker();sw(4);}
+        else{pkT=d;pkPicking='from';renderMatrix(curYear);renderPicker();updatePublicFunnel();}
       }
     }
   }
@@ -1437,26 +1555,25 @@ function bookDayClick(year,month,day){
 
 // ── UI Helpers ────────────────────────────────
 function sw(n){
-  // Toggle tabs/contents by numeric id (t0..t5 / tab0..tab5)
   for(let i=0;i<6;i++){
-    document.getElementById('t'+i)?.classList.toggle('on', i===n);
-    document.getElementById('tab'+i)?.classList.toggle('on', i===n);
+    document.getElementById('t'+i)?.classList.toggle('on',i===n);
+    document.getElementById('tab'+i)?.classList.toggle('on',i===n);
   }
 
-  // Hard-hide the admin booking overview when leaving calendar.
-  // (It can otherwise look like Tab2 is "broken" if something overlays.)
+  // Prevent the admin booking overview from visually "taking over" other tabs.
+  // In admin mode, show bookingList only on Kalender (tab 0).
   const bl = document.getElementById('bookingList');
   if(bl){
-    if(IS_ADMIN){
+    if(typeof IS_ADMIN !== 'undefined' && IS_ADMIN){
       bl.style.display = (n===0 ? 'block' : 'none');
     } else {
       bl.style.display = 'none';
     }
   }
 
-  if(n===3) loadInquiries();
-  if(n===2) renderBookCal();
-  if(n===4) { renderPicker(); }
+    if(n===3)loadInquiries();
+  if(n===2)renderBookCal();
+  if(n===4){renderPicker();}
 }
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
 function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1508,9 +1625,11 @@ if(IS_ADMIN){
   // Public: Kalender + Buchen + Info Tabs zeigen
   document.getElementById('t5').style.display='';
   document.getElementById('legendBar').style.display='flex';
-  document.querySelector('#legendBar .print-btn')?.remove(); // kein Drucken für Public
-  sw(4);
-  document.getElementById('pubHint').style.display='block';
+  document.getElementById('pubBadges').style.display='none';
+  document.getElementById('pubBadges').style.display='flex';
+  document.getElementById('t4').style.display='none';
+  sw(0);
+  
 }
 
 // Expose to global scope (required for onclick handlers with type="module")
@@ -1557,7 +1676,7 @@ function printCal(){
     html+=`</div></div>`;
   }
   html+=`</div>`;
-  html+=`<div class="pr-legend"><span>🔴 Belegt (Name)</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
+  html+=`<div class="pr-legend"><span>Belegt (Name)</span><span style="color:#c06000">🎉 Feiertag</span><span style="color:#888">🏖 Schulferien</span><span style="color:#aaa">Sa/So</span></div>`;
   document.getElementById('printArea').innerHTML=html;
   document.getElementById('printArea').style.display='block';
   window.print();
@@ -1679,12 +1798,58 @@ function pkDay(year,month,day){
   renderPicker();
 }
 
+function updatePublicFunnel(){
+  const box=document.getElementById('pubFunnel');
+  if(!box||IS_ADMIN)return;
+  box.style.display='block';
+  const step=document.getElementById('pubStepLabel');
+  const sum=document.getElementById('pubSummary');
+  const note=document.getElementById('pubFunnelNote');
+  const btn=document.getElementById('pubContinueBtn');
+  if(pkF&&pkT){
+    const nights=Math.round((pkT-pkF)/(1000*60*60*24));
+    step.textContent='Kontaktdaten';
+    sum.innerHTML=`${fmt(pkF)} – ${fmt(pkT)}<small>🌙 ${nights} ${nights===1?'Nacht':'Nächte'} · Zeitraum verfügbar</small>`;
+    if(note) note.textContent='Passt? Weiter zur Anfrage und Kontaktdaten ausfüllen.';
+    btn.disabled=false;
+  }else if(pkF){
+    step.textContent='Zeitraum wählen';
+    sum.innerHTML=`Anreise: ${fmt(pkF)}<small>Jetzt Abreisetag im Kalender wählen</small>`;
+    if(note) note.textContent='Belegte Tage werden beim Auswählen automatisch geprüft.';
+    btn.disabled=true;
+  }else{
+    step.textContent='Zeitraum wählen';
+    sum.innerHTML='Tag im Kalender antippen<small>Dann Abreisetag wählen</small>';
+    if(note) note.textContent='Tipp: Du kannst direkt freie Tage in der Monatsansicht antippen.';
+    btn.disabled=true;
+  }
+}
+
+function syncRequestSummary(){
+  const el=document.getElementById('reqRangeSummary');
+  if(!el)return;
+  if(pkF&&pkT){
+    const nights=Math.round((pkT-pkF)/(1000*60*60*24));
+    el.innerHTML=`<strong>Zeitraum:</strong> ${fmt(pkF)} – ${fmt(pkT)}<br><strong>Dauer:</strong> ${nights} ${nights===1?'Nacht':'Nächte'} · unverbindliche Anfrage`;
+  } else {
+    el.textContent='Bitte zuerst einen Zeitraum wählen.';
+  }
+}
+
+function pubContinue(){
+  if(!(pkF&&pkT)) return;
+  sw(4);
+  pkSubmit();
+}
+
 function pkSubmit(){
   if(!pkF||!pkT)return;
   document.getElementById('rFrom').value=fmt(pkF);
   document.getElementById('rTo').value=fmt(pkT);
+  syncRequestSummary();
   document.getElementById('reqResult').className='result';
   document.getElementById('pkView').style.display='none';
+  const lb=document.getElementById('legacyBooker'); if(lb) lb.style.display='none';
   document.getElementById('pkForm').style.display='block';
   document.getElementById('pkForm').scrollIntoView({behavior:'smooth',block:'start'});
 }
@@ -1697,15 +1862,26 @@ function pkBackToPicker(){
 }
 
 function adminLogout(){if(!confirm('Admin-Sitzung beenden?'))return;localStorage.removeItem('egmond-admin');location.reload();}
+function guestLogin(){
+  const pw=prompt('🔐 Admin-Passwort:');
+  if(pw===ADMIN_KEY){localStorage.setItem('egmond-admin',ADMIN_KEY);location.reload();}
+  else if(pw!==null) toast('❌ Falsches Passwort');
+}
+function shareApp(){
+  const url=location.origin+location.pathname;
+  if(navigator.share){navigator.share({title:'Ferienwohnung Egmond aan Zee',url}).catch(()=>{});}
+  else{navigator.clipboard.writeText(url).then(()=>toast('Link kopiert')).catch(()=>toast('Link: '+url));}
+}
 
 window.sw=sw;window.changeYear=changeYear;window.changeBookMonth=changeBookMonth;
 window.clearSel=clearSel;window.setSt=setSt;window.saveBooking=saveBooking;
 window.deleteBooking=deleteBooking;window.sendInquiry=sendInquiry;window.loadInquiries=loadInquiries;
 window.dayClick=dayClick;window.bookDayClick=bookDayClick;
 window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;window.pkDay=pkDay;window.pkNav=pkNav;window.pkSubmit=pkSubmit;window.pkBackToPicker=pkBackToPicker;
-window.openCalendarModal=openCalendarModal;window.closeCalendarModal=closeCalendarModal;
+window.openCalendarModal=openCalendarModal;window.closeCalendarModal=closeCalendarModal;window.pubContinue=pubContinue;
 window.openLightbox=openLightbox;window.closeLightbox=closeLightbox;window.lbNav=lbNav;
 window.adminLogout=adminLogout;
+window.guestLogin=guestLogin;window.shareApp=shareApp;
 
 setSt('Belegt');
 loadYear(curYear);
