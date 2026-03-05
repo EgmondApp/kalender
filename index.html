@@ -157,6 +157,7 @@ input[readonly]{background:var(--bg);cursor:default}
 
 /* ── Public Funnel (Matrix-first) ── */
 .pub-funnel{position:sticky;bottom:10px;z-index:120;margin-top:12px}
+@media(min-width:900px){.pub-funnel{top:calc(50vh - 90px);bottom:auto;max-width:700px;margin:12px auto 0}.pub-funnel-card{padding:14px 16px}}
 .pub-funnel-card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 28px rgba(20,12,4,.14);padding:12px}
 .pub-funnel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .pub-step{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
@@ -536,10 +537,16 @@ input[readonly]{background:var(--bg);cursor:default}
         </div>
       </div>
       <div class="pub-actions">
-        <button class="pub-btn" id="pubPickBtn" onclick="openCalendarModal('from')">Kalender-Auswahl öffnen</button>
-        <button class="pub-btn primary" id="pubContinueBtn" onclick="pubContinue()" disabled>Weiter zur Anfrage</button>
+        <button class="pub-btn primary" id="pubContinueBtn" onclick="pubContinue()" disabled>Weiter zu Kontaktdaten</button>
       </div>
       <div class="pub-note" id="pubFunnelNote">Tipp: Du kannst direkt freie Tage in der Monatsansicht antippen.</div>
+      <div class="pub-funnel-legend">
+        <div class="legend-bar">
+          <span class="legend-chip booked">🔴 Belegt</span>
+          <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
+          <span class="legend-chip school">🏖️ Ferien NRW</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -636,8 +643,8 @@ input[readonly]{background:var(--bg);cursor:default}
       <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
       <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
       <div class="field"><label class="field-lbl">Telefonnummer (optional)</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
-      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ" readonly></div>
-      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ" readonly></div>
+      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ" readonly style="cursor:pointer" onclick="openCalendarModal('from')"></div>
+      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ" readonly style="cursor:pointer" onclick="openCalendarModal('to')"></div>
       <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
       <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
     </div>
@@ -1537,8 +1544,7 @@ if(IS_ADMIN){
 } else {
   // Public: Kalender + Buchen + Info Tabs zeigen
   document.getElementById('t5').style.display='';
-  document.getElementById('legendBar').style.display='flex';
-  document.querySelector('#legendBar .print-btn')?.remove(); // kein Drucken für Public
+  document.getElementById('legendBar').style.display='none';
   document.getElementById('pubBadges').style.display='flex';
   document.getElementById('t4').style.display='none';
   sw(0);
