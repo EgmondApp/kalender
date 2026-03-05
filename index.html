@@ -74,10 +74,10 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .tab.on{color:var(--egmond-red);border-bottom-color:var(--egmond-red);background:linear-gradient(to bottom,transparent,rgba(169,1,0,.06))}
 
 /* ── Layout ── */
-.wrap{padding:0 20px 60px;max-width:680px;margin:0 auto}
+.wrap{padding:0 20px 60px;max-width:var(--content-w);margin:0 auto}
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:12px;border:1px solid var(--border)}
 .card-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
-.tc{display:none}.tc.on{display:block;max-width:680px;margin:0 auto;padding-top:16px}
+.tc{display:none}.tc.on{display:block;max-width:var(--content-w);margin:0 auto;padding-top:16px}
 
 /* ── Jahr-Nav ── */
 .year-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
@@ -283,9 +283,9 @@ input[readonly]{background:var(--bg);cursor:default}
 
 /* ── Info-Tab ── */
 /* Ensure Info tab aligns with Kalender width */
-#tab5{max-width:680px;margin-left:auto;margin-right:auto}
-#tab5 .card{width:100%;max-width:680px;margin-left:auto;margin-right:auto}
-#tab5 .info-grid{width:100%;max-width:680px;margin-left:auto;margin-right:auto}
+#tab5{max-width:var(--content-w);margin-left:auto;margin-right:auto}
+#tab5 .card{width:100%;max-width:var(--content-w);margin-left:auto;margin-right:auto}
+#tab5 .info-grid{width:100%;max-width:var(--content-w);margin-left:auto;margin-right:auto}
 
 
 /* ── Info tab: tighten spacing to tab bar ── */
@@ -557,10 +557,13 @@ input[readonly]{background:var(--bg);cursor:default}
 
 /* Info: Share button aligned with address line */
 .info-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.share-btn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:12px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.85);cursor:pointer}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;border:0;background:var(--egmond-red);color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.14)}
 .share-btn:hover{background:#fff}
 .share-btn:active{transform:scale(.98)}
 
+
+#pkForm{width:100%;max-width:var(--content-w);margin:0 auto}
+#pkForm .card{width:100%}
 </style>
 </head>
 <body>
@@ -575,9 +578,9 @@ input[readonly]{background:var(--bg);cursor:default}
         <h1>Egmond aan Zee</h1>
       </div>
     </div>
-    <span class="admin-badge" id="adminBadge" style="display:none;cursor:pointer" onclick="adminLogout()">✏️ Familie</span>
+    <span class="admin-badge" id="adminBadge" style="display:none;cursor:pointer" onclick="adminLogout()">Logout</span>
     <div id="pubBadges" style="display:none;align-items:center;gap:8px">
-      <span class="admin-badge" style="cursor:pointer" onclick="guestLogin()">👤 Gast</span>
+      <span class="admin-badge" style="cursor:pointer" onclick="guestLogin()">Login</span>
     </div>
   </div>
 </div>
@@ -787,7 +790,7 @@ input[readonly]{background:var(--bg);cursor:default}
   <!-- Adresse -->
   <div class="card">
     <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>📍 Adresse</span></div>
-    <div class="info-address-row"><div class="info-address">Kennedyboulevard 604</div><button class="share-btn" type="button" onclick="shareApp()" aria-label="Teilen"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M16 8l-4-4-4 4M12 4v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    <div class="info-address-row"><div class="info-address">Kennedyboulevard 604</div><button class="share-btn" type="button" onclick="shareApp()" aria-label="Teilen"><svg viewBox="0 0 24 24" width="26" height=">26" aria-hidden="true"><path d="M16 8l-4-4-4 4M12 4v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
     <div class="info-address-sub">1931 XM Egmond aan Zee</div>
     <a href="https://maps.google.com/?q=Kennedyboulevard+604,+1931+XM+Egmond+aan+Zee" target="_blank" class="info-map-link">
       🗺️ In Google Maps öffnen
