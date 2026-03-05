@@ -920,20 +920,6 @@ main.content{width:100%;}
 
 <!-- Firebase SDK (modular - kein eval benoetigt) -->
 <script type="module">
-// v23 debug: surface JS errors on-screen
-(function(){
-  const box = document.createElement('div');
-  box.id = 'errBox';
-  box.style.cssText = 'position:fixed;left:10px;right:10px;bottom:10px;z-index:99999;max-height:40vh;overflow:auto;background:#fff3f3;color:#7a0000;border:1px solid #ffb3b3;border-radius:12px;padding:10px 12px;font:12px/1.4 system-ui,Segoe UI,Arial;box-shadow:0 12px 30px rgba(0,0,0,.18);display:none';
-  document.addEventListener('DOMContentLoaded', ()=>document.body.appendChild(box), {once:true});
-  function show(msg){
-    box.style.display='block';
-    box.innerHTML += '<div style="margin:0 0 6px 0"><b>JS:</b> '+msg.replace(/[<>]/g,'')+'</div>';
-  }
-  window.addEventListener('error', (e)=>{ show(e.message + (e.filename?(' @ '+e.filename.split('/').slice(-1)[0]+':'+e.lineno):'')); });
-  window.addEventListener('unhandledrejection', (e)=>{ show('Unhandled promise rejection: '+ (e.reason?.message||String(e.reason))); });
-})();
-
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getFirestore,doc,getDoc,setDoc,addDoc,updateDoc,deleteDoc,collection,query,orderBy,limit,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -1705,13 +1691,10 @@ if(IS_ADMIN){
   }
 
 } else {
-  // Public: Kalender + Buchen + Info Tabs zeigen
-  document.getElementById('t5').style.display='';
-  document.getElementById('legendBar').style.display='flex';
-  document.getElementById('pubBadges').style.display='none';
-  document.getElementById('pubBadges').style.display='flex';
-  document.getElementById('t4').style.display='none';
-  setupTabs();
+   // Public: Kalender + Info
+   const lb=document.getElementById('legendBar'); if(lb) lb.style.display='flex';
+   const pb=document.getElementById('pubBadges'); if(pb) pb.style.display='flex';
+   setupTabs();
   sw(0);
   
 }
