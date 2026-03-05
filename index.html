@@ -465,10 +465,10 @@ input[readonly]{background:var(--bg);cursor:default}
         <h1>Egmond aan Zee</h1>
       </div>
     </div>
-    <span class="admin-badge" id="adminBadge" style="cursor:pointer" onclick="adminToggle()">Login</span>
+    <span class="admin-badge" id="adminBadge" style="display:none;cursor:pointer" onclick="adminLogout()">✏️ Familie</span>
     <div id="pubBadges" style="display:none;align-items:center;gap:8px">
       <span class="admin-badge" style="cursor:pointer;opacity:.7" onclick="shareApp()">↗</span>
-      
+      <span class="admin-badge" style="cursor:pointer" onclick="guestLogin()">👤 Gast</span>
     </div>
   </div>
 </div>
@@ -1689,6 +1689,9 @@ function pkBackToPicker(){
 }
 
 function adminLogout(){if(!confirm('Admin-Sitzung beenden?'))return;localStorage.removeItem('egmond-admin');location.reload();}
+function guestLogin(){
+  const pw=prompt('🔐 Admin-Passwort:');
+  if(pw===ADMIN_KEY){localStorage.setItem('egmond-admin',ADMIN_KEY);location.reload();}
   else if(pw!==null) toast('❌ Falsches Passwort');
 }
 function shareApp(){
