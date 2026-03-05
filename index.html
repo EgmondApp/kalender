@@ -81,7 +81,7 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 
 /* ── Jahr-Nav ── */
 .year-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;flex-wrap:wrap}
-.year-nav{display:flex;align-items:center;justify-content:flex-start;gap:14px;margin:0}
+.year-nav{display:flex;align-items:center;justify-content:center;gap:14px;margin:0}
 .year-nav h2{font-family:'Source Sans 3',sans-serif;font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--egmond-red)}
 .yn-btn{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--egmond-red);background:#fff;color:var(--egmond-red);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:none}
 .yn-btn:hover{background:var(--egmond-red);color:#fff}.yn-btn:active{background:var(--egmond-red);color:#fff;transform:scale(.92)}
@@ -176,7 +176,7 @@ input[readonly]{background:var(--bg);cursor:default}
 .pub-funnel-card{
   margin:0 auto;
   pointer-events:auto;
-  width:min(760px, calc(100% - 24px));
+  width:min(620px, calc(100% - 24px));
   background:#fff;
   border:1px solid var(--border);
   border-radius:18px;
@@ -546,6 +546,9 @@ input[readonly]{background:var(--bg);cursor:default}
 .pk-date-btn-lbl{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;display:block;margin-bottom:4px}
 .pk-date-btn-val{font-size:14px;font-weight:800;color:var(--text)}
 .pk-date-btn.active .pk-date-btn-val{color:var(--egmond-blue)}
+
+#pubFunnel .legend-bar{justify-content:flex-start!important}
+#pubFunnel .pub-legend{justify-content:flex-start!important;text-align:left}
 </style>
 </head>
 <body>
@@ -562,7 +565,6 @@ input[readonly]{background:var(--bg);cursor:default}
     </div>
     <span class="admin-badge" id="adminBadge" style="display:none;cursor:pointer" onclick="adminLogout()">✏️ Familie</span>
     <div id="pubBadges" style="display:none;align-items:center;gap:8px">
-      <span class="admin-badge" style="cursor:pointer;opacity:.7" onclick="shareApp()">↗</span>
       <span class="admin-badge" style="cursor:pointer" onclick="guestLogin()">👤 Gast</span>
     </div>
   </div>
@@ -772,7 +774,7 @@ input[readonly]{background:var(--bg);cursor:default}
 
   <!-- Adresse -->
   <div class="card">
-    <div class="card-title">📍 Adresse</div>
+    <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span>📍 Adresse</span><button class="icon-btn" type="button" onclick="shareApp()" aria-label="Teilen">Teilen</button></div>
     <div class="info-address">Kennedyboulevard 604</div>
     <div class="info-address-sub">1931 XM Egmond aan Zee</div>
     <a href="https://maps.google.com/?q=Kennedyboulevard+604,+1931+XM+Egmond+aan+Zee" target="_blank" class="info-map-link">
