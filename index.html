@@ -1650,18 +1650,44 @@ function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').re
 // ── Start ─────────────────────────────────────
 const ADMIN_HINT='<div class="hint-box-title">💡 Kurzanleitung</div><p><strong>✏️ Buchung:</strong> Zeitraum → Mieter → Speichern<br><strong>✅ Anfrage:</strong> Annehmen → Speichern<br><strong>✖️ Löschen:</strong> Zeitraum → Nicht belegt → Speichern</p>';
 
-if(IS_ADMIN){
-  document.getElementById('adminBadge').style.display='block';
-  document.body.classList.add('is-admin');
-  document.getElementById('t2').style.display='';
-  document.getElementById('t3').style.display='';
-  document.getElementById('t4').style.display='none';
-  document.getElementById('t1').style.display='none';
-  document.getElementById('adminHint').style.display='block';
-  document.getElementById('legendBar').style.display='flex';
-  document.querySelectorAll('.admin-hint').forEach(el=>{el.classList.add('hint-box');el.innerHTML=ADMIN_HINT;});
 
-  // PWA Install Prompt für Admin
+if(IS_ADMIN){
+  document.getElementById('adminBadge')?.style && (document.getElementById('adminBadge').style.display='block');
+  document.body.classList.add('is-admin');
+
+  // Admin tabs (3): Kalender / Buchung eintragen / Anfragen
+  setupTabs();
+  // Ensure only our 3-tab bar is used
+  document.getElementById('t0')?.style && (document.getElementById('t0').style.display='block');
+  document.getElementById('t1')?.style && (document.getElementById('t1').style.display='block');
+  document.getElementById('t2')?.style && (document.getElementById('t2').style.display='block');
+
+  // Admin hint (optional)
+  const ah = document.getElementById('adminHint');
+  if(ah) ah.style.display='block';
+  document.querySelectorAll('.admin-hint').forEach(el=>{el.classList.add('hint-box'); el.innerHTML = (typeof ADMIN_HINT!=='undefined'?ADMIN_HINT:'');});
+
+  // Public-only badges/legend safety
+  const pb = document.getElementById('pubBadges'); if(pb) pb.style.display='none';
+} else {
+  document.getElementById('adminBadge')?.style && (document.getElementById('adminBadge').style.display='none');
+  document.body.classList.remove('is-admin');
+
+  // Public tabs (2): Kalender / Info
+  setupTabs();
+  document.getElementById('t0')?.style && (document.getElementById('t0').style.display='block');
+  document.getElementById('t1')?.style && (document.getElementById('t1').style.display='block');
+  document.getElementById('t2')?.style && (document.getElementById('t2').style.display='none');
+
+  const ah = document.getElementById('adminHint');
+  if(ah) ah.style.display='none';
+
+  const lb = document.getElementById('legendBar'); if(lb) lb.style.display='flex';
+  const pb = document.getElementById('pubBadges'); if(pb) pb.style.display='flex';
+}
+
+
+// PWA Install Prompt für Admin
   let _pwaEvent=null;
   window.addEventListener('beforeinstallprompt',e=>{
     e.preventDefault();
