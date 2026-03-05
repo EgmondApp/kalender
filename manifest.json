@@ -2,7 +2,8 @@
   "name": "Egmond aan Zee – Ferienwohnung",
   "short_name": "Egmond",
   "description": "Verfügbarkeit prüfen und Aufenthalt anfragen.",
-  "start_url": "./index.html",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#F5F3F0",
   "theme_color": "#A90100",
@@ -10,7 +11,8 @@
     {
       "src": "images/wappen_neu.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }

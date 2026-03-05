@@ -150,7 +150,7 @@ input[readonly]{background:var(--bg);cursor:default}
 .hint-text{font-size:12px;color:#3A2810;line-height:1.7}
 .br-mobile{display:none}
 @media(max-width:480px){.br-mobile{display:block}}
-}
+
 .btn-red{background:#fff;border:2px solid var(--egmond-red)!important;color:var(--egmond-red);box-shadow:none;margin-top:10px}
 .spin-sm{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
 
@@ -468,8 +468,7 @@ input[readonly]{background:var(--bg);cursor:default}
     <span class="admin-badge" id="adminBadge" style="display:none;cursor:pointer" onclick="adminLogout()">✏️ Familie</span>
     <div id="pubBadges" style="display:none;align-items:center;gap:8px">
       <span class="admin-badge" style="cursor:pointer;opacity:.7" onclick="shareApp()">↗</span>
-      <span class="admin-badge" style="cursor:pointer" onclick="guestLogin()">👤 Gast</span>
-    </div>
+</div>
   </div>
 </div>
 
@@ -791,22 +790,14 @@ const db = getFirestore(initializeApp({
   appId:             "1:841553122795:web:81aa058d4a5dc049b675ae"
 }));
 
-// Admin via URL param, /admin Pfad, oder gespeicherte Session
-let IS_ADMIN = new URLSearchParams(location.search).get('admin') === ADMIN_KEY
-              || localStorage.getItem('egmond-admin') === ADMIN_KEY;
-
-// URL sofort säubern – Passwort nicht sichtbar lassen
-if(new URLSearchParams(location.search).get('admin') === ADMIN_KEY){
-  localStorage.setItem('egmond-admin', ADMIN_KEY);
-  const url=new URL(location);url.searchParams.delete('admin');
-  history.replaceState(null,'',url.pathname+url.search+url.hash||'/');
-}
+// Admin via /admin Pfad oder Session (kein URL-Param, kein localStorage)
+let IS_ADMIN = sessionStorage.getItem('egmond-admin') === ADMIN_KEY;
 
 if(!IS_ADMIN && location.pathname.endsWith('/admin')) {
   const pw = prompt('🔐 Admin-Passwort:');
   if(pw === ADMIN_KEY) {
     IS_ADMIN = true;
-    localStorage.setItem('egmond-admin', ADMIN_KEY);
+    sessionStorage.setItem('egmond-admin', ADMIN_KEY);
     history.replaceState(null,'',location.pathname.replace('/admin','') || '/');
   } else if(pw !== null) {
     alert('❌ Falsches Passwort.');
@@ -1688,12 +1679,7 @@ function pkBackToPicker(){
   document.getElementById('pkView').style.display='block';
 }
 
-function adminLogout(){if(!confirm('Admin-Sitzung beenden?'))return;localStorage.removeItem('egmond-admin');location.reload();}
-function guestLogin(){
-  const pw=prompt('🔐 Admin-Passwort:');
-  if(pw===ADMIN_KEY){localStorage.setItem('egmond-admin',ADMIN_KEY);location.reload();}
-  else if(pw!==null) toast('❌ Falsches Passwort');
-}
+function adminLogout(){if(!confirm('Admin-Sitzung beenden?'))return;sessionStorage.removeItem('egmond-admin');location.reload();}
 function shareApp(){
   const url=location.origin+location.pathname;
   if(navigator.share){navigator.share({title:'Ferienwohnung Egmond aan Zee',url}).catch(()=>{});}
@@ -1708,7 +1694,7 @@ window.updInq=updInq;window.acceptInq=acceptInq;window.printCal=printCal;window.
 window.openCalendarModal=openCalendarModal;window.closeCalendarModal=closeCalendarModal;
 window.openLightbox=openLightbox;window.closeLightbox=closeLightbox;window.lbNav=lbNav;
 window.adminLogout=adminLogout;
-window.guestLogin=guestLogin;window.shareApp=shareApp;
+window.shareApp=shareApp;
 
 setSt('Belegt');
 loadYear(curYear);
@@ -1737,7 +1723,7 @@ document.addEventListener('visibilitychange',()=>{
 });
 
 // ── Service Worker für PWA ──
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { scope: './' }).catch(()=>{});
 </script>
 </body>
 </html>
