@@ -157,7 +157,7 @@ input[readonly]{background:var(--bg);cursor:default}
 
 /* ── Public Funnel (Matrix-first) ── */
 .pub-funnel{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:120;margin:0;width:min(760px,calc(100% - 24px));}
-@media(min-width:900px){.pub-funnel{top:88px;bottom:auto;transform:translateX(-50%);} .pub-funnel-card{padding:14px 16px}}
+@media(min-width:900px){.pub-funnel-card{padding:14px 16px}}
 .pub-funnel-card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 28px rgba(20,12,4,.14);padding:12px}
 .pub-funnel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
 .pub-step{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
@@ -539,8 +539,7 @@ input[readonly]{background:var(--bg);cursor:default}
       <div class="pub-actions">
         <button class="pub-btn primary" id="pubContinueBtn" onclick="pubContinue()" disabled>Weiter zu Kontaktdaten</button>
       </div>
-      <div class="pub-note" id="pubFunnelNote">Tipp: Du kannst direkt freie Tage in der Monatsansicht antippen.</div>
-      <div class="pub-funnel-legend">
+<div class="pub-funnel-legend">
         <div class="legend-bar">
           <span class="legend-chip booked">🔴 Belegt</span>
           <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
@@ -1725,17 +1724,17 @@ function updatePublicFunnel(){
     const nights=Math.round((pkT-pkF)/(1000*60*60*24));
     step.textContent='Kontaktdaten';
     sum.innerHTML=`${fmt(pkF)} – ${fmt(pkT)}<small>🌙 ${nights} ${nights===1?'Nacht':'Nächte'} · Zeitraum verfügbar</small>`;
-    note.textContent='Passt? Weiter zur Anfrage und Kontaktdaten ausfüllen.';
+    if(note) note.textContent='Passt? Weiter zur Anfrage und Kontaktdaten ausfüllen.';
     btn.disabled=false;
   }else if(pkF){
     step.textContent='Zeitraum wählen';
     sum.innerHTML=`Anreise: ${fmt(pkF)}<small>Jetzt Abreisetag im Kalender wählen</small>`;
-    note.textContent='Belegte Tage werden beim Auswählen automatisch geprüft.';
+    if(note) note.textContent='Belegte Tage werden beim Auswählen automatisch geprüft.';
     btn.disabled=true;
   }else{
     step.textContent='Zeitraum wählen';
     sum.innerHTML='Tag im Kalender antippen<small>Dann Abreisetag wählen</small>';
-    note.textContent='Tipp: Du kannst direkt freie Tage in der Monatsansicht antippen.';
+    if(note) note.textContent='Tipp: Du kannst direkt freie Tage in der Monatsansicht antippen.';
     btn.disabled=true;
   }
 }
