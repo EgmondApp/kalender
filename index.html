@@ -222,6 +222,14 @@ input[readonly]{background:var(--bg);cursor:default}
 .legend-chip.booked:before{background:var(--egmond-red)}
 .legend-chip.holiday:before{background:var(--holiday-t)}
 .legend-chip.school:before{background:var(--school-t)}
+/* Legend chips (popup) – no dots, no emojis */
+.legend-chip:before{display:none!important}
+.legend-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
+.legend-chip{padding:6px 12px;border-radius:999px;font-weight:700;font-size:12px;line-height:1;white-space:nowrap}
+.legend-chip.booked{background:var(--egmond-red);color:#fff}
+.legend-chip.holiday,.legend-chip.school{background:#fff;border:2px solid rgba(0,0,0,.12);color:var(--ink)}
+.pub-legend{margin:2px 0 10px}
+
 
 /* Make it feel identical on desktop/mobile, only spacing changes */
 @media(min-width:900px){
@@ -581,14 +589,7 @@ input[readonly]{background:var(--bg);cursor:default}
         <h2 id="yearTitle">2026</h2>
         <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
       </div>
-      <div id="legendBar" class="legend-inline" aria-label="Legende">
-        <div class="legend-bar">
-          <span class="legend-chip booked">🔴 Belegt</span>
-          <span class="legend-chip holiday">🎉 Feier- &amp; Brückentage</span>
-          <span class="legend-chip school">🏫 Ferien NRW</span>
-        </div>
-      </div>
-    </div>
+</div>
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
   </div>
@@ -596,6 +597,13 @@ input[readonly]{background:var(--bg);cursor:default}
 
   <div id="pubFunnel" class="pub-funnel" style="display:none">
     <div class="pub-funnel-card">
+      <div id="legendBar" class="pub-legend" aria-label="Legende">
+        <div class="legend-bar">
+          <span class="legend-chip booked">Belegt</span>
+          <span class="legend-chip holiday">Feier- &amp; Brückentage</span>
+          <span class="legend-chip school">Ferien NRW</span>
+        </div>
+      </div>
       <div class="pub-funnel-top">
         <div>
           <div class="pub-step" id="pubStepLabel">Zeitraum wählen</div>
