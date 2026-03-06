@@ -11,18 +11,18 @@
 </head>
 <body class="admin-body">
   <div class="admin-shell">
+    <header class="admin-topbar">
+      <a href="#admin-top" class="brand admin-brand" id="admin-top" aria-label="Admin Start">
+        <img src="images/wappen_neu.png" alt="Wappen Egmond" class="brand-logo admin-logo">
+        <div><div class="eyebrow">Egmond</div><div class="brand-title">Admin</div></div>
+      </a>
+      <div class="admin-topbar-actions"><a href="index.html" class="nav-pill admin">Public-App</a></div>
+    </header>
+
     <section class="panel admin-login" id="adminLoginPanel">
-      <div class="section-head">
-        <div>
-          <div class="kicker">Intern</div>
-          <h1>Admin</h1>
-        </div>
-      </div>
+      <div class="section-head"><div><div class="kicker">Intern</div><h1>Login</h1></div></div>
       <form id="adminLoginForm" class="stack">
-        <label class="field">
-          <span>Passwort</span>
-          <input id="adminPassword" type="password" autocomplete="current-password" required />
-        </label>
+        <label class="field"><span>Passwort</span><input id="adminPassword" type="password" autocomplete="current-password" required /></label>
         <button type="submit" class="primary-btn">Anmelden</button>
         <div id="adminLoginError" class="notice notice-error hidden"></div>
       </form>
@@ -30,14 +30,10 @@
 
     <section class="dashboard hidden" id="dashboardPanel">
       <header class="dashboard-header">
-        <div>
-          <div class="eyebrow">Egmond</div>
-          <h1>Admin-Dashboard</h1>
-        </div>
+        <div><div class="eyebrow">Egmond</div><h1>Admin-Dashboard</h1></div>
         <div class="dashboard-actions">
-          <a href="index.html" class="nav-pill admin">Public-App</a>
-          <button type="button" class="nav-pill admin" id="printYearBtn">Drucken</button>
-          <button type="button" class="nav-pill admin danger" id="logoutBtn">Abmelden</button>
+          <button type="button" class="nav-pill admin" data-action="print-year">Drucken</button>
+          <button type="button" class="nav-pill admin danger" data-action="logout">Abmelden</button>
         </div>
       </header>
 
@@ -52,18 +48,18 @@
       <section class="tab-panel" data-panel="overview">
         <article class="panel">
           <div class="section-head">
-            <div>
-              <div class="kicker">Jahresübersicht</div>
-              <h2 id="overviewYearTitle">2026</h2>
-            </div>
+            <div><div class="kicker">Jahresübersicht</div><h2 id="overviewYearTitle">2026</h2></div>
             <div class="month-nav">
-              <button type="button" class="icon-btn" id="prevYearBtn" aria-label="Vorheriges Jahr">‹</button>
-              <button type="button" class="icon-btn" id="nextYearBtn" aria-label="Nächstes Jahr">›</button>
+              <button type="button" class="icon-btn" data-action="prev-year" aria-label="Vorheriges Jahr">‹</button>
+              <button type="button" class="icon-btn" data-action="next-year" aria-label="Nächstes Jahr">›</button>
             </div>
           </div>
           <div class="legend compact">
             <span class="legend-item"><span class="legend-swatch booked"></span>belegt</span>
             <span class="legend-item"><span class="legend-swatch half"></span>halbtags</span>
+            <span class="legend-item"><span class="legend-swatch school"></span>Ferien NRW</span>
+            <span class="legend-item"><span class="legend-swatch holiday"></span>Feiertag</span>
+            <span class="legend-item"><span class="legend-swatch bridge"></span>Brückentag</span>
           </div>
           <div id="adminYearGrid" class="year-grid"></div>
         </article>
@@ -71,59 +67,27 @@
 
       <section class="tab-panel hidden" data-panel="bookings">
         <article class="panel">
-          <div class="section-head">
-            <div>
-              <div class="kicker">Buchungen</div>
-              <h2>Eintragen</h2>
-            </div>
-          </div>
-
+          <div class="section-head"><div><div class="kicker">Buchungen</div><h2>Eintragen</h2></div></div>
           <form id="bookingAdminForm" class="stack">
-            <div class="field-grid three">
-              <label class="field">
-                <span>Anreise</span>
-                <input type="date" id="adminStart" required />
-              </label>
-              <label class="field">
-                <span>Abreise</span>
-                <input type="date" id="adminEnd" required />
-              </label>
-              <label class="field">
-                <span>Typ</span>
-                <select id="adminType">
-                  <option value="full">Normal</option>
-                  <option value="arrival-departure">Halbtags-Wechsel</option>
-                </select>
-              </label>
+            <div class="field-grid">
+              <label class="field"><span>Anreise</span><input type="date" id="adminStart" required /></label>
+              <label class="field"><span>Abreise</span><input type="date" id="adminEnd" required /></label>
             </div>
-            <label class="field">
-              <span>Name</span>
-              <input type="text" id="adminLabel" placeholder="Mietername" required />
-            </label>
-            <div class="action-row split">
-              <button type="submit" class="primary-btn">Speichern</button>
-              <div id="bookingAdminFeedback" class="notice hidden"></div>
-            </div>
+            <label class="field"><span>Name</span><input type="text" id="adminLabel" placeholder="Mietername" required /></label>
+            <div class="action-row split"><button type="submit" class="primary-btn">Speichern</button><div id="bookingAdminFeedback" class="notice hidden"></div></div>
           </form>
-
           <div id="bookingList" class="data-list"></div>
         </article>
       </section>
 
       <section class="tab-panel hidden" data-panel="requests">
         <article class="panel">
-          <div class="section-head">
-            <div>
-              <div class="kicker">Anfragen</div>
-              <h2>Eingänge</h2>
-            </div>
-          </div>
+          <div class="section-head"><div><div class="kicker">Anfragen</div><h2>Eingänge</h2></div></div>
           <div id="requestList" class="data-list"></div>
         </article>
       </section>
     </section>
   </div>
-
   <script src="admin.js"></script>
 </body>
 </html>

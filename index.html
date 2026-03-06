@@ -12,37 +12,38 @@
 </head>
 <body>
   <div class="site-shell">
-    <header class="hero" id="hero">
+    <header class="hero" id="top">
       <div class="hero-media">
         <div class="hero-layer active" id="heroA" style="background-image:url('images/header_neu.jpg')"></div>
         <div class="hero-layer" id="heroB"></div>
         <div class="hero-overlay"></div>
       </div>
-
       <div class="topbar">
-        <div class="brand">
+        <a href="#top" class="brand" data-scroll-target="#top" aria-label="Zur Startseite">
           <img src="images/wappen_neu.png" alt="Wappen Egmond" class="brand-logo">
           <div>
-            <div class="eyebrow on-dark">Egmond aan Zee</div>
+            <div class="eyebrow on-dark">Egmond</div>
             <div class="brand-title on-dark">Ferienwohnung</div>
           </div>
-        </div>
-        <a href="admin.html" class="nav-pill on-dark">Admin</a>
+        </a>
+        <nav class="topbar-actions" aria-label="Schnellnavigation">
+          <a href="#booking" class="nav-pill on-dark" data-scroll-target="#booking">Kalender</a>
+          <a href="#gallery" class="nav-pill on-dark" data-scroll-target="#gallery">Bilder</a>
+          <a href="admin.html" class="nav-pill on-dark">Admin</a>
+        </nav>
       </div>
-
       <div class="hero-card">
-        <div class="eyebrow on-dark">Nahe Strand und Dünen</div>
-        <h1 class="on-dark">Ruhig wohnen am Meer.</h1>
-        <p class="hero-copy on-dark">Verfügbarkeit prüfen, Zeitraum wählen, Anfrage senden.</p>
+        <div class="eyebrow on-dark">Am Meer</div>
+        <h1 class="on-dark">Ruhig wohnen.</h1>
         <div class="hero-actions">
-          <a href="#booking" class="primary-btn light">Verfügbarkeit prüfen</a>
-          <a href="#gallery" class="nav-pill on-dark">Bilder ansehen</a>
+          <a href="#booking" class="primary-btn light" data-scroll-target="#booking">Verfügbarkeit</a>
+          <a href="#gallery" class="nav-pill on-dark" data-scroll-target="#gallery">Bilder</a>
         </div>
       </div>
     </header>
 
     <main class="page">
-      <section class="section-intro">
+      <section class="section-intro" aria-label="Ablauf">
         <div class="step-row">
           <span class="step-chip is-active">1 Zeitraum</span>
           <span class="step-chip">2 Kontakt</span>
@@ -57,24 +58,15 @@
             <h2>Verfügbarkeit</h2>
           </div>
           <div class="month-nav">
-            <button type="button" class="icon-btn" id="prevMonthsBtn" aria-label="Vorherige Monate">‹</button>
-            <button type="button" class="icon-btn" id="nextMonthsBtn" aria-label="Nächste Monate">›</button>
+            <button type="button" class="icon-btn" data-action="prev-months" aria-label="Vorherige Monate">‹</button>
+            <button type="button" class="icon-btn" data-action="next-months" aria-label="Nächste Monate">›</button>
           </div>
         </div>
 
         <div class="summary-strip">
-          <div class="summary-card">
-            <span>Anreise</span>
-            <strong id="summaryArrival">–</strong>
-          </div>
-          <div class="summary-card">
-            <span>Abreise</span>
-            <strong id="summaryDeparture">–</strong>
-          </div>
-          <div class="summary-card">
-            <span>Nächte</span>
-            <strong id="summaryNights">–</strong>
-          </div>
+          <div class="summary-card"><span>Anreise</span><strong id="summaryArrival">–</strong></div>
+          <div class="summary-card"><span>Abreise</span><strong id="summaryDeparture">–</strong></div>
+          <div class="summary-card"><span>Nächte</span><strong id="summaryNights">–</strong></div>
         </div>
 
         <div id="selectionNotice" class="notice notice-info">Anreise wählen, dann Abreise wählen.</div>
@@ -83,100 +75,51 @@
           <span class="legend-item"><span class="legend-swatch booked"></span>belegt</span>
           <span class="legend-item"><span class="legend-swatch half"></span>halbtags</span>
           <span class="legend-item"><span class="legend-swatch range"></span>Auswahl</span>
+          <span class="legend-item"><span class="legend-swatch school"></span>Ferien NRW</span>
+          <span class="legend-item"><span class="legend-swatch holiday"></span>Feiertag</span>
+          <span class="legend-item"><span class="legend-swatch bridge"></span>Brückentag</span>
         </div>
 
-        <div class="calendar-wrap" id="calendarWrap">
-          <div id="calendarMount" class="calendar-grid" aria-live="polite"></div>
-        </div>
-
+        <div class="calendar-wrap" id="calendarWrap"><div id="calendarMount" class="calendar-grid" aria-live="polite"></div></div>
         <div id="nextSlotBox" class="notice notice-success">Nächster freier Zeitraum wird berechnet …</div>
       </section>
 
       <section class="split-grid">
         <section class="panel panel-form">
-          <div class="section-head">
-            <div>
-              <div class="kicker">Anfrage</div>
-              <h2>Kontakt</h2>
-            </div>
-          </div>
-
+          <div class="section-head"><div><div class="kicker">Anfrage</div><h2>Kontakt</h2></div></div>
           <form id="bookingForm" class="stack" novalidate>
             <div class="field-grid">
-              <label class="field">
-                <span>Anreise</span>
-                <input id="arrivalInput" type="text" readonly aria-readonly="true" />
-              </label>
-              <label class="field">
-                <span>Abreise</span>
-                <input id="departureInput" type="text" readonly aria-readonly="true" />
-              </label>
+              <label class="field"><span>Anreise</span><input id="arrivalInput" type="text" readonly aria-readonly="true" /></label>
+              <label class="field"><span>Abreise</span><input id="departureInput" type="text" readonly aria-readonly="true" /></label>
             </div>
-
             <div class="field-grid">
-              <label class="field">
-                <span>Name</span>
-                <input id="nameInput" type="text" autocomplete="name" required />
-              </label>
-              <label class="field">
-                <span>E-Mail</span>
-                <input id="emailInput" type="email" autocomplete="email" required />
-              </label>
+              <label class="field"><span>Name</span><input id="nameInput" type="text" autocomplete="name" required /></label>
+              <label class="field"><span>E-Mail</span><input id="emailInput" type="email" autocomplete="email" required /></label>
             </div>
-
             <div class="field-grid">
-              <label class="field">
-                <span>Telefon</span>
-                <input id="phoneInput" type="tel" autocomplete="tel" required />
-              </label>
-              <label class="field">
-                <span>Nachricht</span>
-                <input id="shortHint" type="text" readonly value="Unverbindliche Anfrage" aria-readonly="true" />
-              </label>
+              <label class="field"><span>Telefon</span><input id="phoneInput" type="tel" autocomplete="tel" required /></label>
+              <label class="field"><span>Hinweis</span><input id="shortHint" type="text" readonly value="Unverbindliche Anfrage" aria-readonly="true" /></label>
             </div>
-
-            <label class="field">
-              <span>Nachricht</span>
-              <textarea id="messageInput" rows="4" placeholder="Optional"></textarea>
-            </label>
-
+            <label class="field"><span>Nachricht</span><textarea id="messageInput" rows="4" placeholder="Optional"></textarea></label>
             <button class="primary-btn" id="submitBtn" type="submit">Anfrage senden</button>
-
             <div id="formError" class="notice notice-error hidden"></div>
             <div id="formSuccess" class="notice notice-success hidden"></div>
           </form>
         </section>
 
         <section class="panel panel-side">
-          <div class="section-head">
-            <div>
-              <div class="kicker">Ort</div>
-              <h2>Egmond</h2>
-            </div>
-          </div>
-
-          <div class="mini-gallery">
-            <button type="button" class="mini-card" data-open-photo="0" style="background-image:url('images/Egmond Sonnenuntergang.jpg')"></button>
-            <button type="button" class="mini-card" data-open-photo="1" style="background-image:url('images/Egmond Abend.jpg')"></button>
-            <button type="button" class="mini-card" data-open-photo="2" style="background-image:url('images/Egmond Fenster.jpg')"></button>
-          </div>
-
-          <div class="quiet-list">
+          <div class="section-head"><div><div class="kicker">Ort</div><h2>Egmond</h2></div></div>
+          <div class="mini-gallery" id="miniGallery"></div>
+          <div class="quiet-list" aria-label="Kurzinfos">
             <div class="quiet-item">Strandnah</div>
-            <div class="quiet-item">Klare Anfrage</div>
+            <div class="quiet-item">Direkte Anfrage</div>
             <div class="quiet-item">Mobil optimiert</div>
           </div>
         </section>
       </section>
 
       <section class="panel panel-gallery" id="gallery">
-        <div class="section-head">
-          <div>
-            <div class="kicker">Bilder</div>
-            <h2>Eindrücke</h2>
-          </div>
-        </div>
-
+        <div class="section-head"><div><div class="kicker">Bilder</div><h2>Eindrücke</h2></div></div>
         <div class="gallery-mosaic" id="galleryMosaic"></div>
       </section>
     </main>
@@ -185,13 +128,9 @@
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox-close" id="lightboxClose" aria-label="Schließen">×</button>
     <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Vorheriges Bild">‹</button>
-    <div class="lightbox-stage">
-      <div class="lightbox-image" id="lightboxImage"></div>
-      <div class="lightbox-caption" id="lightboxCaption"></div>
-    </div>
+    <div class="lightbox-stage"><div class="lightbox-image" id="lightboxImage"></div><div class="lightbox-caption" id="lightboxCaption"></div></div>
     <button class="lightbox-nav next" id="lightboxNext" aria-label="Nächstes Bild">›</button>
   </div>
-
   <script src="app.js"></script>
 </body>
 </html>
