@@ -174,8 +174,6 @@ input[readonly]{background:var(--bg);cursor:default}
 @media(max-width:480px){.br-mobile{display:block}}
 .spin-sm{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
 
-
-
 /* ── Public Funnel (Matrix-first) ── */
 .pub-funnel{
   position:fixed;
@@ -283,14 +281,9 @@ input[readonly]{background:var(--bg);cursor:default}
 .card-head{margin-bottom:14px}
 .card-title{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin:0}
 .meta-count{font-size:11px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
-.admin-hint,.hint-box,.status-box,.result{
+.status-box,.result{
   border-radius:12px;padding:12px 14px;border:1.5px solid var(--border);box-shadow:var(--shadow-sm)
 }
-.admin-hint,.hint-box{
-  background:#FFF8F0;border-color:#E8C890;color:#3A2810;margin-bottom:10px
-}
-.hint-box-title{font-size:9px;font-weight:800;color:var(--egmond-red);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
-.hint-box p,.admin-hint p{font-size:11px;line-height:1.55;margin:0}
 .status-box{background:#F8FAFC}
 .result{margin-bottom:14px;font-size:14px;font-weight:700;display:none;background:#fff}
 .result.ok{background:#F0FAF0;color:#2A7A2A;border-color:#B0DDB0;display:block;padding:24px 16px;font-size:17px;text-align:center}
@@ -619,8 +612,6 @@ main.content{width:100%}
   margin-right:auto;
 }
 #tab0 .card:first-child,
-#tab2 .admin-hint,
-#tab3 .admin-hint,
 #tab5 .card:first-child{margin-top:0}
 
 #tab5{padding-top:10px}
@@ -658,6 +649,10 @@ main.content{width:100%}
   .share-btn{width:38px;height:38px;border-radius:10px}
 }
 
+
+/* legacy admin help boxes hard-disabled */
+.admin-help,.quick-guide,.guide-box,[data-admin-help="1"]{display:none !important;}
+
 </style>
 </head>
 <body>
@@ -690,7 +685,6 @@ main.content{width:100%}
 <!-- TAB 0: KALENDER -->
 <div id="tab0" class="tc on">
   <div class="container">
-    <div id="adminHint" class="admin-hint" style="display:none"></div>
     <div class="card" style="padding:14px 18px">
       <div class="year-row">
         <div class="year-nav">
@@ -820,7 +814,6 @@ main.content{width:100%}
 <!-- TAB 2: BUCHEN (Admin) -->
 <div id="tab2" class="tc">
   <div class="container">
-    <div class="admin-hint"></div>
     <div class="pk-wrap">
       <div class="bk2-head">
         <button class="pk-nav-btn" id="bkPrev" onclick="changeBookMonth(-1)">&#8249;</button>
@@ -860,7 +853,6 @@ main.content{width:100%}
 <!-- TAB 3: ANFRAGEN (Admin) -->
 <div id="tab3" class="tc">
   <div class="container">
-    <div class="admin-hint"></div>
     <div class="card inq-header">
       <div class="card-title">📋 Eingehende Anfragen</div>
       <button onclick="loadInquiries()" class="btn-reload">↻ Laden</button>
@@ -1822,8 +1814,6 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ── Start ─────────────────────────────────────
-const ADMIN_HINT='<div class="hint-box-title">💡 Kurzanleitung</div><p><strong>✏️ Buchung:</strong> Zeitraum → Mieter → Speichern<br><strong>✅ Anfrage:</strong> Annehmen → Speichern<br><strong>✖️ Löschen:</strong> Zeitraum → Nicht belegt → Speichern</p>';
-
 
 if(IS_ADMIN){
   document.getElementById('adminBadge')?.style && (document.getElementById('adminBadge').style.display='block');
@@ -1835,11 +1825,6 @@ if(IS_ADMIN){
   document.getElementById('t0')?.style && (document.getElementById('t0').style.display='block');
   document.getElementById('t1')?.style && (document.getElementById('t1').style.display='block');
   document.getElementById('t2')?.style && (document.getElementById('t2').style.display='block');
-
-  // Admin hint (optional)
-  const ah = document.getElementById('adminHint');
-  if(ah) ah.style.display='block';
-  document.querySelectorAll('.admin-hint').forEach(el=>{el.classList.add('hint-box'); el.innerHTML = (typeof ADMIN_HINT!=='undefined'?ADMIN_HINT:'');});
 
   // Public-only badges/legend safety
   const pb = document.getElementById('pubBadges'); if(pb) pb.style.display='none';
@@ -1853,15 +1838,11 @@ if(IS_ADMIN){
   document.getElementById('t1')?.style && (document.getElementById('t1').style.display='block');
   document.getElementById('t2')?.style && (document.getElementById('t2').style.display='none');
 
-  const ah = document.getElementById('adminHint');
-  if(ah) ah.style.display='none';
-
   const lb = document.getElementById('legendBar'); if(lb) lb.style.display='flex';
   const pb = document.getElementById('pubBadges'); if(pb) pb.style.display='flex';
 }
 
   sw(0);
-
 
 // PWA Install Prompt für Admin
   let _pwaEvent=null;
@@ -1892,6 +1873,18 @@ if(IS_ADMIN){
     };
   }
 
+
+function removeLegacyAdminHelp(){
+  const sels=['.admin-help','.quick-guide','.guide-box','[data-admin-help="1"]'];
+  sels.forEach(sel=>document.querySelectorAll(sel).forEach(el=>el.remove()));
+  document.querySelectorAll('.card, .status-box, .hint-text, .container > div').forEach(el=>{
+    const t=(el.textContent||'').replace(/\s+/g,' ').trim();
+    if(t.includes('KURZANLEITUNG')||t.includes('Kurzanleitung')){
+      el.remove();
+    }
+  });
+}
+window.addEventListener('DOMContentLoaded', removeLegacyAdminHelp);
 
 // Expose to global scope (required for onclick handlers with type="module")
 
@@ -1943,7 +1936,6 @@ function printCal(){
   window.print();
   document.getElementById('printArea').style.display='none';
 }
-
 
 // ── Public Booking Picker ──────────────────────
 function openCalendarModal(mode){
