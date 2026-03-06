@@ -752,9 +752,127 @@ body:not(.is-admin) .status-box{background:#F7FBFF}
   .year-nav h2{font-size:18px}
 }
 
+
+
+/* ── Visual refinement v13 ── */
+body.is-admin{background:linear-gradient(180deg,#F6F1EC 0%, #F4EFE9 28%, #F5F3F0 100%)}
+body.is-public{background:linear-gradient(180deg,#F3F7FB 0%, #F7FAFD 28%, #F5F3F0 100%)}
+body.is-admin .header::before{
+  background:
+    linear-gradient(to bottom, rgba(10,6,2,.52) 0%, rgba(10,6,2,.14) 36%, rgba(10,6,2,.08) 68%, rgba(10,6,2,.62) 100%),
+    linear-gradient(to right, rgba(169,1,0,.36) 0%, rgba(169,1,0,.08) 42%, rgba(0,102,171,.0) 100%);
+}
+body.is-public .header::before{
+  background:
+    linear-gradient(to bottom, rgba(10,6,2,.48) 0%, rgba(10,6,2,.12) 36%, rgba(10,6,2,.06) 68%, rgba(10,6,2,.56) 100%),
+    linear-gradient(to right, rgba(0,102,171,.30) 0%, rgba(0,102,171,.10) 38%, rgba(169,1,0,.0) 100%);
+}
+body.is-admin .tabs{background:rgba(252,247,243,.94);border-bottom-color:rgba(169,1,0,.14)}
+body.is-public .tabs{background:rgba(245,250,255,.95);border-bottom-color:rgba(0,102,171,.14)}
+.wrap{padding-bottom:84px}
+.container{display:grid;gap:4px}
+.tc.on{padding-top:24px}
+.card{
+  padding:24px;
+  border-radius:18px;
+}
+.card-head,.section-head,.inq-header,.info-address-head{
+  align-items:flex-end;
+  margin-bottom:20px;
+  padding-bottom:13px;
+}
+.card-title{font-size:11.5px;letter-spacing:1.45px}
+.meta-count{font-size:12px;opacity:.9}
+.year-row{margin-bottom:4px}
+.year-nav{gap:16px}
+.year-nav h2{font-size:22px;letter-spacing:-.6px}
+.yn-btn{width:34px;height:34px}
+.mx-outer{gap:12px}
+.mx-mo,.pk-month{
+  border-radius:16px;
+  border:1px solid rgba(28,20,8,.08);
+  box-shadow:0 4px 16px rgba(20,12,4,.05);
+}
+.mx-mo{padding:12px 12px 10px}
+.mx-ttl,.pk-month-title{
+  padding-bottom:7px;
+  margin-bottom:8px;
+  letter-spacing:.9px;
+}
+.mx-grid,.pk-grid{gap:3px}
+.mx-h,.pk-h{font-size:8px;padding:3px 0 4px}
+.mx-d,.pk-d{
+  border-radius:10px;
+  transition:transform .14s ease, box-shadow .18s ease, background-color .18s ease, color .18s ease, outline-color .18s ease;
+}
+.pk-d{border-radius:12px}
+.mx-d.click:hover,.pk-d:hover:not(.pk-booked):not(.pk-changeover):not(.pk-past):not(.pk-em){
+  box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.08), 0 4px 10px rgba(20,12,4,.08);
+  transform:translateY(-1px);
+}
+.mx-d.click:active,.pk-d:active{transform:scale(.96)}
+.mx-d.mx-today,.pk-today{box-shadow:inset 0 0 0 2px var(--egmond-gold)}
+.pk-sf,.pk-st{
+  box-shadow:0 8px 18px rgba(212,150,10,.24);
+}
+.pk-sr{background:rgba(255,218,78,.18);box-shadow:inset 0 0 0 1px rgba(255,218,78,.22)}
+.status-box,.result{
+  padding:15px 17px;
+  border-radius:15px;
+}
+.info-grid{gap:12px;margin-bottom:16px}
+.info-item{
+  min-height:100%;
+  padding:15px 16px;
+  border-radius:15px;
+}
+.inq{padding:19px 18px 18px}
+.inq-btns{margin-top:14px}
+.pub-funnel{padding:14px}
+.pub-funnel-card{
+  width:min(640px, calc(100% - 24px));
+  border-radius:22px;
+  padding:18px 18px 16px;
+}
+body.is-public .pub-funnel-card{border-color:rgba(0,102,171,.16);box-shadow:0 12px 36px rgba(15,42,68,.18)}
+body.is-admin .pub-funnel-card{border-color:rgba(169,1,0,.16)}
+.pub-funnel-card:before{margin-bottom:12px}
+.pub-funnel-top{margin-bottom:12px}
+.pub-summary{font-size:17px;line-height:1.18}
+.pub-summary small{font-size:12.5px;line-height:1.5}
+.pub-actions{margin-top:12px}
+.btn,.pub-btn,.pk-btn,.inq-btn,.btn-reload,.share-btn,.print-btn,.pwa-banner-btn{
+  min-height:48px;
+}
+.share-btn,.print-btn,.btn-reload{border-radius:12px}
+body.is-public .btn-green,body.is-public .btn.primary,body.is-public .pub-btn.primary{
+  background:linear-gradient(135deg,var(--egmond-blue),#1A7AB8);
+  box-shadow:0 8px 20px rgba(0,102,171,.22);
+}
+body.is-admin .btn-green,body.is-admin .btn.primary,body.is-admin .pub-btn.primary,body.is-admin .pk-btn,body.is-admin .pwa-banner-btn{
+  background:linear-gradient(135deg,var(--egmond-red),#B84A04);
+}
+.back-link{font-size:13.5px}
+@media(max-width:900px){
+  .wrap{padding:0 18px 78px}
+  .card{padding:21px}
+}
+@media(max-width:640px){
+  .tc.on{padding-top:20px}
+  .container{gap:2px}
+  .card{padding:18px 17px;border-radius:15px}
+  .mx-outer,.pk-months{gap:10px}
+  .mx-mo,.pk-month{border-radius:14px}
+  .mx-d{border-radius:8px}
+  .pk-d{border-radius:10px}
+  .pub-funnel{padding:12px}
+  .pub-funnel-card{padding:16px 16px 14px;border-radius:18px}
+  .info-grid{gap:10px}
+}
+
 </style>
 </head>
-<body>
+<body class="is-public">
 
 <div class="header">
   <div class="header-bg active" id="hdrBgA" style="background-image:url('images/header_neu.jpg')"></div>
@@ -1917,6 +2035,7 @@ function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').re
 if(IS_ADMIN){
   document.getElementById('adminBadge')?.style && (document.getElementById('adminBadge').style.display='block');
   document.body.classList.add('is-admin');
+  document.body.classList.remove('is-public');
 
   // Admin tabs (3): Kalender / Buchung eintragen / Anfragen
   setupTabs();
@@ -1930,6 +2049,7 @@ if(IS_ADMIN){
 } else {
   document.getElementById('adminBadge')?.style && (document.getElementById('adminBadge').style.display='none');
   document.body.classList.remove('is-admin');
+  document.body.classList.add('is-public');
 
   // Public tabs (2): Kalender / Info
   setupTabs();
