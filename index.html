@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#A90100">
 <meta name="description" content="Ferienwohnung Egmond aan Zee – Verfügbarkeit prüfen und Aufenthalt anfragen.">
 <meta property="og:title" content="Ferienwohnung Egmond aan Zee">
-<meta property="og:description" content="Verfügbarkeit prüfen und Aufenthalt anfragen – direkt im Buchungskalender">
+<meta property="og:description" content="Verfügbarkeit prüfen und Aufenthalt anfragen – direkt im Buchungskalender.">
 <meta property="og:image" content="images/header_neu.jpg">
 <meta property="og:type" content="website">
 <title>Egmond aan Zee – Ferienwohnung</title>
@@ -28,7 +28,11 @@
   --free:#E8E2D6; --free-t:#3A2A14;
   --holiday:#D4F4FF; --holiday-t:#00A8D8;
   --school:#C5DCF7; --school-t:#0052A8;
+  --content-w:720px;
+  --content-pad:14px;
+  --section-gap:12px;
 }
+
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;background-image:repeating-linear-gradient(135deg,rgba(14,74,122,.04) 0px,rgba(14,74,122,.04) 1px,transparent 1px,transparent 18px)}
@@ -70,15 +74,15 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .admin-badge{background:rgba(169,1,0,.25);border:1.5px solid rgba(169,1,0,.5);color:#FFF;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.3px;backdrop-filter:blur(4px)}
 
 /* ── Tabs ── */
-.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:#F2F7FC;border-bottom:2px solid var(--border);position:sticky;top:323px;z-index:199;box-shadow:0 2px 8px rgba(26,18,8,.06)}
-.tab{min-width:0;padding:13px 8px 11px;text-align:center;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;letter-spacing:.3px;text-transform:uppercase;user-select:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:flex;background:#F2F7FC;border-bottom:2px solid var(--border);position:sticky;top:323px;z-index:199;box-shadow:0 2px 8px rgba(26,18,8,.06)}
+.tab{flex:1;padding:13px 6px 11px;text-align:center;font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;letter-spacing:.3px;text-transform:uppercase;user-select:none}
 .tab.on{color:var(--egmond-red);border-bottom-color:var(--egmond-red);background:linear-gradient(to bottom,transparent,rgba(169,1,0,.06))}
 
 /* ── Layout ── */
-.wrap{padding:0 16px 60px;max-width:var(--content-w);margin:0 auto}
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:12px;border:1px solid var(--border)}
+.wrap{padding:0 20px 60px;max-width:var(--content-w);margin:0 auto}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:var(--section-gap);border:1px solid var(--border)}
 .card-title{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
-.tc{display:none}.tc.on{display:block;max-width:var(--content-w);margin:0 auto;padding-top:16px}
+.tc{display:none}.tc.on{display:block;margin:0 auto;padding-top:16px}
 
 /* ── Jahr-Nav ── */
 .year-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
@@ -358,6 +362,7 @@ input[readonly]{background:var(--bg);cursor:default}
   .header-icon{width:34px!important;height:34px!important;font-size:18px!important}
   .tabs{top:123px!important}
   .header.collapsed~.tabs{top:57px!important}
+  .tc.on{padding-top:12px}
   .card{margin-bottom:10px!important}
   .wrap{padding:0 10px 40px}
   .card{padding:10px;border-radius:12px}
@@ -566,27 +571,71 @@ input[readonly]{background:var(--bg);cursor:default}
 #pkForm{width:100%;max-width:var(--content-w);margin:0 auto}
 #pkForm .card{width:100%}
 
-/* Einheitliche Content-Breite für alle Tabs */
-:root{--content-w:720px;}
+/* Layout system v18: keep all tab content aligned */
+:root{--content-w:680px;}
 main.content{width:100%;}
-.container{width:100%;max-width:var(--content-w);margin:0 auto;padding:0 14px;box-sizing:border-box;}
+
 .tc{width:100%;}
 .tc.on{width:100%;}
-.tc.on>.container{width:100%;}
-#tab0 .card,#tab2 .card,#tab3 .card,#tab5 .card,#tab2 .tableWrap,#tab3 .tableWrap,#tab2 .admin-wrap,#tab3 .admin-wrap,#tab5 .info-grid,#tab5 .info-list,#tab2 .btn,#tab2 .pk-hint,#tab2 .pk-chips,#tab2 #bookResult{max-width:var(--content-w);margin-left:auto;margin-right:auto;}
-#tab5{padding-top:10px;}
-#tab2 .pk-wrap{max-width:var(--content-w);margin-left:auto;margin-right:auto;}
-#tab2 .bk2-months,#tab2 #bk2Matrix{width:100%;}
-#tab2 .bk2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start;}
-#tab2 .mx-mo{width:100%;}
-@media(max-width:720px){#tab2 .bk2-grid{grid-template-columns:1fr;}}
+.tc.on > .container{width:100%;}
+/* prevent accidental full-bleed blocks */
+.tc.on > *:not(.container){max-width:none;}
+/* contact form + info cards must not exceed container */
 
+/* v19: enforce consistent content width across tabs (public + admin) */
+#tab5{padding-top:10px;}
+#tab5 .card{max-width:var(--content-w);margin:0 auto 14px;}
+#tab5 .card:first-child{margin-top:0;}
+#tab5 .info-grid{max-width:var(--content-w);margin:0 auto;}
+#tab5 .info-list{max-width:var(--content-w);margin:0 auto;}
+/* admin panels */
+#tab2 .card, #tab3 .card{max-width:var(--content-w);margin:0 auto 14px;}
+#tab2 .tableWrap, #tab3 .tableWrap{max-width:var(--content-w);margin:0 auto;}
+#tab2 .admin-wrap, #tab3 .admin-wrap{max-width:var(--content-w);margin:0 auto;}
+
+@media(max-width:840px){.pk-months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}}
+
+#tab2 .pk-wrap{max-width:980px;margin-left:auto;margin-right:auto}
+
+.pk-month{width:100%}
+
+/* v5 admin booking layout: force two months side-by-side on desktop */
+#tab2 .pk-wrap{max-width:980px !important;margin-left:auto;margin-right:auto;}
+#tab2 .pk-months{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:14px !important;}
+@media(max-width:720px){#tab2 .pk-months{grid-template-columns:1fr !important;}}
+/* remove border separator that can look odd in grid layout */
+#tab2 .pk-month+.pk-month{border-left:none !important;border-top:none !important;}
+
+/* Admin booking: two-month calendar matrix layout */
+#tab2 .bk2-head{display:flex;align-items:center;justify-content:center;gap:12px;margin:6px 0 10px}
+#tab2 .bk2-range{font-weight:800;color:var(--egmond-red)}
+#tab2 .bk2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+@media(max-width:720px){#tab2 .bk2-grid{grid-template-columns:1fr}}
+#tab2 .mx-mo{width:100%}
+
+/* ── Final layout cleanup ── */
+#tab0 .container,#tab2 .container,#tab3 .container,#tab5 .container,#tab4 .container{display:flex;flex-direction:column;gap:0}
+#tab0 .card,#tab2 .card,#tab3 .card,#tab5 .card,#tab2 .pk-wrap,#tab2 .pk-chips,#tab2 .pk-hint,#tab2 #bookResult,#tab2 #bookBtn,#tab2 #delBtn,#tab3 #inqList,#tab0 #bookingList,#tab0 #matrixWrap{width:100%;margin-left:auto;margin-right:auto}
+#tab2 .pk-wrap,#tab2 .pk-chips,#tab2 .pk-hint,#tab2 #bookResult,#tab2 #bookBtn,#tab2 #delBtn{max-width:var(--content-w)}
+#tab0 .card:first-child,#tab2 .admin-hint,#tab3 .admin-hint,#tab5 .card:first-child{margin-top:0}
+#tab2 .pk-chips{margin-bottom:12px}
+#tab2 .pk-hint{margin-bottom:12px}
+#tab2 #bookBtn{margin-top:4px}
+#tab2 #delBtn{margin-top:8px}
+#tab3 #inqList{display:block}
+#tab5 .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+#tab5 .info-item{min-height:100%}
+.info-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1.5px solid var(--border);background:#fff;color:var(--egmond-red);cursor:pointer;box-shadow:var(--shadow-sm)}
+.share-btn:active{transform:scale(.97)}
 @media(max-width:720px){
-  .header{min-height:240px}
-  .header-inner{min-height:240px;padding:0 18px 20px}
-  .header h1{font-size:28px}
-  .tabs{top:243px}
-  .tc.on{padding-top:12px}
+  .wrap{padding:0 12px 44px}
+  #tab5 .info-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  :root{--content-pad:10px;--section-gap:10px}
+  .tabs.two .tab,.tabs.three .tab{font-size:10px;padding:12px 4px 10px}
+  .share-btn{width:38px;height:38px;border-radius:10px}
 }
 
 </style>
@@ -615,100 +664,92 @@ main.content{width:100%;}
   <div class="tab" id="t1" onclick="sw(1)"></div>
   <div class="tab" id="t2" onclick="sw(2)"></div>
 </div>
+</div>
 
 <div class="wrap">
 
 <!-- TAB 0: KALENDER -->
 <div id="tab0" class="tc on">
-  <div class="container"><div id="adminHint" class="admin-hint" style="display:none"></div>
-  <div class="card" style="padding:14px 18px">
-    <div class="year-row">
-      <div class="year-nav">
-        <button class="yn-btn" onclick="changeYear(-1)">&#8249;</button>
-        <h2 id="yearTitle">2026</h2>
-        <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
-      
-  </div>
-</div>
-</div>
+  <div class="container">
+    <div id="adminHint" class="admin-hint" style="display:none"></div>
+    <div class="card" style="padding:14px 18px">
+      <div class="year-row">
+        <div class="year-nav">
+          <button class="yn-btn" onclick="changeYear(-1)">&#8249;</button>
+          <h2 id="yearTitle">2026</h2>
+          <button class="yn-btn" onclick="changeYear(1)">&#8250;</button>
+        </div>
+      </div>
+    </div>
+
     <div id="calLoading" class="loading"><div class="spin"></div><br><br>Lade…</div>
     <div id="matrixWrap" style="display:none"><div class="mx-outer" id="matrix"></div></div>
-  </div>
 
-
-  <div id="pubFunnel" class="pub-funnel" style="display:none">
-    <div class="pub-funnel-card">
-      <div id="legendBar" class="pub-legend" aria-label="Legende">
-        <div class="legend-bar">
-          <span class="legend-chip booked">Belegt</span>
-          <span class="legend-chip holiday">Feier- &amp; Brückentage</span>
-          <span class="legend-chip school">Ferien NRW</span>
+    <div id="pubFunnel" class="pub-funnel" style="display:none">
+      <div class="pub-funnel-card">
+        <div id="legendBar" class="pub-legend" aria-label="Legende">
+          <div class="legend-bar">
+            <span class="legend-chip booked">Belegt</span>
+            <span class="legend-chip holiday">Feier- &amp; Brückentage</span>
+            <span class="legend-chip school">Ferien NRW</span>
+          </div>
+        </div>
+        <div class="pub-funnel-top">
+          <div>
+            <div class="pub-step" id="pubStepLabel">Zeitraum wählen</div>
+            <div class="pub-summary" id="pubSummary">Anreise wählen<small>Tippe ein freies Datum im Kalender.</small></div>
+          </div>
+        </div>
+        <div class="pub-actions">
+          <button class="pub-btn primary" id="pubContinueBtn" onclick="pubContinue()" disabled>Weiter zu Kontaktdaten</button>
         </div>
       </div>
-      <div class="pub-funnel-top">
-        <div>
-          <div class="pub-step" id="pubStepLabel">Zeitraum wählen</div>
-          <div class="pub-summary" id="pubSummary">Anreise wählen<small>Tippe ein freies Datum im Kalender.</small></div>
-        </div>
+    </div>
+
+    <div id="bookingList" class="card" style="display:none;margin-top:12px">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0">
+        <span>📋 Buchungsübersicht</span>
+        <span id="blCount" style="font-size:11px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0"></span>
       </div>
-      <div class="pub-actions">
-        <button class="pub-btn primary" id="pubContinueBtn" onclick="pubContinue()" disabled>Weiter zu Kontaktdaten</button>
-      </div>
-      </div>
+      <div id="blBody"></div>
     </div>
   </div>
-
-  <div id="bookingList" class="card" style="display:none;margin-top:12px">
-    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0">
-      <span>📋 Buchungsübersicht</span>
-      <span id="blCount" style="font-size:11px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0"></span>
-    </div>
-    <div id="blBody"></div>
-  </div>
-
 </div><!-- /tab0 -->
 
 <!-- TAB 4: BUCHEN (Public Picker) -->
 <div id="tab4" class="tc">
-  <div class="container"><!-- VIEW A: Kalender-Picker (compact) -->
-  <div id="pkView">
-<p class="hint-text"></p>
+  <div class="container">
+    <div id="pkView">
+      <p class="hint-text"></p>
     </div>
-    <div id="legacyBooker">
 
-    
-    <!-- Compact Date Buttons -->
-    <div class="pk-date-buttons">
-      <button class="pk-date-btn" id="pkFromBtn" onclick="openCalendarModal('from')">
-        <span class="pk-date-btn-lbl">Anreise</span>
-        <span class="pk-date-btn-val" id="pkFromDisplay">—</span>
-      </button>
-      <button class="pk-date-btn" id="pkToBtn" onclick="openCalendarModal('to')">
-        <span class="pk-date-btn-lbl">Abreise</span>
-        <span class="pk-date-btn-val" id="pkToDisplay">—</span>
-      </button>
-    </div>
-    
-    <div id="pkNightsInfo" class="pk-nights"></div>
-    
-    <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Zeitraum bestätigen</button>
-    
-    <!-- Fotogalerie (JS-generiert) -->
-    <div class="card" style="margin-bottom:14px;margin-top:20px">
-      <div class="card-title">📸 Fotos</div>
-      <div id="gallery1" class="gallery-grid">
-  </div>
-</div>
+    <div id="legacyBooker">
+      <div class="pk-date-buttons">
+        <button class="pk-date-btn" id="pkFromBtn" onclick="openCalendarModal('from')">
+          <span class="pk-date-btn-lbl">Anreise</span>
+          <span class="pk-date-btn-val" id="pkFromDisplay">—</span>
+        </button>
+        <button class="pk-date-btn" id="pkToBtn" onclick="openCalendarModal('to')">
+          <span class="pk-date-btn-lbl">Abreise</span>
+          <span class="pk-date-btn-val" id="pkToDisplay">—</span>
+        </button>
+      </div>
+
+      <div id="pkNightsInfo" class="pk-nights"></div>
+      <button class="pk-btn" id="pkBtn" onclick="pkSubmit()" disabled>Zeitraum bestätigen</button>
+
+      <div class="card" style="margin-bottom:14px;margin-top:20px">
+        <div class="card-title">📸 Fotos</div>
+        <div id="gallery1" class="gallery-grid"></div>
+      </div>
     </div>
   </div>
-  
-  <!-- Modal: Kalender-Picker -->
+
   <div class="pk-modal-overlay" id="pkModalOverlay" onclick="if(event.target===this) closeCalendarModal()">
     <div class="pk-modal">
       <button class="pk-modal-close" onclick="closeCalendarModal()">✕</button>
-<!-- Status-Text im Modal -->
       <div id="pkModalStatus" class="pk-modal-status">Anreisedatum wählen</div>
-      
+
       <div class="pk-wrap" style="margin-bottom:0;max-width:none">
         <div class="pk-months">
           <div class="pk-month" id="pkM0">
@@ -729,28 +770,6 @@ main.content{width:100%;}
           </div>
         </div>
       </div>
-    </div>
-  </div>
-      </div>
-
-  <!-- VIEW B: Anfrage-Formular (innerhalb Tab4, ersetzt Picker) -->
-  <div id="pkForm" style="display:none">
-    <div id="reqResult" class="result"></div>
-    <div id="reqFormFields">
-<p class="hint-text"></p>
-    </div>
-    <div class="card">
-      <div class="card-title">📝 Anfrage senden</div>
-      <div id="reqRangeSummary" class="form-summary">Bitte zuerst einen Zeitraum wählen.</div>
-      <div class="field"><label class="field-lbl">Dein Name</label><input id="rName" type="text" placeholder="Vor- und Nachname" autocomplete="name"></div>
-      <div class="field"><label class="field-lbl">E-Mail</label><input id="rEmail" type="email" placeholder="name@beispiel.de" autocomplete="email"></div>
-      <div class="field"><label class="field-lbl">Telefonnummer (optional)</label><input id="rPhone" type="tel" placeholder="+49 (0) 123 456789" autocomplete="tel"></div>
-      <div class="field"><label class="field-lbl">Von</label><input id="rFrom" type="text" placeholder="TT.MM.JJJJ" readonly style="cursor:pointer" onclick="openCalendarModal('from')"></div>
-      <div class="field"><label class="field-lbl">Bis</label><input id="rTo" type="text" placeholder="TT.MM.JJJJ" readonly style="cursor:pointer" onclick="openCalendarModal('to')"></div>
-      <div class="field"><label class="field-lbl">Nachricht (optional)</label><textarea id="rMsg" placeholder="Anzahl Personen, Fragen…"></textarea></div>
-      <button class="btn btn-green" id="reqBtn" onclick="sendInquiry()">Anfrage senden</button>
-    </div>
-    <button onclick="pkBackToPicker()" class="back-link">← Zurück zur Kalenderauswahl</button>
     </div>
   </div>
 </div>
@@ -797,16 +816,17 @@ main.content{width:100%;}
 
 <!-- TAB 3: ANFRAGEN (Admin) -->
 <div id="tab3" class="tc">
-  <div class="container"><div class="admin-hint"></div>
-  <div class="card inq-header">
-    <span class="card-title">📋 Eingehende Anfragen</span>
-    <button onclick="loadInquiries()" class="btn-reload">↻ Laden</button>
+  <div class="container">
+    <div class="admin-hint"></div>
+    <div class="card inq-header">
+      <span class="card-title">📋 Eingehende Anfragen</span>
+      <button onclick="loadInquiries()" class="btn-reload">↻ Laden</button>
+    </div>
+    <div id="inqList">
+      <div class="loading"><div class="spin"></div><br><br>Lade…</div>
+    </div>
   </div>
-  <div id="inqList"><div class="loading"><div class="spin">
-  </div>
-</div></div></div>
 </div>
-
 
 <!-- TAB 5: INFO (Public) -->
 <div id="tab5" class="tc">
@@ -1644,16 +1664,24 @@ function sw(n){
 
 function setupTabs(){
   const isAdmin = (typeof IS_ADMIN !== 'undefined' && IS_ADMIN) || (typeof window !== 'undefined' && window.IS_ADMIN===true);
+  const tabBar = document.getElementById('tabBar');
+  const t0 = document.getElementById('t0');
   const t1 = document.getElementById('t1');
   const t2 = document.getElementById('t2');
-  if(!t1 || !t2) return;
+  if(!tabBar || !t0 || !t1 || !t2) return;
+
+  t0.textContent = "📅 Kalender";
 
   if(isAdmin){
+    tabBar.classList.remove('two');
+    tabBar.classList.add('three');
     t1.textContent = "✏️ Buchung eintragen";
     t1.style.display = "block";
     t2.textContent = "📋 Anfragen";
     t2.style.display = "block";
   } else {
+    tabBar.classList.remove('three');
+    tabBar.classList.add('two');
     t1.textContent = "🏠 Info";
     t1.style.display = "block";
     t2.style.display = "none";
