@@ -1,79 +1,154 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ferienwohnung Egmond aan Zee</title>
-
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="app.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ferienwohnung Egmond aan Zee</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="app.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
+  <div class="site-shell">
+    <header class="site-header">
+      <div class="brand">
+        <img src="images/wappen_neu.png" alt="Wappen Egmond" class="brand-logo" />
+        <div>
+          <p class="eyebrow">Ferienwohnung · Egmond aan Zee</p>
+          <h1>Ruhig. Klar. Direkt buchungsnah.</h1>
+          <p class="lede">Prüfe Verfügbarkeit, wähle deinen Zeitraum und sende deine Anfrage in wenigen Schritten.</p>
+        </div>
+      </div>
+      <a class="ghost-btn" href="admin.html">Admin</a>
+    </header>
 
-<header class="header">
-<img src="images/wappen_neu.png" class="logo">
-<h1>Ferienwohnung Egmond aan Zee</h1>
-<p class="subtitle">Verfügbarkeit prüfen und Aufenthalt anfragen</p>
-</header>
+    <main class="page-grid">
+      <section class="panel hero-panel">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Verfügbarkeit</p>
+            <h2>Kalender</h2>
+          </div>
+          <div class="calendar-nav">
+            <button type="button" class="icon-btn" id="prevMonthsBtn" aria-label="Vorherige Monate">‹</button>
+            <button type="button" class="icon-btn" id="nextMonthsBtn" aria-label="Nächste Monate">›</button>
+          </div>
+        </div>
 
-<main>
+        <div class="calendar-summary">
+          <div class="summary-chip">
+            <span class="summary-label">Anreise</span>
+            <strong id="summaryArrival">–</strong>
+          </div>
+          <div class="summary-chip">
+            <span class="summary-label">Abreise</span>
+            <strong id="summaryDeparture">–</strong>
+          </div>
+          <div class="summary-chip">
+            <span class="summary-label">Nächte</span>
+            <strong id="summaryNights">–</strong>
+          </div>
+          <div class="summary-chip accent">
+            <span class="summary-label">Preisindikator</span>
+            <strong id="summaryPrice">–</strong>
+          </div>
+        </div>
 
-<section class="card">
-<h2>Verfügbarkeit</h2>
-<div id="calendar"></div>
-<div id="nextSlot" class="next-slot"></div>
+        <div id="selectionHint" class="inline-notice info">
+          Bitte zuerst den Anreisetag und danach den Abreisetag wählen.
+        </div>
 
-<div class="legend">
-<span class="dot free"></span> frei
-<span class="dot booked"></span> belegt
-<span class="dot arrival"></span> mögliche Anreise
-</div>
-</section>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-swatch is-free"></span>frei</span>
+          <span class="legend-item"><span class="legend-swatch is-booked"></span>belegt</span>
+          <span class="legend-item"><span class="legend-swatch is-half"></span>halbtags</span>
+          <span class="legend-item"><span class="legend-swatch is-range"></span>Auswahl</span>
+          <span class="legend-item"><span class="legend-dot"></span>mögliche Anreise</span>
+        </div>
 
-<section class="card">
-<h2>Aufenthalt anfragen</h2>
+        <div id="calendarMount" class="calendar-grid" aria-live="polite"></div>
 
-<div class="selection">
-<span id="selArrival">Anreise: –</span>
-<span id="selDeparture">Abreise: –</span>
-<span id="selNights"></span>
-<span id="priceEstimate"></span>
-</div>
+        <div class="calendar-foot">
+          <div class="inline-notice success" id="nextSlotBox">Nächster freier Zeitraum wird berechnet …</div>
+        </div>
+      </section>
 
-<form id="bookingForm">
+      <section class="panel booking-panel" id="bookingPanel">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Anfrage</p>
+            <h2>Aufenthalt anfragen</h2>
+          </div>
+        </div>
 
-<label>Name
-<input type="text" id="name" required>
-</label>
+        <form id="bookingForm" novalidate class="stack">
+          <div class="field-grid">
+            <label class="field">
+              <span>Anreise</span>
+              <input id="arrivalInput" name="arrival" type="text" readonly aria-readonly="true" />
+            </label>
+            <label class="field">
+              <span>Abreise</span>
+              <input id="departureInput" name="departure" type="text" readonly aria-readonly="true" />
+            </label>
+          </div>
 
-<label>Email
-<input type="email" id="email" required>
-</label>
+          <div class="field-grid">
+            <label class="field">
+              <span>Name</span>
+              <input id="nameInput" name="name" type="text" autocomplete="name" required />
+            </label>
+            <label class="field">
+              <span>E-Mail</span>
+              <input id="emailInput" name="email" type="email" autocomplete="email" required />
+            </label>
+          </div>
 
-<label>Nachricht
-<textarea id="message"></textarea>
-</label>
+          <label class="field">
+            <span>Nachricht</span>
+            <textarea id="messageInput" name="message" rows="5" placeholder="Optional: Anreisezeit, Rückfragen, Anzahl der Personen …"></textarea>
+          </label>
 
-<button class="primary" type="submit">Anfrage senden</button>
+          <div class="form-meta" id="formMeta">
+            Mindestaufenthalt: 3 Nächte.
+          </div>
 
-</form>
+          <div class="action-row">
+            <button class="primary-btn" type="submit" id="submitBtn">Anfrage senden</button>
+          </div>
 
-<div id="successMessage" class="success"></div>
+          <div class="inline-notice error hidden" id="formError"></div>
+          <div class="inline-notice success hidden" id="formSuccess"></div>
+        </form>
+      </section>
 
-</section>
+      <section class="panel info-panel">
+        <div class="section-head">
+          <div>
+            <p class="kicker">Informationen</p>
+            <h2>Wohnung & Aufenthalt</h2>
+          </div>
+        </div>
+        <div class="info-list">
+          <article class="info-card">
+            <h3>Nahe Strand und Dünen</h3>
+            <p>Ruhige Lage mit schneller Verbindung zu Strand, Ortskern und Spazierwegen.</p>
+          </article>
+          <article class="info-card">
+            <h3>Klarer Anfrageprozess</h3>
+            <p>Zeitraum auswählen, Kontaktdaten senden, Rückmeldung erhalten.</p>
+          </article>
+          <article class="info-card">
+            <h3>Mobile optimiert</h3>
+            <p>Große Touch-Ziele, klare Zustände und gut lesbare Formulare.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
 
-<section class="card info">
-<h2>Informationen</h2>
-<p>Ferienwohnung nahe Strand und Dünen in Egmond aan Zee.</p>
-</section>
-
-</main>
-
-<script src="app.js"></script>
-
+  <script src="app.js"></script>
 </body>
 </html>

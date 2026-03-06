@@ -1,40 +1,150 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Egmond Admin</title>
-<link rel="stylesheet" href="app.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Egmond Admin</title>
+  <link rel="stylesheet" href="app.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
+<body class="admin-body">
+  <div class="admin-shell">
+    <section class="admin-login panel" id="adminLoginPanel">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Interner Bereich</p>
+          <h1>Egmond Admin</h1>
+        </div>
+      </div>
+      <p class="lede compact">Buchungen verwalten, Anfragen prüfen und den Kalender pflegen.</p>
+      <form id="adminLoginForm" class="stack">
+        <label class="field">
+          <span>Passwort</span>
+          <input id="adminPassword" type="password" autocomplete="current-password" required />
+        </label>
+        <button type="submit" class="primary-btn">Anmelden</button>
+        <div id="adminLoginError" class="inline-notice error hidden"></div>
+      </form>
+    </section>
 
-<body>
+    <section class="dashboard hidden" id="dashboardPanel">
+      <header class="dashboard-header">
+        <div>
+          <p class="eyebrow">Interner Bereich</p>
+          <h1>Admin-Dashboard</h1>
+        </div>
+        <div class="dashboard-header-actions">
+          <a href="index.html" class="ghost-btn">Zur Public-App</a>
+          <button type="button" class="ghost-btn danger-text" id="logoutBtn">Abmelden</button>
+        </div>
+      </header>
 
-<header class="header">
-<h1>Egmond Admin</h1>
-</header>
+      <div class="stat-grid" id="statGrid"></div>
 
-<main>
-<section class="card">
-<h2>Login</h2>
-<input type="password" id="pw" placeholder="Passwort">
-<button class="primary" onclick="login()">Login</button>
-</section>
-</main>
+      <nav class="dashboard-tabs" aria-label="Admin Bereiche">
+        <button type="button" class="tab-btn is-active" data-tab="overview">Übersicht</button>
+        <button type="button" class="tab-btn" data-tab="bookings">Buchungen</button>
+        <button type="button" class="tab-btn" data-tab="requests">Anfragen</button>
+      </nav>
 
-<script>
-function login(){
+      <section class="tab-panel" data-panel="overview">
+        <div class="dashboard-two-col">
+          <article class="panel">
+            <div class="section-head">
+              <div>
+                <p class="kicker">Kalenderstatus</p>
+                <h2>Nächste Monate</h2>
+              </div>
+            </div>
+            <div id="adminCalendarPreview" class="calendar-grid compact"></div>
+          </article>
 
-const pw=document.getElementById("pw").value
+          <article class="panel">
+            <div class="section-head">
+              <div>
+                <p class="kicker">Nächster Schritt</p>
+                <h2>Schnelle Eintragung</h2>
+              </div>
+            </div>
+            <form id="quickBookingForm" class="stack">
+              <div class="field-grid">
+                <label class="field">
+                  <span>Anreise</span>
+                  <input type="date" id="quickStart" required />
+                </label>
+                <label class="field">
+                  <span>Abreise</span>
+                  <input type="date" id="quickEnd" required />
+                </label>
+              </div>
+              <label class="field">
+                <span>Bezeichnung</span>
+                <input type="text" id="quickLabel" placeholder="z. B. Meyer" required />
+              </label>
+              <button type="submit" class="primary-btn">Buchung eintragen</button>
+              <div id="quickFeedback" class="inline-notice hidden"></div>
+            </form>
+          </article>
+        </div>
+      </section>
 
-if(pw==="FiegePils"){
-alert("Login erfolgreich")
-}else{
-alert("Falsches Passwort")
-}
+      <section class="tab-panel hidden" data-panel="bookings">
+        <article class="panel">
+          <div class="section-head">
+            <div>
+              <p class="kicker">Buchungen</p>
+              <h2>Einträge verwalten</h2>
+            </div>
+          </div>
 
-}
-</script>
+          <form id="bookingAdminForm" class="stack">
+            <div class="field-grid three">
+              <label class="field">
+                <span>Anreise</span>
+                <input type="date" id="adminStart" required />
+              </label>
+              <label class="field">
+                <span>Abreise</span>
+                <input type="date" id="adminEnd" required />
+              </label>
+              <label class="field">
+                <span>Typ</span>
+                <select id="adminType">
+                  <option value="full">Normal</option>
+                  <option value="arrival-departure">Halbtags-Wechsel</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Name / Hinweis</span>
+              <input type="text" id="adminLabel" placeholder="Gastname oder Notiz" required />
+            </label>
+            <div class="action-row split">
+              <button type="submit" class="primary-btn">Speichern</button>
+              <div id="bookingAdminFeedback" class="inline-notice hidden"></div>
+            </div>
+          </form>
 
+          <div id="bookingList" class="data-list"></div>
+        </article>
+      </section>
+
+      <section class="tab-panel hidden" data-panel="requests">
+        <article class="panel">
+          <div class="section-head">
+            <div>
+              <p class="kicker">Anfragen</p>
+              <h2>Eingänge</h2>
+            </div>
+          </div>
+          <div id="requestList" class="data-list"></div>
+        </article>
+      </section>
+    </section>
+  </div>
+
+  <script src="admin.js"></script>
 </body>
 </html>
