@@ -113,9 +113,10 @@ body{font-family:'Source Sans 3',-apple-system,BlinkMacSystemFont,"Segoe UI",san
 .mx-bridge{background:var(--holiday);color:var(--holiday-t)}
 .mx-school{background:var(--school);color:var(--school-t)}
 .mx-today{outline:2px solid var(--egmond-gold)!important;outline-offset:-1px;font-weight:900}
-.mx-sf{background:var(--egmond-gold)!important;color:#fff!important;border-radius:3px}
-.mx-st{background:var(--egmond-gold)!important;color:#fff!important;border-radius:3px}
-.mx-sr{background:#FFF8E0!important;color:#8A6000!important}
+.mx-sf,.mx-st{background:var(--egmond-gold)!important;color:#fff!important;border-radius:6px;box-shadow:inset 0 0 0 2px rgba(138,96,0,.55),0 0 0 2px rgba(255,218,78,.22)}
+.mx-sr{background:#FFF1B8!important;color:#6B4B00!important;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(138,96,0,.18)}
+.mx-sf span,.mx-st span{font-weight:900}
+.mx-sr span{font-weight:800}
 @media(max-width:480px){.mx-outer{grid-template-columns:1fr}}
 
 /* ── Ladeanimation ── */
@@ -617,8 +618,6 @@ main.content{width:100%;}
 #tab0 .container,#tab2 .container,#tab3 .container,#tab5 .container,#tab4 .container{display:flex;flex-direction:column;gap:0}
 #tab0 .card,#tab2 .card,#tab3 .card,#tab5 .card,#tab2 .pk-wrap,#tab2 .pk-chips,#tab2 .pk-hint,#tab2 #bookResult,#tab2 #bookBtn,#tab2 #delBtn,#tab3 #inqList,#tab0 #bookingList,#tab0 #matrixWrap{width:100%;margin-left:auto;margin-right:auto}
 #tab2 .pk-wrap,#tab2 .pk-chips,#tab2 .pk-hint,#tab2 #bookResult,#tab2 #bookBtn,#tab2 #delBtn{max-width:var(--content-w)}
-#tab0 .mx-sf,#tab0 .mx-st,#tab2 .mx-sf,#tab2 .mx-st{background:var(--egmond-gold)!important;color:#fff!important;box-shadow:inset 0 0 0 2px rgba(138,96,0,.55),0 0 0 2px rgba(255,218,78,.22)}
-#tab0 .mx-sr,#tab2 .mx-sr{background:#FFF1B8!important;color:#6B4B00!important;box-shadow:inset 0 0 0 1px rgba(138,96,0,.18)}
 #tab2 .mx-d.click{font-weight:700}
 #tab0 .card:first-child,#tab2 .admin-hint,#tab3 .admin-hint,#tab5 .card:first-child{margin-top:0}
 #tab2 .pk-chips{margin-bottom:12px}
@@ -1489,6 +1488,8 @@ function dayClick(year,month,day){
       if(d<selF){
         selT=selF;
         selF=d;
+      } else if(selF && d.getTime()===selF.getTime()){
+        selT=d;
       } else {
         selT=d;
       }
@@ -1513,7 +1514,8 @@ function dayClick(year,month,day){
         if(bk[dk(x)]?.status==='Belegt'){hasB=true;break;}
       }
       document.getElementById('delBtn').style.display=hasB?'block':'none';
-      requestAnimationFrame(()=>sw(1));
+      sw(1);
+      setTimeout(()=>{ renderBookCal(); },0);
     } else {
       document.getElementById('delBtn').style.display='none';
     }
@@ -1717,6 +1719,7 @@ function sw(n){
   }
 
   // Tab-specific hooks
+  if(isAdmin && map[n]==='tab0') renderMatrix?.(curYear);
   if(isAdmin && map[n]==='tab3') loadInquiries?.();
   if(isAdmin && map[n]==='tab2') renderBookCal?.();
 }
