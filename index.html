@@ -157,11 +157,6 @@ input[readonly]{background:var(--bg);cursor:default}
 .hint-text{font-size:12px;color:#3A2810;line-height:1.7}
 .br-mobile{display:none}
 @media(max-width:480px){.br-mobile{display:block}}
-@media(max-width:720px){
-  #legendBar{justify-content:flex-start;min-width:0;width:100%}
-  .legend-bar{justify-content:flex-start}
-}
-
 .btn-red{background:#fff;border:2px solid var(--egmond-red)!important;color:var(--egmond-red);box-shadow:none;margin-top:10px}
 .spin-sm{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
 
@@ -222,28 +217,51 @@ input[readonly]{background:var(--bg);cursor:default}
 .pub-btn:disabled{opacity:.45;cursor:not-allowed}
 .pub-btn:active{transform:scale(.98)}
 .pub-funnel-legend{margin-top:10px}
-.legend-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:flex-end;overflow:visible;font-size:10px;font-weight:700}
-.legend-chip{padding:4px 10px;border-radius:999px;white-space:nowrap;display:inline-flex;align-items:center}
-.legend-chip:before{content:"";width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
-.legend-chip.booked:before{background:var(--egmond-red)}
-.legend-chip.holiday:before{background:var(--holiday-t)}
-.legend-chip.school:before{background:var(--school-t)}
-/* Legend chips (popup) – no dots, no emojis */
-.legend-chip:before{display:none!important}
-.legend-bar{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start}
-.legend-chip{padding:6px 12px;border-radius:999px;font-weight:700;font-size:12px;line-height:1;white-space:nowrap}
-.legend-chip.booked{background:var(--egmond-red);color:#fff}
-.legend-chip.holiday,.legend-chip.school{background:#fff;border:2px solid rgba(0,0,0,.12);color:var(--ink)}
-.pub-legend{margin:2px 0 10px}
 
+/* ── Legend ── */
+.legend-bar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-start;
+  overflow:visible;
+  font-size:10px;
+  font-weight:700;
+}
+#legendBar{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  flex:1;
+  min-width:260px;
+}
+.legend-chip{
+  padding:5px 10px;
+  border-radius:999px;
+  white-space:nowrap;
+  font-size:11px;
+  line-height:1;
+  border:1px solid transparent;
+}
+.legend-chip.booked{background:var(--egmond-red);color:#fff;border-color:var(--egmond-red)}
+.legend-chip.holiday{background:var(--holiday);color:var(--holiday-t);border-color:var(--holiday-t)}
+.legend-chip.school{background:var(--school);color:var(--school-t);border-color:var(--school-t)}
+.pub-legend{margin:2px 0 10px}
+#pubFunnel .legend-bar,
+#pubFunnel .pub-legend{justify-content:flex-start!important;text-align:left}
 
 /* Make it feel identical on desktop/mobile, only spacing changes */
 @media(min-width:900px){
   .pub-funnel{padding:16px}
   .pub-funnel-card{padding:16px 16px 14px}
 }
-
-
+@media(max-width:520px){
+  .legend-bar{flex-wrap:wrap;overflow-x:hidden}
+  .legend-chip{padding:4px 8px}
+  #legendBar{justify-content:flex-start;min-width:0;width:100%}
+}
 /* ── Result ── */
 .result{border-radius:var(--r-sm);padding:14px 16px;margin-bottom:14px;font-size:14px;font-weight:700;display:none;border:1px solid transparent}
 .result.ok{background:#F0FAF0;color:#2A7A2A;border-color:#B0DDB0;display:block;padding:32px 16px;font-size:18px;text-align:center;border-radius:16px}
@@ -273,31 +291,7 @@ input[readonly]{background:var(--bg);cursor:default}
 .inq-btn.dec{background:#FDF0EE;color:var(--egmond-red);border:1.5px solid #EEBAB5}
 .inq-btn.seen{background:#F5F5F5;color:var(--muted);border:1.5px solid var(--border)}
 
-/* ── Legende ── */
-.legend-bar{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;font-size:10px;font-weight:700}
-#legendBar{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex:1;min-width:260px}
-.legend-chip{padding:4px 10px;border-radius:20px;white-space:nowrap}
-.legend-chip.booked{background:var(--egmond-red);color:#fff;border:1px solid var(--egmond-red)}
-.legend-chip.holiday{background:var(--holiday);color:var(--holiday-t);border:1px solid var(--holiday-t)}
-.legend-chip.school{background:var(--school);color:var(--school-t);border:1px solid var(--school-t)}
-
-/* ── Mobile legend: wrap to avoid horizontal scroll ── */
-@media(max-width:520px){
-  .legend-bar{flex-wrap:wrap;overflow-x:hidden}
-  .legend-chip{padding:4px 8px}
-}
-
 /* ── Info-Tab ── */
-/* Ensure Info tab aligns with Kalender width */
-#tab5{max-width:var(--content-w);margin-left:auto;margin-right:auto}
-#tab5 .card{width:100%;max-width:var(--content-w);margin-left:auto;margin-right:auto}
-#tab5 .info-grid{width:100%;max-width:var(--content-w);margin-left:auto;margin-right:auto}
-
-
-/* ── Info tab: tighten spacing to tab bar ── */
-#tab5{margin-top:6px}
-#tab5 .card:first-child{margin-top:0}
-
 .info-list{display:flex;flex-direction:column;gap:8px}
 .info-item{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
 .info-icon{font-size:16px;flex-shrink:0}
@@ -559,80 +553,81 @@ input[readonly]{background:var(--bg);cursor:default}
 .pk-date-btn-val{font-size:14px;font-weight:800;color:var(--text)}
 .pk-date-btn.active .pk-date-btn-val{color:var(--egmond-blue)}
 
-#pubFunnel .legend-bar{justify-content:flex-start!important}
-#pubFunnel .pub-legend{justify-content:flex-start!important;text-align:left}
-
 /* Info: Share button aligned with address line */
-.info-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.share-btn{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;border:0;background:var(--egmond-red);color:#fff;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.14)}
-.share-btn:hover{background:#fff}
-.share-btn:active{transform:scale(.98)}
+.info-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px}
+.share-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  border:1.5px solid var(--border);
+  background:#fff;
+  color:var(--egmond-red);
+  cursor:pointer;
+  box-shadow:var(--shadow-sm);
+}
+.share-btn:active{transform:scale(.97)}
 
+/* ── Unified layout system ── */
+main.content{width:100%}
+.tc,.tc.on{width:100%}
+.tc.on{display:block;margin:0 auto;padding-top:16px}
+.tc > .container{width:100%;display:flex;flex-direction:column;gap:0}
+
+#tab0,#tab2,#tab3,#tab4,#tab5{max-width:100%;margin:0 auto}
+#tab0 .card,
+#tab2 .card,
+#tab3 .card,
+#tab5 .card,
+#tab2 .pk-wrap,
+#tab2 .pk-chips,
+#tab2 .pk-hint,
+#tab2 #bookResult,
+#tab2 #bookBtn,
+#tab2 #delBtn,
+#tab3 #inqList,
+#tab0 #bookingList,
+#tab0 #matrixWrap{
+  width:100%;
+  max-width:var(--content-w);
+  margin-left:auto;
+  margin-right:auto;
+}
+#tab0 .card:first-child,
+#tab2 .admin-hint,
+#tab3 .admin-hint,
+#tab5 .card:first-child{margin-top:0}
+
+#tab5{padding-top:10px}
+#tab5 .info-grid,
+#tab5 .info-list{max-width:var(--content-w);margin:0 auto}
+#tab5 .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+#tab5 .info-item{min-height:100%}
 
 #pkForm{width:100%;max-width:var(--content-w);margin:0 auto}
 #pkForm .card{width:100%}
 
-/* Layout system v18: keep all tab content aligned */
-:root{--content-w:680px;}
-main.content{width:100%;}
-
-.tc{width:100%;}
-.tc.on{width:100%;}
-.tc.on > .container{width:100%;}
-/* prevent accidental full-bleed blocks */
-.tc.on > *:not(.container){max-width:none;}
-/* contact form + info cards must not exceed container */
-
-/* v19: enforce consistent content width across tabs (public + admin) */
-#tab5{padding-top:10px;}
-#tab5 .card{max-width:var(--content-w);margin:0 auto 14px;}
-#tab5 .card:first-child{margin-top:0;}
-#tab5 .info-grid{max-width:var(--content-w);margin:0 auto;}
-#tab5 .info-list{max-width:var(--content-w);margin:0 auto;}
-/* admin panels */
-#tab2 .card, #tab3 .card{max-width:var(--content-w);margin:0 auto 14px;}
-#tab2 .tableWrap, #tab3 .tableWrap{max-width:var(--content-w);margin:0 auto;}
-#tab2 .admin-wrap, #tab3 .admin-wrap{max-width:var(--content-w);margin:0 auto;}
-
-@media(max-width:840px){.pk-months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}}
-
-#tab2 .pk-wrap{max-width:980px;margin-left:auto;margin-right:auto}
-
+#tab2 .pk-wrap{max-width:980px}
 .pk-month{width:100%}
-
-/* v5 admin booking layout: force two months side-by-side on desktop */
-#tab2 .pk-wrap{max-width:980px !important;margin-left:auto;margin-right:auto;}
-#tab2 .pk-months{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:14px !important;}
-@media(max-width:720px){#tab2 .pk-months{grid-template-columns:1fr !important;}}
-/* remove border separator that can look odd in grid layout */
-#tab2 .pk-month+.pk-month{border-left:none !important;border-top:none !important;}
-
-/* Admin booking: two-month calendar matrix layout */
+#tab2 .pk-months,
+#tab2 .bk2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+#tab2 .pk-month + .pk-month{border-left:none!important;border-top:none!important}
 #tab2 .bk2-head{display:flex;align-items:center;justify-content:center;gap:12px;margin:6px 0 10px}
 #tab2 .bk2-range{font-weight:800;color:var(--egmond-red)}
-#tab2 .bk2-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
-@media(max-width:720px){#tab2 .bk2-grid{grid-template-columns:1fr}}
-#tab2 .mx-mo{width:100%}
-
-/* ── Final layout cleanup ── */
-#tab0 .container,#tab2 .container,#tab3 .container,#tab5 .container,#tab4 .container{display:flex;flex-direction:column;gap:0}
-#tab0 .card,#tab2 .card,#tab3 .card,#tab5 .card,#tab2 .pk-wrap,#tab2 .pk-chips,#tab2 .pk-hint,#tab2 #bookResult,#tab2 #bookBtn,#tab2 #delBtn,#tab3 #inqList,#tab0 #bookingList,#tab0 #matrixWrap{width:100%;margin-left:auto;margin-right:auto}
-#tab2 .pk-wrap,#tab2 .pk-chips,#tab2 .pk-hint,#tab2 #bookResult,#tab2 #bookBtn,#tab2 #delBtn{max-width:var(--content-w)}
 #tab2 .mx-d.click{font-weight:700}
-#tab0 .card:first-child,#tab2 .admin-hint,#tab3 .admin-hint,#tab5 .card:first-child{margin-top:0}
 #tab2 .pk-chips{margin-bottom:12px}
 #tab2 .pk-hint{margin-bottom:12px}
 #tab2 #bookBtn{margin-top:4px}
 #tab2 #delBtn{margin-top:8px}
 #tab3 #inqList{display:block}
-#tab5 .info-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
-#tab5 .info-item{min-height:100%}
-.info-address-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:2px}
-.share-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1.5px solid var(--border);background:#fff;color:var(--egmond-red);cursor:pointer;box-shadow:var(--shadow-sm)}
-.share-btn:active{transform:scale(.97)}
+
 @media(max-width:720px){
   .wrap{padding:0 12px 44px}
-  #tab5 .info-grid{grid-template-columns:1fr}
+  #tab5 .info-grid,
+  #tab2 .pk-months,
+  #tab2 .bk2-grid{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   :root{--content-pad:10px;--section-gap:10px}
@@ -665,7 +660,6 @@ main.content{width:100%;}
   <div class="tab on" id="t0" onclick="sw(0)">📅 Kalender</div>
   <div class="tab" id="t1" onclick="sw(1)"></div>
   <div class="tab" id="t2" onclick="sw(2)"></div>
-</div>
 </div>
 
 <div class="wrap">
